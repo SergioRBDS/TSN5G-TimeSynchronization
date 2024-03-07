@@ -20,7 +20,8 @@ import inet.node.tsn.TsnDevice;
 import simu5g.nodes.NR.NRUe;
 import simu5g.stack.ICellularNic;
 
-module UEDSTT extends TsnDevice
+// nao usei até agr pq n sei cmo o gptp agiria com a saida sendo por um cellularnic
+module UEDSTT extends TsnDevice // é um UE com ethernet ou um TSN com cellularNic ( poderia ver se precisava de tantos modulos como um TsnDevice )
 {
     parameters:
         string intHostAddress = default("");

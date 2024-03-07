@@ -15,21 +15,24 @@
 
 package src;
 
-import simu5g.nodes.NR.NRUe;
+import inet.node.inet.Router;
+import inet.applications.contract.IApp;
 
-module NRUeEth extends NRUe{ // eh um NRUe com ethernet e com o nic com outro NRMac para adicionar os dispositivos descritos em intHostAddress
+module TT extends Router{
     parameters:
-        string intHostAddress = default("");
-        *.NRMacType = default("NRMacUe2"); 
-        numEthInterfaces = default(1);
-        encap.typename = "EthernetEncapsulation";
-        eth[*].typename = "EthernetInterface";
-        *.forwarding = true;
-    gates:
-        inout ethg[numEthInterfaces]  @labels(EtherFrame-conn) @allowUnconnected;
-    connections allowunconnected:
-        for i=0..sizeof(ethg)-1{
-	        ethg[i] <--> { @display("m=s"); } <--> eth[i].phys;
+        bool hasTimeSynchronization = default(false);
+        clock.typename = default(hasTimeSynchronization ? "SettableClock" : ""); // enable explicit local clock model
+        hasUdp = default(true);
+    submodules:
+        gptp: <default("Gptp")> like IApp if hasTimeSynchronization {
+            gptpNodeType = default("SLAVE_NODE");
+            slavePort = default("eth0");
+            masterPorts = default([]);
+            @display("p=700,75");
         }
-	
+    connections:
+        if hasTimeSynchronization {
+            gptp.socketOut --> at.in++;
+            at.out++ --> gptp.socketIn;
+        }
 }

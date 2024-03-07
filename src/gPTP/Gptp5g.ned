@@ -17,14 +17,16 @@ package src.gPTP;
 
 import inet.linklayer.ieee8021as.Gptp;
 
-simple Gptp5g extends Gptp
+simple Gptp5g extends Gptp // gPTP q passa por camada IP
 {
     parameters:
         bool TT = default(true);
         string ipNIC;
         string dAddress;
+        // portas são necessarias na comunicação IP
         int destPort = default(9000);
         int localPort = default(9000);
-        pdelayInitialOffset = default(1ps);
+        // modificado para esperar o bind (necessario?)
+        pdelayInitialOffset = default(0ps);
         @class(Gptp5g);
 }

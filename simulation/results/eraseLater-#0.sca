@@ -1,0 +1,2497 @@
+version 3
+run eraseLater-0-20240305-17:21:16-43357
+attr configname eraseLater
+attr datetime 20240305-17:21:16
+attr datetimef 20240305-172116
+attr experiment eraseLater
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsd ""
+attr iterationvarsf ""
+attr measurement ""
+attr network wiredCase
+attr processid 43357
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+config image-path ../../inet/images:../../Simu5G/images
+config network wiredCase
+config *.iN*.hasTimeSynchronization false
+config **.hasTimeSynchronization true
+config **.referenceClock "\"NSTT.clock\""
+config *.switch*.gptp.masterPorts "[\"eth1\"]"
+config *.switch*.gptp.slavePort "\"eth0\""
+config *.iN*.gptp.masterPorts "[\"eth1\"]"
+config *.iN*.gptp.slavePort "\"eth0\""
+config *.NSTT.gptp.typename Gptp5g
+config *.NSTT.gptp.gptpNodeType "\"MASTER_NODE\""
+config *.NSTT.gptp.masterPorts "[\"eth0\"]"
+config *.NSTT.gptp.slavePort "\"\""
+config *.NSTT.gptp.dAddress "\"DSTT\""
+config *.NSTT.gptp.ipNIC "\"eth0\""
+config *.DSTT.gptp.typename Gptp5g
+config *.DSTT.gptp.gptpNodeType "\"SLAVE_NODE\""
+config *.DSTT.gptp.slavePort "\"eth0\""
+config *.DSTT.gptp.dAddress "\"NSTT\""
+config *.DSTT.gptp.ipNIC "\"eth0\""
+config *.visualizer.typename IntegratedMultiCanvasVisualizer
+config *.visualizer.numInfoVisualizers 4
+config *.visualizer.infoVisualizer[0].modules "\"*.DSTT.clock\""
+config *.visualizer.infoVisualizer[0].placementHint "\"top\""
+config *.DSTT.clock.displayStringTextFormat "\"diff: %d\""
+config *.visualizer.infoVisualizer[1].modules "\"*.NSTT.clock\""
+config *.visualizer.infoVisualizer[1].placementHint "\"left\""
+config *.NSTT.clock.displayStringTextFormat "\"diff: %d\""
+config *.visualizer.infoVisualizer[2].modules "\"*.switch*.clock\""
+config *.visualizer.infoVisualizer[2].placementHint "\"bottom\""
+config *.switch*.clock.displayStringTextFormat "\"diff: %d\""
+config *.visualizer.infoVisualizer[3].modules "\"*.endHost.clock\""
+config *.visualizer.infoVisualizer[3].placementHint "\"bottom\""
+config *.endHost.clock.displayStringTextFormat "\"time: %T\""
+config network UseCase
+config **.eth[*].bitrate 10Gbps
+config **.eth*.bitrate 10Gbps
+config **.mobility.typename ""
+config *.ue.macCellId 0
+config *.ue.masterId 0
+config *.ue.nrMacCellId 1
+config *.ue.nrMasterId 1
+config *.ue.intHostAddress "\"TsnDS DSTT\""
+
+par wiredCase.DSTT.ethg$o[0].channel typename "\"inet.node.ethernet.Eth10G\""
+par wiredCase.DSTT.ethg$o[0].channel disabled false
+attr mutable ""
+par wiredCase.DSTT.ethg$o[0].channel delay 5e-08s
+attr mutable ""
+attr unit s
+par wiredCase.DSTT.ethg$o[0].channel datarate 1e+10bps
+attr mutable ""
+attr unit bps
+par wiredCase.DSTT.ethg$o[0].channel ber 0
+attr mutable ""
+par wiredCase.DSTT.ethg$o[0].channel per 0
+attr mutable ""
+par wiredCase.DSTT.ethg$o[0].channel length 10m
+attr unit m
+par wiredCase.NSTT.ethg$o[0].channel typename "\"inet.node.ethernet.Eth10G\""
+par wiredCase.NSTT.ethg$o[0].channel disabled false
+attr mutable ""
+par wiredCase.NSTT.ethg$o[0].channel delay 5e-08s
+attr mutable ""
+attr unit s
+par wiredCase.NSTT.ethg$o[0].channel datarate 1e+10bps
+attr mutable ""
+attr unit bps
+par wiredCase.NSTT.ethg$o[0].channel ber 0
+attr mutable ""
+par wiredCase.NSTT.ethg$o[0].channel per 0
+attr mutable ""
+par wiredCase.NSTT.ethg$o[0].channel length 10m
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] typename "\"inet.visualizer.canvas.scene.SceneCanvasVisualizer\""
+par wiredCase.visualizer.sceneVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.sceneVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.sceneVisualizer[0] tags "\"\""
+par wiredCase.visualizer.sceneVisualizer[0] physicalEnvironmentModule "\"physicalEnvironment\""
+par wiredCase.visualizer.sceneVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.sceneVisualizer[0] axisLength "nan m"
+attr mutable ""
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] animationSpeed 0
+par wiredCase.visualizer.sceneVisualizer[0] sceneMinX "nan m"
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] sceneMinY "nan m"
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] sceneMinZ "nan m"
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] sceneMaxX "nan m"
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] sceneMaxY "nan m"
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] sceneMaxZ "nan m"
+attr unit m
+par wiredCase.visualizer.sceneVisualizer[0] zIndex 0
+par wiredCase.visualizer.sceneVisualizer[0] viewAngle "\"x right y down z out\""
+attr mutable ""
+par wiredCase.visualizer.sceneVisualizer[0] viewScale "\"1 1\""
+attr mutable ""
+par wiredCase.visualizer.sceneVisualizer[0] viewTranslation "\"0 0\""
+attr mutable ""
+par wiredCase.visualizer.sceneVisualizer[0] descriptionFigure "\"\""
+par wiredCase.visualizer.physicalEnvironmentVisualizer[0] typename "\"inet.visualizer.canvas.environment.PhysicalEnvironmentCanvasVisualizer\""
+par wiredCase.visualizer.physicalEnvironmentVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.physicalEnvironmentVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.physicalEnvironmentVisualizer[0] tags "\"\""
+par wiredCase.visualizer.physicalEnvironmentVisualizer[0] physicalEnvironmentModule "\"physicalEnvironment\""
+par wiredCase.visualizer.physicalEnvironmentVisualizer[0] displayObjects true
+par wiredCase.visualizer.physicalEnvironmentVisualizer[0] zIndex 0
+par wiredCase.visualizer.networkNodeVisualizer[0] typename "\"inet.visualizer.canvas.scene.NetworkNodeCanvasVisualizer\""
+par wiredCase.visualizer.networkNodeVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.networkNodeVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.networkNodeVisualizer[0] tags "\"\""
+par wiredCase.visualizer.networkNodeVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.networkNodeVisualizer[0] annotationSpacing 4
+par wiredCase.visualizer.networkNodeVisualizer[0] placementPenalty 10
+par wiredCase.visualizer.networkNodeVisualizer[0] zIndex 0
+par wiredCase.visualizer.networkConnectionVisualizer[0] typename "\"inet.visualizer.canvas.scene.NetworkConnectionCanvasVisualizer\""
+par wiredCase.visualizer.networkConnectionVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.networkConnectionVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.networkConnectionVisualizer[0] tags "\"\""
+par wiredCase.visualizer.networkConnectionVisualizer[0] displayNetworkConnections true
+par wiredCase.visualizer.networkConnectionVisualizer[0] nodeFilter "\"\""
+attr mutable ""
+par wiredCase.visualizer.networkConnectionVisualizer[0] lineColor "\"black\""
+par wiredCase.visualizer.networkConnectionVisualizer[0] lineStyle "\"solid\""
+par wiredCase.visualizer.networkConnectionVisualizer[0] lineWidth 1
+par wiredCase.visualizer.networkConnectionVisualizer[0] zIndex 0
+par wiredCase.visualizer.mobilityVisualizer[0] typename "\"inet.visualizer.canvas.mobility.MobilityCanvasVisualizer\""
+par wiredCase.visualizer.mobilityVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.mobilityVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.mobilityVisualizer[0] tags "\"\""
+par wiredCase.visualizer.mobilityVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.mobilityVisualizer[0] displayMobility true
+par wiredCase.visualizer.mobilityVisualizer[0] animationSpeed 0
+par wiredCase.visualizer.mobilityVisualizer[0] moduleFilter "\"**.mobility\""
+attr mutable ""
+par wiredCase.visualizer.mobilityVisualizer[0] displayPositions false
+par wiredCase.visualizer.mobilityVisualizer[0] positionCircleRadius 4
+par wiredCase.visualizer.mobilityVisualizer[0] positionCircleLineWidth 1
+par wiredCase.visualizer.mobilityVisualizer[0] positionCircleLineColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.mobilityVisualizer[0] positionCircleFillColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.mobilityVisualizer[0] displayOrientations false
+par wiredCase.visualizer.mobilityVisualizer[0] orientationPieRadius 32
+par wiredCase.visualizer.mobilityVisualizer[0] orientationPieSize 0.2
+par wiredCase.visualizer.mobilityVisualizer[0] orientationPieOpacity 0.25
+par wiredCase.visualizer.mobilityVisualizer[0] orientationLineColor "\"black\""
+par wiredCase.visualizer.mobilityVisualizer[0] orientationLineStyle "\"solid\""
+par wiredCase.visualizer.mobilityVisualizer[0] orientationLineWidth 1
+par wiredCase.visualizer.mobilityVisualizer[0] orientationFillColor "\"blue\""
+par wiredCase.visualizer.mobilityVisualizer[0] displayVelocities false
+par wiredCase.visualizer.mobilityVisualizer[0] velocityArrowScale 1
+par wiredCase.visualizer.mobilityVisualizer[0] velocityLineColor "\"black\""
+par wiredCase.visualizer.mobilityVisualizer[0] velocityLineStyle "\"solid\""
+par wiredCase.visualizer.mobilityVisualizer[0] velocityLineWidth 1
+par wiredCase.visualizer.mobilityVisualizer[0] displayMovementTrails false
+par wiredCase.visualizer.mobilityVisualizer[0] movementTrailLineColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.mobilityVisualizer[0] movementTrailLineStyle "\"solid\""
+par wiredCase.visualizer.mobilityVisualizer[0] movementTrailLineWidth 1
+par wiredCase.visualizer.mobilityVisualizer[0] trailLength 100
+par wiredCase.visualizer.mobilityVisualizer[0] zIndex 0
+par wiredCase.visualizer.statisticVisualizer[0] typename "\"inet.visualizer.canvas.common.StatisticCanvasVisualizer\""
+par wiredCase.visualizer.statisticVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.statisticVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.statisticVisualizer[0] tags "\"\""
+par wiredCase.visualizer.statisticVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.statisticVisualizer[0] displayStatistics true
+par wiredCase.visualizer.statisticVisualizer[0] signalName "\"\""
+par wiredCase.visualizer.statisticVisualizer[0] statisticName "\"\""
+par wiredCase.visualizer.statisticVisualizer[0] statisticUnit "\"\""
+par wiredCase.visualizer.statisticVisualizer[0] statisticExpression "\"\""
+par wiredCase.visualizer.statisticVisualizer[0] sourceFilter "\"**\""
+attr mutable ""
+par wiredCase.visualizer.statisticVisualizer[0] format "\"%n: %v %u\""
+attr mutable ""
+par wiredCase.visualizer.statisticVisualizer[0] unit "\"\""
+par wiredCase.visualizer.statisticVisualizer[0] font "\"<default>\""
+par wiredCase.visualizer.statisticVisualizer[0] textColor "\"black\""
+par wiredCase.visualizer.statisticVisualizer[0] backgroundColor "\"white\""
+par wiredCase.visualizer.statisticVisualizer[0] opacity 1
+par wiredCase.visualizer.statisticVisualizer[0] placementHint "\"top\""
+par wiredCase.visualizer.statisticVisualizer[0] placementPriority 0
+par wiredCase.visualizer.statisticVisualizer[0] zIndex 10
+par wiredCase.visualizer.statisticVisualizer[0] propertyName "\"\""
+par wiredCase.visualizer.statisticVisualizer[0] propertyIndex "\"\""
+par wiredCase.visualizer.infoVisualizer[0] typename "\"inet.visualizer.canvas.common.InfoCanvasVisualizer\""
+par wiredCase.visualizer.infoVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[0] tags "\"\""
+par wiredCase.visualizer.infoVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.infoVisualizer[0] displayInfos true
+par wiredCase.visualizer.infoVisualizer[0] modules "\"*.DSTT.clock\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[0] format "\"%t\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[0] font "\"<default>\""
+par wiredCase.visualizer.infoVisualizer[0] textColor "\"black\""
+par wiredCase.visualizer.infoVisualizer[0] backgroundColor "\"white\""
+par wiredCase.visualizer.infoVisualizer[0] opacity 1
+par wiredCase.visualizer.infoVisualizer[0] placementHint "\"top\""
+par wiredCase.visualizer.infoVisualizer[0] placementPriority 0
+par wiredCase.visualizer.infoVisualizer[0] zIndex 10
+par wiredCase.visualizer.infoVisualizer[1] typename "\"inet.visualizer.canvas.common.InfoCanvasVisualizer\""
+par wiredCase.visualizer.infoVisualizer[1] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[1] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[1] tags "\"\""
+par wiredCase.visualizer.infoVisualizer[1] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.infoVisualizer[1] displayInfos true
+par wiredCase.visualizer.infoVisualizer[1] modules "\"*.NSTT.clock\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[1] format "\"%t\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[1] font "\"<default>\""
+par wiredCase.visualizer.infoVisualizer[1] textColor "\"black\""
+par wiredCase.visualizer.infoVisualizer[1] backgroundColor "\"white\""
+par wiredCase.visualizer.infoVisualizer[1] opacity 1
+par wiredCase.visualizer.infoVisualizer[1] placementHint "\"left\""
+par wiredCase.visualizer.infoVisualizer[1] placementPriority 0
+par wiredCase.visualizer.infoVisualizer[1] zIndex 10
+par wiredCase.visualizer.infoVisualizer[2] typename "\"inet.visualizer.canvas.common.InfoCanvasVisualizer\""
+par wiredCase.visualizer.infoVisualizer[2] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[2] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[2] tags "\"\""
+par wiredCase.visualizer.infoVisualizer[2] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.infoVisualizer[2] displayInfos true
+par wiredCase.visualizer.infoVisualizer[2] modules "\"*.switch*.clock\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[2] format "\"%t\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[2] font "\"<default>\""
+par wiredCase.visualizer.infoVisualizer[2] textColor "\"black\""
+par wiredCase.visualizer.infoVisualizer[2] backgroundColor "\"white\""
+par wiredCase.visualizer.infoVisualizer[2] opacity 1
+par wiredCase.visualizer.infoVisualizer[2] placementHint "\"bottom\""
+par wiredCase.visualizer.infoVisualizer[2] placementPriority 0
+par wiredCase.visualizer.infoVisualizer[2] zIndex 10
+par wiredCase.visualizer.infoVisualizer[3] typename "\"inet.visualizer.canvas.common.InfoCanvasVisualizer\""
+par wiredCase.visualizer.infoVisualizer[3] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[3] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.infoVisualizer[3] tags "\"\""
+par wiredCase.visualizer.infoVisualizer[3] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.infoVisualizer[3] displayInfos true
+par wiredCase.visualizer.infoVisualizer[3] modules "\"*.endHost.clock\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[3] format "\"%t\""
+attr mutable ""
+par wiredCase.visualizer.infoVisualizer[3] font "\"<default>\""
+par wiredCase.visualizer.infoVisualizer[3] textColor "\"black\""
+par wiredCase.visualizer.infoVisualizer[3] backgroundColor "\"white\""
+par wiredCase.visualizer.infoVisualizer[3] opacity 1
+par wiredCase.visualizer.infoVisualizer[3] placementHint "\"bottom\""
+par wiredCase.visualizer.infoVisualizer[3] placementPriority 0
+par wiredCase.visualizer.infoVisualizer[3] zIndex 10
+par wiredCase.visualizer.energyStorageVisualizer[0] typename "\"inet.visualizer.canvas.power.EnergyStorageCanvasVisualizer\""
+par wiredCase.visualizer.energyStorageVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.energyStorageVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.energyStorageVisualizer[0] tags "\"\""
+par wiredCase.visualizer.energyStorageVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.energyStorageVisualizer[0] displayEnergyStorages false
+par wiredCase.visualizer.energyStorageVisualizer[0] energyStorageFilter "\"**\""
+par wiredCase.visualizer.energyStorageVisualizer[0] color "\"green\""
+par wiredCase.visualizer.energyStorageVisualizer[0] width 8
+par wiredCase.visualizer.energyStorageVisualizer[0] height 24
+par wiredCase.visualizer.energyStorageVisualizer[0] spacing 2
+par wiredCase.visualizer.energyStorageVisualizer[0] placementHint "\"right\""
+par wiredCase.visualizer.energyStorageVisualizer[0] placementPriority 0
+par wiredCase.visualizer.energyStorageVisualizer[0] zIndex 10
+par wiredCase.visualizer.mediumVisualizer[0] typename "\"inet.visualizer.canvas.physicallayer.MediumCanvasVisualizer\""
+par wiredCase.visualizer.mediumVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.mediumVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.mediumVisualizer[0] tags "\"\""
+par wiredCase.visualizer.mediumVisualizer[0] mediumModule "\"radioMedium\""
+par wiredCase.visualizer.mediumVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.mediumVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.mediumVisualizer[0] interfaceFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.mediumVisualizer[0] packetFilter "(omnetpp::cValueHolder)holder: \"*\""
+attr mutable ""
+par wiredCase.visualizer.mediumVisualizer[0] displaySignals false
+par wiredCase.visualizer.mediumVisualizer[0] signalColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.mediumVisualizer[0] signalPropagationAnimationSpeed "nan "
+attr mutable ""
+par wiredCase.visualizer.mediumVisualizer[0] signalPropagationAnimationTime 1s
+attr unit s
+par wiredCase.visualizer.mediumVisualizer[0] signalPropagationAdditionalTime 0s
+attr unit s
+par wiredCase.visualizer.mediumVisualizer[0] signalTransmissionAnimationSpeed "nan "
+attr mutable ""
+par wiredCase.visualizer.mediumVisualizer[0] signalTransmissionAnimationTime 1s
+attr unit s
+par wiredCase.visualizer.mediumVisualizer[0] signalAnimationSpeedChangeTimeMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.mediumVisualizer[0] signalAnimationSpeedChangeTime 1s
+attr unit s
+par wiredCase.visualizer.mediumVisualizer[0] displaySignalDepartures false
+par wiredCase.visualizer.mediumVisualizer[0] signalDepartureImage "\"misc/signal_departure.png\""
+par wiredCase.visualizer.mediumVisualizer[0] signalDeparturePlacementHint "\"topCenter\""
+par wiredCase.visualizer.mediumVisualizer[0] signalDeparturePlacementPriority 1
+par wiredCase.visualizer.mediumVisualizer[0] displaySignalArrivals false
+par wiredCase.visualizer.mediumVisualizer[0] signalArrivalImage "\"misc/signal_arrival.png\""
+par wiredCase.visualizer.mediumVisualizer[0] signalArrivalPlacementHint "\"topCenter\""
+par wiredCase.visualizer.mediumVisualizer[0] signalArrivalPlacementPriority -1
+par wiredCase.visualizer.mediumVisualizer[0] displayCommunicationRanges false
+par wiredCase.visualizer.mediumVisualizer[0] communicationRangeLineColor "\"blue\""
+par wiredCase.visualizer.mediumVisualizer[0] communicationRangeLineStyle "\"solid\""
+par wiredCase.visualizer.mediumVisualizer[0] communicationRangeLineWidth 1
+par wiredCase.visualizer.mediumVisualizer[0] displayInterferenceRanges false
+par wiredCase.visualizer.mediumVisualizer[0] interferenceRangeLineColor "\"gray\""
+par wiredCase.visualizer.mediumVisualizer[0] interferenceRangeLineStyle "\"solid\""
+par wiredCase.visualizer.mediumVisualizer[0] interferenceRangeLineWidth 1
+par wiredCase.visualizer.mediumVisualizer[0] autoPowerAxis true
+par wiredCase.visualizer.mediumVisualizer[0] signalMinPower "inf dBmW"
+attr unit dBmW
+par wiredCase.visualizer.mediumVisualizer[0] signalMaxPower 0dBmW
+attr unit dBmW
+par wiredCase.visualizer.mediumVisualizer[0] signalMinPowerDensity "inf dBmWpMHz"
+attr unit dBmWpMHz
+par wiredCase.visualizer.mediumVisualizer[0] signalMaxPowerDensity "-inf dBmWpMHz"
+attr unit dBmWpMHz
+par wiredCase.visualizer.mediumVisualizer[0] autoTimeAxis true
+par wiredCase.visualizer.mediumVisualizer[0] signalMinTime 0s
+attr unit s
+par wiredCase.visualizer.mediumVisualizer[0] signalMaxTime 0s
+attr unit s
+par wiredCase.visualizer.mediumVisualizer[0] autoFrequencyAxis true
+par wiredCase.visualizer.mediumVisualizer[0] signalMinFrequency "inf Hz"
+attr unit Hz
+par wiredCase.visualizer.mediumVisualizer[0] signalMaxFrequency "-inf Hz"
+attr unit Hz
+par wiredCase.visualizer.mediumVisualizer[0] displayMainPowerDensityMap false
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapPixmapDensity 1
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapMinX 0
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapMaxX "nan "
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapMinY 0
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapMaxY "nan "
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapZ 0
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapFigureXTickCount 3
+par wiredCase.visualizer.mediumVisualizer[0] mainPowerDensityMapFigureYTickCount 3
+par wiredCase.visualizer.mediumVisualizer[0] displayPowerDensityMaps false
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapMode "\"auto\""
+attr enum total,signal,auto
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapPixelMode "\"mean\""
+attr enum sample,partition,mean
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapApproximationSize 10
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapCenterFrequency "nan Hz"
+attr mutable ""
+attr unit Hz
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapBandwidth 0Hz
+attr mutable ""
+attr unit Hz
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapFigureWidth 200
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapFigureHeight 120
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapPixmapWidth 200
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapPixmapHeight 120
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapZ 0
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapFigureXTickCount 3
+par wiredCase.visualizer.mediumVisualizer[0] powerDensityMapFigureYTickCount 3
+par wiredCase.visualizer.mediumVisualizer[0] displaySpectrums false
+par wiredCase.visualizer.mediumVisualizer[0] spectrumMode "\"auto\""
+attr enum total,signal,auto
+par wiredCase.visualizer.mediumVisualizer[0] spectrumFigureWidth 200
+par wiredCase.visualizer.mediumVisualizer[0] spectrumFigureHeight 120
+par wiredCase.visualizer.mediumVisualizer[0] spectrumFigureXTickCount 3
+par wiredCase.visualizer.mediumVisualizer[0] spectrumFigureYTickCount 5
+par wiredCase.visualizer.mediumVisualizer[0] spectrumFigureInterpolationSize 5
+par wiredCase.visualizer.mediumVisualizer[0] spectrumPlacementHint "\"bottomCenter\""
+par wiredCase.visualizer.mediumVisualizer[0] spectrumPlacementPriority -1
+par wiredCase.visualizer.mediumVisualizer[0] displaySpectrograms false
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramMode "\"auto\""
+attr enum total,signal,auto
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramPixelMode "\"mean\""
+attr enum sample,partition,mean
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramFigureWidth 200
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramFigureHeight 120
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramPixmapWidth 200
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramPixmapHeight 120
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramFigureXTickCount 3
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramFigureYTickCount 5
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramPlacementHint "\"bottomCenter\""
+par wiredCase.visualizer.mediumVisualizer[0] spectrogramPlacementPriority -1
+par wiredCase.visualizer.mediumVisualizer[0] zIndex 0
+par wiredCase.visualizer.mediumVisualizer[0] signalShape "\"ring\""
+attr enum ring,sphere
+par wiredCase.visualizer.mediumVisualizer[0] signalOpacity 0.5
+par wiredCase.visualizer.mediumVisualizer[0] signalRingCount 20
+par wiredCase.visualizer.mediumVisualizer[0] signalRingSize 50m
+attr unit m
+par wiredCase.visualizer.mediumVisualizer[0] signalFadingDistance 50m
+attr unit m
+par wiredCase.visualizer.mediumVisualizer[0] signalFadingFactor 1.2
+par wiredCase.visualizer.mediumVisualizer[0] signalWaveCount 20
+par wiredCase.visualizer.mediumVisualizer[0] signalWaveLength 50m
+attr unit m
+par wiredCase.visualizer.mediumVisualizer[0] signalWaveWidth 10m
+attr unit m
+par wiredCase.visualizer.mediumVisualizer[0] signalWaveFadingAnimationSpeedFactor 1
+par wiredCase.visualizer.mediumVisualizer[0] displayCommunicationHeat false
+par wiredCase.visualizer.obstacleLossVisualizer[0] typename "\"inet.visualizer.canvas.physicallayer.TracingObstacleLossCanvasVisualizer\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] tags "\"\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] displayIntersections false
+par wiredCase.visualizer.obstacleLossVisualizer[0] intersectionLineColor "\"red\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] intersectionLineStyle "\"solid\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] intersectionLineWidth 1
+par wiredCase.visualizer.obstacleLossVisualizer[0] displayFaceNormalVectors false
+par wiredCase.visualizer.obstacleLossVisualizer[0] faceNormalLineColor "\"grey\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] faceNormalLineStyle "\"solid\""
+par wiredCase.visualizer.obstacleLossVisualizer[0] faceNormalLineWidth 1
+par wiredCase.visualizer.obstacleLossVisualizer[0] fadeOutMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.obstacleLossVisualizer[0] fadeOutTime 1s
+attr unit s
+par wiredCase.visualizer.obstacleLossVisualizer[0] fadeOutAnimationSpeed 0
+par wiredCase.visualizer.obstacleLossVisualizer[0] zIndex 0
+par wiredCase.visualizer.packetDropVisualizer[0] typename "\"inet.visualizer.canvas.common.PacketDropCanvasVisualizer\""
+par wiredCase.visualizer.packetDropVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.packetDropVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.packetDropVisualizer[0] tags "\"\""
+par wiredCase.visualizer.packetDropVisualizer[0] displayPacketDrops false
+par wiredCase.visualizer.packetDropVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.packetDropVisualizer[0] interfaceFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.packetDropVisualizer[0] packetFilter "(omnetpp::cValueHolder)holder: \"*\""
+attr mutable ""
+par wiredCase.visualizer.packetDropVisualizer[0] detailsFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.packetDropVisualizer[0] icon "\"msg/packet_s\""
+par wiredCase.visualizer.packetDropVisualizer[0] iconTintAmount 1
+par wiredCase.visualizer.packetDropVisualizer[0] iconTintColor "\"dark\""
+par wiredCase.visualizer.packetDropVisualizer[0] labelFormat "\"%n\""
+attr mutable ""
+par wiredCase.visualizer.packetDropVisualizer[0] labelFont "\"<default>\""
+par wiredCase.visualizer.packetDropVisualizer[0] labelColor "\"black\""
+par wiredCase.visualizer.packetDropVisualizer[0] fadeOutMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.packetDropVisualizer[0] fadeOutTime 1s
+attr unit s
+par wiredCase.visualizer.packetDropVisualizer[0] fadeOutAnimationSpeed 0
+par wiredCase.visualizer.packetDropVisualizer[0] zIndex 10
+par wiredCase.visualizer.packetDropVisualizer[0] dx 32
+par wiredCase.visualizer.packetDropVisualizer[0] dy 64
+par wiredCase.visualizer.queueVisualizer[0] typename "\"inet.visualizer.canvas.common.QueueCanvasVisualizer\""
+par wiredCase.visualizer.queueVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.queueVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.queueVisualizer[0] tags "\"\""
+par wiredCase.visualizer.queueVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.queueVisualizer[0] displayQueues false
+par wiredCase.visualizer.queueVisualizer[0] queueFilter "\"**\""
+par wiredCase.visualizer.queueVisualizer[0] color "\"blue\""
+par wiredCase.visualizer.queueVisualizer[0] width 8
+par wiredCase.visualizer.queueVisualizer[0] height 24
+par wiredCase.visualizer.queueVisualizer[0] spacing 2
+par wiredCase.visualizer.queueVisualizer[0] placementHint "\"right\""
+par wiredCase.visualizer.queueVisualizer[0] placementPriority 0
+par wiredCase.visualizer.queueVisualizer[0] zIndex 10
+par wiredCase.visualizer.gateScheduleVisualizer[0] typename "\"inet.visualizer.canvas.common.GateScheduleCanvasVisualizer\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] tags "\"\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] displayGateSchedules false
+par wiredCase.visualizer.gateScheduleVisualizer[0] labelFormat "\"%i %D\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] gateFilter "\"**\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] width 100
+par wiredCase.visualizer.gateScheduleVisualizer[0] height 8
+par wiredCase.visualizer.gateScheduleVisualizer[0] spacing 2
+par wiredCase.visualizer.gateScheduleVisualizer[0] placementHint "\"right\""
+par wiredCase.visualizer.gateScheduleVisualizer[0] placementPriority 0
+par wiredCase.visualizer.gateScheduleVisualizer[0] displayDuration 0s
+attr mutable ""
+attr unit s
+par wiredCase.visualizer.gateScheduleVisualizer[0] currentTimePosition 50
+par wiredCase.visualizer.gateScheduleVisualizer[0] zIndex 10
+par wiredCase.visualizer.radioVisualizer[0] typename "\"inet.visualizer.canvas.physicallayer.RadioCanvasVisualizer\""
+par wiredCase.visualizer.radioVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.radioVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.radioVisualizer[0] tags "\"\""
+par wiredCase.visualizer.radioVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.radioVisualizer[0] displayRadios false
+par wiredCase.visualizer.radioVisualizer[0] displayRadioMode true
+par wiredCase.visualizer.radioVisualizer[0] displayReceptionState true
+par wiredCase.visualizer.radioVisualizer[0] displayTransmissionState true
+par wiredCase.visualizer.radioVisualizer[0] displayAntennaLobes false
+par wiredCase.visualizer.radioVisualizer[0] radioFilter "\"**\""
+attr mutable ""
+par wiredCase.visualizer.radioVisualizer[0] radioModeImages "\"block/process_vs block/timer_vs block/wrx_vs block/wtx_vs block/wrxtx_vs block/cogwheel_vs\""
+par wiredCase.visualizer.radioVisualizer[0] receptionStateImages "\"- - misc/receiving misc/receiving\""
+par wiredCase.visualizer.radioVisualizer[0] transmissionStateImages "\"- - misc/transmitting\""
+par wiredCase.visualizer.radioVisualizer[0] width 16
+par wiredCase.visualizer.radioVisualizer[0] height 16
+par wiredCase.visualizer.radioVisualizer[0] placementHint "\"bottomRight\""
+par wiredCase.visualizer.radioVisualizer[0] placementPriority 0
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeNormalize false
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeRelativeLabels false
+par wiredCase.visualizer.radioVisualizer[0] antennaLobePlaneGlobal true
+par wiredCase.visualizer.radioVisualizer[0] antennaLobePlane "\"view\""
+attr enum view,xy,xz,yz
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeMode "\"logarithmic\""
+attr enum logarithmic,linear
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeLogarithmicBase 10
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeLogarithmicScale 100
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeRadius 100
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeStep 10deg
+attr unit deg
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeOpacity 0.25
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeLineSmooth true
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeLineColor "\"black\""
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeLineStyle "\"solid\""
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeLineWidth 1
+par wiredCase.visualizer.radioVisualizer[0] antennaLobeFillColor "\"white\""
+par wiredCase.visualizer.radioVisualizer[0] zIndex 10
+par wiredCase.visualizer.physicalLinkVisualizer[0] typename "\"inet.visualizer.canvas.physicallayer.PhysicalLinkCanvasVisualizer\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] tags "\"\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] displayLinks false
+par wiredCase.visualizer.physicalLinkVisualizer[0] activityLevel "\"service\""
+attr enum service,peer,protocol
+par wiredCase.visualizer.physicalLinkVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.physicalLinkVisualizer[0] interfaceFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.physicalLinkVisualizer[0] packetFilter "(omnetpp::cValueHolder)holder: \"*\""
+attr mutable ""
+par wiredCase.visualizer.physicalLinkVisualizer[0] lineColor "\"olive\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] lineStyle "\"dotted\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] lineWidth 3
+par wiredCase.visualizer.physicalLinkVisualizer[0] lineShift 16
+par wiredCase.visualizer.physicalLinkVisualizer[0] lineShiftMode "\"normal\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] lineContactSpacing 3
+par wiredCase.visualizer.physicalLinkVisualizer[0] lineContactMode "\"rectangular\""
+attr enum circular,rectangular
+par wiredCase.visualizer.physicalLinkVisualizer[0] labelFormat "\"%n\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] labelFont "\"<default>, 8px\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] labelColor "\"olive\""
+par wiredCase.visualizer.physicalLinkVisualizer[0] fadeOutMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.physicalLinkVisualizer[0] fadeOutTime 1s
+attr unit s
+par wiredCase.visualizer.physicalLinkVisualizer[0] fadeOutAnimationSpeed 0
+par wiredCase.visualizer.physicalLinkVisualizer[0] holdAnimationTime 0s
+attr unit s
+par wiredCase.visualizer.physicalLinkVisualizer[0] zIndex 1
+par wiredCase.visualizer.interfaceTableVisualizer[0] typename "\"inet.visualizer.canvas.linklayer.InterfaceTableCanvasVisualizer\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] tags "\"\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] displayInterfaceTables false
+par wiredCase.visualizer.interfaceTableVisualizer[0] displayWiredInterfacesAtConnections true
+par wiredCase.visualizer.interfaceTableVisualizer[0] displayBackground false
+par wiredCase.visualizer.interfaceTableVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.interfaceTableVisualizer[0] interfaceFilter "\"not(lo*)\""
+attr mutable ""
+par wiredCase.visualizer.interfaceTableVisualizer[0] format "\"%N %\\\\%a%/%l\""
+attr mutable ""
+par wiredCase.visualizer.interfaceTableVisualizer[0] placementHint "\"top\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] placementPriority 0
+par wiredCase.visualizer.interfaceTableVisualizer[0] font "\"<default>\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] textColor "\"#005030\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] backgroundColor "\"white\""
+par wiredCase.visualizer.interfaceTableVisualizer[0] opacity 1
+par wiredCase.visualizer.interfaceTableVisualizer[0] zIndex 10
+par wiredCase.visualizer.dataLinkVisualizer[0] typename "\"inet.visualizer.canvas.linklayer.DataLinkCanvasVisualizer\""
+par wiredCase.visualizer.dataLinkVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.dataLinkVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.dataLinkVisualizer[0] tags "\"\""
+par wiredCase.visualizer.dataLinkVisualizer[0] displayLinks false
+par wiredCase.visualizer.dataLinkVisualizer[0] activityLevel "\"service\""
+attr enum service,peer,protocol
+par wiredCase.visualizer.dataLinkVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.dataLinkVisualizer[0] interfaceFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.dataLinkVisualizer[0] packetFilter "(omnetpp::cValueHolder)holder: \"*\""
+attr mutable ""
+par wiredCase.visualizer.dataLinkVisualizer[0] lineColor "\"darkcyan\""
+par wiredCase.visualizer.dataLinkVisualizer[0] lineStyle "\"solid\""
+par wiredCase.visualizer.dataLinkVisualizer[0] lineWidth 3
+par wiredCase.visualizer.dataLinkVisualizer[0] lineShift 16
+par wiredCase.visualizer.dataLinkVisualizer[0] lineShiftMode "\"normal\""
+par wiredCase.visualizer.dataLinkVisualizer[0] lineContactSpacing 3
+par wiredCase.visualizer.dataLinkVisualizer[0] lineContactMode "\"rectangular\""
+attr enum circular,rectangular
+par wiredCase.visualizer.dataLinkVisualizer[0] labelFormat "\"%n\""
+par wiredCase.visualizer.dataLinkVisualizer[0] labelFont "\"<default>, 8px\""
+par wiredCase.visualizer.dataLinkVisualizer[0] labelColor "\"darkcyan\""
+par wiredCase.visualizer.dataLinkVisualizer[0] fadeOutMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.dataLinkVisualizer[0] fadeOutTime 1s
+attr unit s
+par wiredCase.visualizer.dataLinkVisualizer[0] fadeOutAnimationSpeed 0
+par wiredCase.visualizer.dataLinkVisualizer[0] holdAnimationTime 0s
+attr unit s
+par wiredCase.visualizer.dataLinkVisualizer[0] zIndex 2
+par wiredCase.visualizer.linkBreakVisualizer[0] typename "\"inet.visualizer.canvas.linklayer.LinkBreakCanvasVisualizer\""
+par wiredCase.visualizer.linkBreakVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.linkBreakVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.linkBreakVisualizer[0] tags "\"\""
+par wiredCase.visualizer.linkBreakVisualizer[0] displayLinkBreaks false
+par wiredCase.visualizer.linkBreakVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.linkBreakVisualizer[0] interfaceFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.linkBreakVisualizer[0] packetFilter "(omnetpp::cValueHolder)holder: \"*\""
+attr mutable ""
+par wiredCase.visualizer.linkBreakVisualizer[0] icon "\"status/stop\""
+par wiredCase.visualizer.linkBreakVisualizer[0] iconTintAmount 0
+par wiredCase.visualizer.linkBreakVisualizer[0] iconTintColor "\"\""
+par wiredCase.visualizer.linkBreakVisualizer[0] fadeOutMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.linkBreakVisualizer[0] fadeOutTime 1s
+attr unit s
+par wiredCase.visualizer.linkBreakVisualizer[0] fadeOutAnimationSpeed 0
+par wiredCase.visualizer.linkBreakVisualizer[0] zIndex 2
+par wiredCase.visualizer.ieee80211Visualizer[0] typename "\"inet.visualizer.canvas.linklayer.Ieee80211CanvasVisualizer\""
+par wiredCase.visualizer.ieee80211Visualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.ieee80211Visualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.ieee80211Visualizer[0] tags "\"\""
+par wiredCase.visualizer.ieee80211Visualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.ieee80211Visualizer[0] displayAssociations false
+par wiredCase.visualizer.ieee80211Visualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.ieee80211Visualizer[0] interfaceFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.ieee80211Visualizer[0] minPower -85dBm
+attr unit dBm
+par wiredCase.visualizer.ieee80211Visualizer[0] maxPower -50dBm
+attr unit dBm
+par wiredCase.visualizer.ieee80211Visualizer[0] icons "\"misc/signal_power_0 misc/signal_power_1 misc/signal_power_2 misc/signal_power_3\""
+par wiredCase.visualizer.ieee80211Visualizer[0] iconColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.ieee80211Visualizer[0] labelFont "\"<default>\""
+par wiredCase.visualizer.ieee80211Visualizer[0] labelColor "\"black\""
+par wiredCase.visualizer.ieee80211Visualizer[0] placementHint "\"top\""
+par wiredCase.visualizer.ieee80211Visualizer[0] placementPriority 0
+par wiredCase.visualizer.ieee80211Visualizer[0] zIndex 2
+par wiredCase.visualizer.networkRouteVisualizer[0] typename "\"inet.visualizer.canvas.networklayer.NetworkRouteCanvasVisualizer\""
+par wiredCase.visualizer.networkRouteVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.networkRouteVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.networkRouteVisualizer[0] tags "\"\""
+par wiredCase.visualizer.networkRouteVisualizer[0] displayRoutes false
+par wiredCase.visualizer.networkRouteVisualizer[0] startPathSignal "\"packetReceivedFromUpper\""
+par wiredCase.visualizer.networkRouteVisualizer[0] extendPathSignal "\"packetReceivedFromLower\""
+par wiredCase.visualizer.networkRouteVisualizer[0] endPathSignal "\"packetSentToUpper\""
+par wiredCase.visualizer.networkRouteVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.networkRouteVisualizer[0] packetFilter "(omnetpp::cValueHolder)holder: \"*\""
+attr mutable ""
+par wiredCase.visualizer.networkRouteVisualizer[0] lineColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.networkRouteVisualizer[0] lineStyle "\"solid\""
+par wiredCase.visualizer.networkRouteVisualizer[0] lineWidth 3
+par wiredCase.visualizer.networkRouteVisualizer[0] lineSmooth false
+par wiredCase.visualizer.networkRouteVisualizer[0] lineShift 16
+par wiredCase.visualizer.networkRouteVisualizer[0] lineShiftMode "\"normal\""
+par wiredCase.visualizer.networkRouteVisualizer[0] lineContactSpacing 3
+par wiredCase.visualizer.networkRouteVisualizer[0] lineContactMode "\"rectangular\""
+attr enum circular,rectangular
+par wiredCase.visualizer.networkRouteVisualizer[0] labelFormat "\"%n\""
+par wiredCase.visualizer.networkRouteVisualizer[0] labelFont "\"<default>, 8px\""
+par wiredCase.visualizer.networkRouteVisualizer[0] labelColor "\"\""
+par wiredCase.visualizer.networkRouteVisualizer[0] fadeOutMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.networkRouteVisualizer[0] fadeOutTime 1s
+attr unit s
+par wiredCase.visualizer.networkRouteVisualizer[0] fadeOutAnimationSpeed 0
+par wiredCase.visualizer.networkRouteVisualizer[0] zIndex 3
+par wiredCase.visualizer.routingTableVisualizer[0] typename "\"inet.visualizer.canvas.networklayer.RoutingTableCanvasVisualizer\""
+par wiredCase.visualizer.routingTableVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.routingTableVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.routingTableVisualizer[0] tags "\"\""
+par wiredCase.visualizer.routingTableVisualizer[0] displayRoutingTables false
+par wiredCase.visualizer.routingTableVisualizer[0] displayRoutesIndividually true
+par wiredCase.visualizer.routingTableVisualizer[0] displayLabels true
+par wiredCase.visualizer.routingTableVisualizer[0] destinationFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.routingTableVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.routingTableVisualizer[0] lineColor "\"black\""
+par wiredCase.visualizer.routingTableVisualizer[0] lineStyle "\"solid\""
+par wiredCase.visualizer.routingTableVisualizer[0] lineWidth 2
+par wiredCase.visualizer.routingTableVisualizer[0] lineShift 16
+par wiredCase.visualizer.routingTableVisualizer[0] lineShiftMode "\"normal\""
+par wiredCase.visualizer.routingTableVisualizer[0] lineContactSpacing 3
+par wiredCase.visualizer.routingTableVisualizer[0] lineContactMode "\"rectangular\""
+attr enum circular,rectangular
+par wiredCase.visualizer.routingTableVisualizer[0] labelFormat "\"%d/%m -> %g (%n)\""
+attr mutable ""
+par wiredCase.visualizer.routingTableVisualizer[0] labelFont "\"<default>, 8px\""
+par wiredCase.visualizer.routingTableVisualizer[0] labelColor "\"black\""
+par wiredCase.visualizer.routingTableVisualizer[0] zIndex 0
+par wiredCase.visualizer.transportRouteVisualizer[0] typename "\"inet.visualizer.canvas.transportlayer.TransportRouteCanvasVisualizer\""
+par wiredCase.visualizer.transportRouteVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.transportRouteVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.transportRouteVisualizer[0] tags "\"\""
+par wiredCase.visualizer.transportRouteVisualizer[0] displayRoutes false
+par wiredCase.visualizer.transportRouteVisualizer[0] startPathSignal "\"packetReceivedFromUpper\""
+par wiredCase.visualizer.transportRouteVisualizer[0] extendPathSignal "\"packetReceivedFromLower\""
+par wiredCase.visualizer.transportRouteVisualizer[0] endPathSignal "\"packetSentToUpper\""
+par wiredCase.visualizer.transportRouteVisualizer[0] nodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.transportRouteVisualizer[0] packetFilter "(omnetpp::cValueHolder)holder: \"*\""
+attr mutable ""
+par wiredCase.visualizer.transportRouteVisualizer[0] lineColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.transportRouteVisualizer[0] lineStyle "\"solid\""
+par wiredCase.visualizer.transportRouteVisualizer[0] lineWidth 3
+par wiredCase.visualizer.transportRouteVisualizer[0] lineSmooth false
+par wiredCase.visualizer.transportRouteVisualizer[0] lineShift 16
+par wiredCase.visualizer.transportRouteVisualizer[0] lineShiftMode "\"normal\""
+par wiredCase.visualizer.transportRouteVisualizer[0] lineContactSpacing 3
+par wiredCase.visualizer.transportRouteVisualizer[0] lineContactMode "\"rectangular\""
+attr enum circular,rectangular
+par wiredCase.visualizer.transportRouteVisualizer[0] labelFormat "\"%n\""
+par wiredCase.visualizer.transportRouteVisualizer[0] labelFont "\"<default>, 8px\""
+par wiredCase.visualizer.transportRouteVisualizer[0] labelColor "\"\""
+par wiredCase.visualizer.transportRouteVisualizer[0] fadeOutMode "\"realTime\""
+attr enum realTime,animationTime,simulationTime
+par wiredCase.visualizer.transportRouteVisualizer[0] fadeOutTime 1s
+attr unit s
+par wiredCase.visualizer.transportRouteVisualizer[0] fadeOutAnimationSpeed 0
+par wiredCase.visualizer.transportRouteVisualizer[0] zIndex 4
+par wiredCase.visualizer.transportConnectionVisualizer[0] typename "\"inet.visualizer.canvas.transportlayer.TransportConnectionCanvasVisualizer\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] tags "\"\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] networkNodeVisualizerModule "\"wiredCase.visualizer.networkNodeVisualizer[0]\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] displayTransportConnections false
+par wiredCase.visualizer.transportConnectionVisualizer[0] sourceNodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.transportConnectionVisualizer[0] sourcePortFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.transportConnectionVisualizer[0] destinationNodeFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.transportConnectionVisualizer[0] destinationPortFilter "\"*\""
+attr mutable ""
+par wiredCase.visualizer.transportConnectionVisualizer[0] icon "\"misc/marker_s\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] iconColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.transportConnectionVisualizer[0] labelFont "\"<default>\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] labelColor "\"black\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] placementHint "\"top\""
+par wiredCase.visualizer.transportConnectionVisualizer[0] placementPriority 0
+par wiredCase.visualizer.transportConnectionVisualizer[0] zIndex 4
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] typename "\"inet.visualizer.canvas.configurator.FailureProtectionConfigurationCanvasVisualizer\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] tags "\"\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] displayTrees false
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineStyle "\"solid\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineWidth 3
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineSmooth false
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineShift 16
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineShiftMode "\"normal\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineContactSpacing 3
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] lineContactMode "\"rectangular\""
+attr enum circular,rectangular
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] failureProtectionConfiguratorModule "\"failureProtectionConfigurator\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] streamFilter "\"*\""
+par wiredCase.visualizer.failureProtectionConfigurationVisualizer[0] zIndex 3
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] typename "\"inet.visualizer.canvas.configurator.StreamRedundancyConfigurationCanvasVisualizer\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] visualizationTargetModule "\"^.^\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] visualizationSubjectModule "\"^.^\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] tags "\"\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] displayTrees false
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineColor "\"dark\""
+attr enum light,dark
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineStyle "\"solid\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineWidth 3
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineSmooth false
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineShift 16
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineShiftMode "\"normal\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineContactSpacing 3
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] lineContactMode "\"rectangular\""
+attr enum circular,rectangular
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] streamRedundancyConfiguratorModule "\"streamRedundancyConfigurator\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] streamFilter "\"*\""
+par wiredCase.visualizer.streamRedundancyConfigurationVisualizer[0] zIndex 3
+par wiredCase.visualizer typename "\"inet.visualizer.canvas.integrated.IntegratedMultiCanvasVisualizer\""
+par wiredCase.visualizer numSceneVisualizers 1
+par wiredCase.visualizer numPhysicalEnvironmentVisualizers 1
+par wiredCase.visualizer numNetworkNodeVisualizers 1
+par wiredCase.visualizer numNetworkConnectionVisualizers 1
+par wiredCase.visualizer numMobilityVisualizers 1
+par wiredCase.visualizer numStatisticVisualizers 1
+par wiredCase.visualizer numInfoVisualizers 4
+par wiredCase.visualizer numEnergyStorageVisualizers 1
+par wiredCase.visualizer numMediumVisualizers 1
+par wiredCase.visualizer numObstacleLossVisualizers 1
+par wiredCase.visualizer numPacketDropVisualizers 1
+par wiredCase.visualizer numQueueVisualizers 1
+par wiredCase.visualizer numGateScheduleVisualizers 1
+par wiredCase.visualizer numRadioVisualizers 1
+par wiredCase.visualizer numPhysicalLinkVisualizers 1
+par wiredCase.visualizer numInterfaceTableVisualizers 1
+par wiredCase.visualizer numDataLinkVisualizers 1
+par wiredCase.visualizer numLinkBreakVisualizers 1
+par wiredCase.visualizer numIeee80211Visualizers 1
+par wiredCase.visualizer numNetworkRouteVisualizers 1
+par wiredCase.visualizer numRoutingTableVisualizers 1
+par wiredCase.visualizer numTransportRouteVisualizers 1
+par wiredCase.visualizer numTransportConnectionVisualizers 1
+par wiredCase.visualizer numFailureProtectionConfigurationVisualizers 1
+par wiredCase.visualizer numStreamRedundancyConfigurationVisualizers 1
+par wiredCase.configurator typename "\"inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator\""
+par wiredCase.configurator minLinkWeight 0.001
+par wiredCase.configurator configureIsolatedNetworksSeparatly false
+par wiredCase.configurator config "<config>...</config> at content:1"
+par wiredCase.configurator assignAddresses true
+par wiredCase.configurator assignUniqueAddresses true
+par wiredCase.configurator assignDisjunctSubnetAddresses true
+par wiredCase.configurator addStaticRoutes true
+par wiredCase.configurator addDefaultRoutes true
+par wiredCase.configurator addSubnetRoutes true
+par wiredCase.configurator addDirectRoutes true
+par wiredCase.configurator optimizeRoutes true
+par wiredCase.configurator dumpTopology false
+par wiredCase.configurator dumpLinks false
+par wiredCase.configurator dumpAddresses false
+par wiredCase.configurator dumpRoutes false
+par wiredCase.configurator dumpConfig "\"\""
+par wiredCase.macForwardingTableConfigurator typename "\"inet.linklayer.configurator.MacForwardingTableConfigurator\""
+par wiredCase.DSTT.ethg$i[0].channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.eth[0].phys$o.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.clock.oscillator typename "\"inet.clock.oscillator.ConstantDriftOscillator\""
+par wiredCase.DSTT.clock.oscillator displayStringTextFormat "\"%c (%n + %d)\""
+par wiredCase.DSTT.clock.oscillator nominalTickLength 0s
+attr unit s
+par wiredCase.DSTT.clock.oscillator tickOffset 0s
+attr unit s
+par wiredCase.DSTT.clock.oscillator driftRate 0ppm
+attr unit ppm
+par wiredCase.DSTT.clock typename "\"inet.clock.model.SettableClock\""
+par wiredCase.DSTT.clock displayStringTextFormat "\"diff: %d\""
+par wiredCase.DSTT.clock referenceClock "\"NSTT.clock\""
+par wiredCase.DSTT.clock emitClockTimeInterval 0s
+attr unit s
+par wiredCase.DSTT.clock initialClockTime 0s
+attr unit s
+par wiredCase.DSTT.clock roundingMode "\"up\""
+attr enum down,up,closer,none
+par wiredCase.DSTT.clock defaultOverdueClockEventHandlingMode "\"execute\""
+attr enum execute,skip,error
+par wiredCase.DSTT.interfaceTable typename "\"inet.networklayer.common.InterfaceTable\""
+par wiredCase.DSTT.interfaceTable displayAddresses false
+par wiredCase.DSTT.cb typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.cb displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.cb forwardServiceRegistration true
+par wiredCase.DSTT.cb forwardProtocolRegistration true
+par wiredCase.DSTT.bl typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.bl displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.bl forwardServiceRegistration true
+par wiredCase.DSTT.bl forwardProtocolRegistration true
+par wiredCase.DSTT.ethernet typename "\"inet.linklayer.ethernet.basic.EthernetEncapsulation\""
+par wiredCase.DSTT.ethernet registerProtocol true
+par wiredCase.DSTT.ethernet interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ethernet fcsMode "\"declared\""
+attr enum declared,computed
+par wiredCase.DSTT.ethernet stopOperationExtraTime -1s
+attr unit s
+par wiredCase.DSTT.ethernet stopOperationTimeout 2s
+attr unit s
+scalar wiredCase.DSTT.ethernet pauseSent:count 0
+attr recordingmode count
+attr title "pause sent, count"
+scalar wiredCase.DSTT.ethernet pauseSent:sum 0
+attr recordingmode sum
+attr title "pause sent, sum"
+scalar wiredCase.DSTT.ethernet decapPk:count 3
+attr interpolationmode none
+attr recordingmode count
+attr source decapPk
+attr title "packets decapsulated, count"
+scalar wiredCase.DSTT.ethernet decapPk:sum(packetBytes) 236
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source decapPk
+attr title "packets decapsulated, sum(packetBytes)"
+scalar wiredCase.DSTT.ethernet encapPk:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source encapPk
+attr title "packets encapsulated, count"
+scalar wiredCase.DSTT.ethernet encapPk:sum(packetBytes) 82
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source encapPk
+attr title "packets encapsulated, sum(packetBytes)"
+par wiredCase.DSTT.li typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.li displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.li forwardServiceRegistration true
+par wiredCase.DSTT.li forwardProtocolRegistration true
+par wiredCase.DSTT.lo[0].upperLayerIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.lo[0].lo.upperLayerOut.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.lo[0].lo typename "\"inet.linklayer.loopback.Loopback\""
+par wiredCase.DSTT.lo[0].lo interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.lo[0].lo mtu 4470B
+attr unit B
+scalar wiredCase.DSTT.lo[0].lo rcvdPkFromHl:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, count"
+scalar wiredCase.DSTT.lo[0].lo rcvdPkFromHl:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, sum(packetBytes)"
+scalar wiredCase.DSTT.lo[0].lo passedUpPk:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToUpper
+attr title "packets passed to higher layer, count"
+scalar wiredCase.DSTT.lo[0].lo passedUpPk:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, sum(packetBytes)"
+par wiredCase.DSTT.lo[0] typename "\"inet.linklayer.loopback.LoopbackInterface\""
+par wiredCase.DSTT.lo[0] displayStringTextFormat "\"%a (%i)\\n%m\""
+par wiredCase.DSTT.lo[0] recordPcap false
+par wiredCase.DSTT.lo[0] numPcapRecorders 0
+par wiredCase.DSTT.lo[0] interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+scalar wiredCase.DSTT.lo[0] packetDropInterfaceDown:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, count"
+scalar wiredCase.DSTT.lo[0] packetDropInterfaceDown:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, sum(packetBytes)"
+scalar wiredCase.DSTT.lo[0] packetDropNoCarrier:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, count"
+scalar wiredCase.DSTT.lo[0] packetDropNoCarrier:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, sum(packetBytes)"
+par wiredCase.DSTT.eth[0].mac.phys$o.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.eth[0].phys$i.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.eth[0].upperLayerIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.eth[0].mac.upperLayerOut.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.eth[0].queue typename "\"inet.linklayer.ethernet.common.EthernetQueue\""
+par wiredCase.DSTT.eth[0].queue displayStringTextFormat "\"contains %p pk (%l) pushed %u\\npulled %o removed %r dropped %d\""
+par wiredCase.DSTT.eth[0].queue packetCapacity 1000
+par wiredCase.DSTT.eth[0].queue dataCapacity -1b
+attr unit b
+par wiredCase.DSTT.eth[0].queue dropperClass "\"inet::queueing::PacketAtCollectionEndDropper\""
+par wiredCase.DSTT.eth[0].queue comparatorClass "\"inet::EthernetFrameTypeComparator\""
+par wiredCase.DSTT.eth[0].queue bufferModule "\"\""
+scalar wiredCase.DSTT.eth[0].queue queueLength:last 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode last
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length, last"
+attr unit pk
+scalar wiredCase.DSTT.eth[0].queue queueLength:max 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode max
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length, max"
+attr unit pk
+scalar wiredCase.DSTT.eth[0].queue queueLength:timeavg 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode timeavg
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length, timeavg"
+attr unit pk
+scalar wiredCase.DSTT.eth[0].queue queueBitLength:last 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode last
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length, last"
+attr unit b
+scalar wiredCase.DSTT.eth[0].queue queueBitLength:max 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode max
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length, max"
+attr unit b
+scalar wiredCase.DSTT.eth[0].queue queueBitLength:timeavg 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode timeavg
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length, timeavg"
+attr unit b
+statistic wiredCase.DSTT.eth[0].queue queueingTime:histogram
+field count 1
+field mean 0
+field stddev nan
+field min 0
+field max 0
+field sum 0
+field sqrsum 0
+attr interpolationmode none
+attr recordingmode histogram
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+bin	-inf	0
+bin	-0.5	0
+bin	-0.48	0
+bin	-0.46	0
+bin	-0.44	0
+bin	-0.42	0
+bin	-0.4	0
+bin	-0.38	0
+bin	-0.36	0
+bin	-0.34	0
+bin	-0.32	0
+bin	-0.3	0
+bin	-0.28	0
+bin	-0.26	0
+bin	-0.24	0
+bin	-0.22	0
+bin	-0.2	0
+bin	-0.18	0
+bin	-0.16	0
+bin	-0.14	0
+bin	-0.12	0
+bin	-0.1	0
+bin	-0.08	0
+bin	-0.06	0
+bin	-0.04	0
+bin	-0.02	0
+bin	0	1
+bin	0.02	0
+bin	0.04	0
+bin	0.06	0
+bin	0.08	0
+bin	0.1	0
+bin	0.12	0
+bin	0.14	0
+bin	0.16	0
+bin	0.18	0
+bin	0.2	0
+bin	0.22	0
+bin	0.24	0
+bin	0.26	0
+bin	0.28	0
+bin	0.3	0
+bin	0.32	0
+bin	0.34	0
+bin	0.36	0
+bin	0.38	0
+bin	0.4	0
+bin	0.42	0
+bin	0.44	0
+bin	0.46	0
+bin	0.48	0
+bin	0.5	0
+scalar wiredCase.DSTT.eth[0].queue outgoingPackets:count 1
+attr recordingmode count
+attr source packetPulled
+attr title "outgoing packets, count"
+attr unit pk
+scalar wiredCase.DSTT.eth[0].queue outgoingPacketLengths:sum 800
+attr interpolationmode none
+attr recordingmode sum
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths, sum"
+attr unit b
+statistic wiredCase.DSTT.eth[0].queue outgoingPacketLengths:histogram
+field count 1
+field mean 800
+field stddev nan
+field min 800
+field max 800
+field sum 800
+field sqrsum 640000
+attr interpolationmode none
+attr recordingmode histogram
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+bin	-inf	0
+bin	799	0
+bin	800	1
+bin	801	0
+statistic wiredCase.DSTT.eth[0].queue flowQueueingTime:histogram
+field count 0
+field mean -nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
+attr interpolationmode none
+attr recordingmode histogram
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+bin	-inf	0
+bin	0	0
+bin	1	0
+scalar wiredCase.DSTT.eth[0].queue incomingPackets:count 1
+attr recordingmode count
+attr source packetPushStarted
+attr title "incoming packets, count"
+attr unit pk
+scalar wiredCase.DSTT.eth[0].queue incomingPacketLengths:sum 800
+attr interpolationmode none
+attr recordingmode sum
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths, sum"
+attr unit b
+statistic wiredCase.DSTT.eth[0].queue incomingPacketLengths:histogram
+field count 1
+field mean 800
+field stddev nan
+field min 800
+field max 800
+field sum 800
+field sqrsum 640000
+attr interpolationmode none
+attr recordingmode histogram
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+bin	-inf	0
+bin	799	0
+bin	800	1
+bin	801	0
+scalar wiredCase.DSTT.eth[0].queue droppedPacketsQueueOverflow:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsQueueOverflow(packetDropped)
+attr title "dropped packets: queue overflow, count"
+attr unit pk
+scalar wiredCase.DSTT.eth[0].queue droppedPacketLengthsQueueOverflow:sum 0
+attr interpolationmode none
+attr recordingmode sum
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow, sum"
+attr unit b
+par wiredCase.DSTT.eth[0].mac typename "\"inet.linklayer.ethernet.basic.EthernetMac\""
+par wiredCase.DSTT.eth[0].mac interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.eth[0].mac displayStringTextFormat "\"rate: %b\\nsent: %s, rcvd: %r\\nqueue: %q, drop: %d\""
+par wiredCase.DSTT.eth[0].mac sendRawBytes false
+par wiredCase.DSTT.eth[0].mac promiscuous false
+par wiredCase.DSTT.eth[0].mac duplexMode true
+par wiredCase.DSTT.eth[0].mac mtu 1500B
+attr unit B
+par wiredCase.DSTT.eth[0].mac fcsMode "\"declared\""
+attr enum declared,computed
+par wiredCase.DSTT.eth[0].mac stopOperationExtraTime -1s
+attr unit s
+par wiredCase.DSTT.eth[0].mac stopOperationTimeout 2s
+attr unit s
+scalar wiredCase.DSTT.eth[0].mac "simulated time" 0.125000220145
+scalar wiredCase.DSTT.eth[0].mac full-duplex 1
+scalar wiredCase.DSTT.eth[0].mac "frames/sec sent" 7.9999859107448
+scalar wiredCase.DSTT.eth[0].mac "frames/sec rcvd" 23.999957732234
+scalar wiredCase.DSTT.eth[0].mac "bits/sec sent" 6399.9887285959
+scalar wiredCase.DSTT.eth[0].mac "bits/sec rcvd" 18559.967312928
+scalar wiredCase.DSTT.eth[0].mac "rx channel idle (%)" 99.999799040354
+scalar wiredCase.DSTT.eth[0].mac "rx channel utilization (%)" 0.00020095964607791
+scalar wiredCase.DSTT.eth[0].mac rxPausePkUnits:count 0
+attr interpolationmode none
+attr recordingmode count
+attr title "pause units received, count"
+scalar wiredCase.DSTT.eth[0].mac rxPausePkUnits:sum 0
+attr interpolationmode none
+attr recordingmode sum
+attr title "pause units received, sum"
+scalar wiredCase.DSTT.eth[0].mac txPausePkUnits:count 0
+attr interpolationmode none
+attr recordingmode count
+attr title "pause units sent, count"
+scalar wiredCase.DSTT.eth[0].mac txPausePkUnits:sum 0
+attr interpolationmode none
+attr recordingmode sum
+attr title "pause units sent, sum"
+scalar wiredCase.DSTT.eth[0].mac rxPkOk:count 3
+attr interpolationmode none
+attr recordingmode count
+attr source rxPkOk
+attr title "packets received OK, count"
+scalar wiredCase.DSTT.eth[0].mac rxPkOk:sum(packetBytes) 290
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, sum(packetBytes)"
+scalar wiredCase.DSTT.eth[0].mac txPk:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToLower
+attr title "packets transmitted, count"
+scalar wiredCase.DSTT.eth[0].mac txPk:sum(packetBytes) 100
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, sum(packetBytes)"
+scalar wiredCase.DSTT.eth[0].mac packetReceivedFromUpper:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source packetReceivedFromUpper
+attr title "packet bytes from higher layer, count"
+scalar wiredCase.DSTT.eth[0].mac packetReceivedFromUpper:sum(packetBytes) 100
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packet bytes from higher layer, sum(packetBytes)"
+scalar wiredCase.DSTT.eth[0].mac passedUpPk:count 3
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToUpper
+attr title "packets passed to higher layer, count"
+scalar wiredCase.DSTT.eth[0].mac passedUpPk:sum(packetBytes) 290
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, sum(packetBytes)"
+scalar wiredCase.DSTT.eth[0].mac packetDropIncorrectlyReceived:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, count"
+scalar wiredCase.DSTT.eth[0].mac packetDropIncorrectlyReceived:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, sum(packetBytes)"
+scalar wiredCase.DSTT.eth[0].mac packetDropInterfaceDown:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, count"
+scalar wiredCase.DSTT.eth[0].mac packetDropInterfaceDown:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, sum(packetBytes)"
+scalar wiredCase.DSTT.eth[0].mac packetDropNotAddressedToUs:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNotAddressedToUs(packetDropped)
+attr title "packet drop: not addressed to us, count"
+scalar wiredCase.DSTT.eth[0].mac packetDropNotAddressedToUs:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNotAddressedToUs(packetDropped)
+attr title "packet drop: not addressed to us, sum(packetBytes)"
+par wiredCase.DSTT.eth[0] typename "\"inet.linklayer.ethernet.EthernetInterface\""
+par wiredCase.DSTT.eth[0] displayStringTextFormat "\"%a (%i)\\n%m\""
+par wiredCase.DSTT.eth[0] recordPcap false
+par wiredCase.DSTT.eth[0] numPcapRecorders 0
+par wiredCase.DSTT.eth[0] interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.eth[0] protocol "\"ethernetmac\""
+par wiredCase.DSTT.eth[0] address "\"0A-AA-00-00-00-01\""
+attr mutable ""
+par wiredCase.DSTT.eth[0] duplexMode true
+par wiredCase.DSTT.eth[0] csmacdSupport false
+par wiredCase.DSTT.eth[0] bitrate 1e+10bps
+attr unit bps
+par wiredCase.DSTT.eth[0] fcsMode "\"declared\""
+attr enum declared,computed
+scalar wiredCase.DSTT.eth[0] packetDropInterfaceDown:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, count"
+scalar wiredCase.DSTT.eth[0] packetDropInterfaceDown:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, sum(packetBytes)"
+scalar wiredCase.DSTT.eth[0] packetDropNoCarrier:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, count"
+scalar wiredCase.DSTT.eth[0] packetDropNoCarrier:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, sum(packetBytes)"
+par wiredCase.DSTT.ipv4.transportIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.ipv4.up.out[0].channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.ipv4.lp.out[2].channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.ipv4.ifIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.DSTT.ipv4.configurator typename "\"inet.networklayer.configurator.ipv4.Ipv4NodeConfigurator\""
+par wiredCase.DSTT.ipv4.configurator interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ipv4.configurator routingTableModule "\"wiredCase.DSTT.ipv4.routingTable\""
+par wiredCase.DSTT.ipv4.configurator networkConfiguratorModule "\"configurator\""
+par wiredCase.DSTT.ipv4.configurator configureRoutingTable true
+par wiredCase.DSTT.ipv4.routingTable typename "\"inet.networklayer.ipv4.Ipv4RoutingTable\""
+par wiredCase.DSTT.ipv4.routingTable interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ipv4.routingTable routerId "\"auto\""
+par wiredCase.DSTT.ipv4.routingTable netmaskRoutes "\"*\""
+par wiredCase.DSTT.ipv4.routingTable forwarding true
+par wiredCase.DSTT.ipv4.routingTable multicastForwarding false
+par wiredCase.DSTT.ipv4.routingTable useAdminDist false
+par wiredCase.DSTT.ipv4.routingTable routingFile "\"\""
+par wiredCase.DSTT.ipv4.natTable typename "\"inet.networklayer.ipv4.Ipv4NatTable\""
+par wiredCase.DSTT.ipv4.natTable networkProtocolModule "\"^.ip\""
+par wiredCase.DSTT.ipv4.natTable config "<config/> at content:1"
+par wiredCase.DSTT.ipv4.up typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.ipv4.up displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.ipv4.up forwardServiceRegistration true
+par wiredCase.DSTT.ipv4.up forwardProtocolRegistration true
+par wiredCase.DSTT.ipv4.igmp typename "\"inet.networklayer.ipv4.Igmpv2\""
+par wiredCase.DSTT.ipv4.igmp interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ipv4.igmp routingTableModule "\"wiredCase.DSTT.ipv4.routingTable\""
+par wiredCase.DSTT.ipv4.igmp crcMode "\"declared\""
+attr enum declared,computed
+par wiredCase.DSTT.ipv4.igmp enabled true
+par wiredCase.DSTT.ipv4.igmp robustnessVariable 2
+par wiredCase.DSTT.ipv4.igmp queryInterval 125s
+attr unit s
+par wiredCase.DSTT.ipv4.igmp queryResponseInterval 10s
+attr unit s
+par wiredCase.DSTT.ipv4.igmp groupMembershipInterval 260s
+attr unit s
+par wiredCase.DSTT.ipv4.igmp otherQuerierPresentInterval 255s
+attr unit s
+par wiredCase.DSTT.ipv4.igmp startupQueryInterval 31.25s
+attr unit s
+par wiredCase.DSTT.ipv4.igmp startupQueryCount 2
+par wiredCase.DSTT.ipv4.igmp lastMemberQueryInterval 1s
+attr unit s
+par wiredCase.DSTT.ipv4.igmp lastMemberQueryCount 2
+par wiredCase.DSTT.ipv4.igmp unsolicitedReportInterval 10s
+attr unit s
+par wiredCase.DSTT.ipv4.icmp typename "\"inet.networklayer.ipv4.Icmp\""
+par wiredCase.DSTT.ipv4.icmp interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ipv4.icmp routingTableModule "\"wiredCase.DSTT.ipv4.routingTable\""
+par wiredCase.DSTT.ipv4.icmp crcMode "\"declared\""
+attr enum declared,computed
+attr mutable ""
+par wiredCase.DSTT.ipv4.icmp quoteLength 8B
+attr mutable ""
+attr unit B
+par wiredCase.DSTT.ipv4.mp typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.ipv4.mp displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.ipv4.mp forwardServiceRegistration true
+par wiredCase.DSTT.ipv4.mp forwardProtocolRegistration true
+par wiredCase.DSTT.ipv4.ip typename "\"inet.networklayer.ipv4.Ipv4\""
+par wiredCase.DSTT.ipv4.ip interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ipv4.ip routingTableModule "\"wiredCase.DSTT.ipv4.routingTable\""
+par wiredCase.DSTT.ipv4.ip arpModule "\"wiredCase.DSTT.ipv4.arp\""
+par wiredCase.DSTT.ipv4.ip icmpModule "\"wiredCase.DSTT.ipv4.icmp\""
+par wiredCase.DSTT.ipv4.ip crcMode "\"declared\""
+attr enum declared,computed
+par wiredCase.DSTT.ipv4.ip timeToLive 32
+par wiredCase.DSTT.ipv4.ip multicastTimeToLive 32
+par wiredCase.DSTT.ipv4.ip fragmentTimeout 60s
+attr unit s
+par wiredCase.DSTT.ipv4.ip limitedBroadcast false
+par wiredCase.DSTT.ipv4.ip directBroadcastInterfaces "\"\""
+par wiredCase.DSTT.ipv4.ip enableLocalOutMulticastRouting false
+par wiredCase.DSTT.ipv4.ip enableTimestampOption false
+par wiredCase.DSTT.ipv4.ip maxLifetime -1s
+attr unit s
+scalar wiredCase.DSTT.ipv4.ip packetDropAddressResolutionFailed:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, count"
+scalar wiredCase.DSTT.ipv4.ip packetDropAddressResolutionFailed:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, sum(packetBytes)"
+scalar wiredCase.DSTT.ipv4.ip packetDropHopLimitReached:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, count"
+scalar wiredCase.DSTT.ipv4.ip packetDropHopLimitReached:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, sum(packetBytes)"
+scalar wiredCase.DSTT.ipv4.ip packetDropForwardingDisabled:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, count"
+scalar wiredCase.DSTT.ipv4.ip packetDropForwardingDisabled:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, sum(packetBytes)"
+scalar wiredCase.DSTT.ipv4.ip packetDropLifetimeExpired:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsLifetimeExpired(packetDropped)
+attr title "packet drop: lifetime expired, count"
+scalar wiredCase.DSTT.ipv4.ip packetDropLifetimeExpired:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsLifetimeExpired(packetDropped)
+attr title "packet drop: lifetime expired, sum(packetBytes)"
+scalar wiredCase.DSTT.ipv4.ip packetDropNoInterfaceFound:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, count"
+scalar wiredCase.DSTT.ipv4.ip packetDropNoInterfaceFound:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, sum(packetBytes)"
+scalar wiredCase.DSTT.ipv4.ip packetDropNoRouteFound:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, count"
+scalar wiredCase.DSTT.ipv4.ip packetDropNoRouteFound:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, sum(packetBytes)"
+scalar wiredCase.DSTT.ipv4.ip packetDropUndefined:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, count"
+scalar wiredCase.DSTT.ipv4.ip packetDropUndefined:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, sum(packetBytes)"
+par wiredCase.DSTT.ipv4.arp typename "\"inet.networklayer.arp.ipv4.GlobalArp\""
+par wiredCase.DSTT.ipv4.arp interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ipv4.arp addressType "\"ipv4\""
+attr enum ipv4,ipv6,mac,moduleid,modulepath
+par wiredCase.DSTT.ipv4.lp typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.ipv4.lp displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.ipv4.lp forwardServiceRegistration true
+par wiredCase.DSTT.ipv4.lp forwardProtocolRegistration true
+par wiredCase.DSTT.ipv4 typename "\"inet.networklayer.ipv4.Ipv4NetworkLayer\""
+par wiredCase.DSTT.ipv4 forwarding true
+par wiredCase.DSTT.ipv4 multicastForwarding false
+par wiredCase.DSTT.ipv4 hasIpsec false
+par wiredCase.DSTT.ipv4 interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.ipv4 displayStringTextFormat "\"%i\""
+par wiredCase.DSTT.nl typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.nl displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.nl forwardServiceRegistration true
+par wiredCase.DSTT.nl forwardProtocolRegistration true
+par wiredCase.DSTT.udp typename "\"inet.transportlayer.udp.Udp\""
+par wiredCase.DSTT.udp interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.udp icmpModule "\"^.ipv4.icmp\""
+par wiredCase.DSTT.udp icmpv6Module "\"^.ipv6.icmpv6\""
+par wiredCase.DSTT.udp crcMode "\"declared\""
+attr enum disabled,declared,computed
+par wiredCase.DSTT.udp defaultMulticastLoop true
+scalar wiredCase.DSTT.udp packetReceived:count 3
+attr interpolationmode none
+attr recordingmode count
+attr source packetReceived
+attr title "packets received, count"
+scalar wiredCase.DSTT.udp packetReceived:sum(packetBytes) 176
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetReceived
+attr title "packets received, sum(packetBytes)"
+scalar wiredCase.DSTT.udp packetSent:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source packetSent
+attr title "packets sent, count"
+scalar wiredCase.DSTT.udp packetSent:sum(packetBytes) 62
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSent
+attr title "packets sent, sum(packetBytes)"
+scalar wiredCase.DSTT.udp passedUpPk:count 3
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToUpper
+attr title "packets passed up, count"
+scalar wiredCase.DSTT.udp droppedPkWrongPort:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+scalar wiredCase.DSTT.udp droppedPkBadChecksum:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+par wiredCase.DSTT.tn typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.tn displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.tn forwardServiceRegistration true
+par wiredCase.DSTT.tn forwardProtocolRegistration true
+par wiredCase.DSTT.at typename "\"inet.common.MessageDispatcher\""
+par wiredCase.DSTT.at displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.DSTT.at forwardServiceRegistration true
+par wiredCase.DSTT.at forwardProtocolRegistration true
+par wiredCase.DSTT.gptp typename "\"src.gPTP.Gptp5g\""
+par wiredCase.DSTT.gptp clockModule "\"wiredCase.DSTT.clock\""
+par wiredCase.DSTT.gptp interfaceTableModule "\"wiredCase.DSTT.interfaceTable\""
+par wiredCase.DSTT.gptp gptpNodeType "\"SLAVE_NODE\""
+par wiredCase.DSTT.gptp domainNumber 0
+par wiredCase.DSTT.gptp slavePort "\"eth0\""
+par wiredCase.DSTT.gptp masterPorts []
+par wiredCase.DSTT.gptp correctionField 0s
+attr unit s
+par wiredCase.DSTT.gptp syncInterval 0.125s
+attr unit s
+par wiredCase.DSTT.gptp pdelayInterval 1s
+attr unit s
+par wiredCase.DSTT.gptp syncInitialOffset 0.125s
+attr unit s
+par wiredCase.DSTT.gptp pdelayInitialOffset 0s
+attr unit s
+par wiredCase.DSTT.gptp pDelayReqProcessingTime 8e-06s
+attr unit s
+par wiredCase.DSTT.gptp followUpInterval 7e-06s
+attr unit s
+par wiredCase.DSTT.gptp TT true
+par wiredCase.DSTT.gptp ipNIC "\"eth0\""
+par wiredCase.DSTT.gptp dAddress "\"NSTT\""
+par wiredCase.DSTT.gptp destPort 9000
+par wiredCase.DSTT.gptp localPort 9000
+par wiredCase.DSTT typename "\"src.TT\""
+par wiredCase.DSTT hasStatus false
+par wiredCase.DSTT osgModel "\"\""
+par wiredCase.DSTT osgModelColor "\"\""
+par wiredCase.DSTT canvasImage "\"\""
+par wiredCase.DSTT canvasImageColor "\"\""
+par wiredCase.DSTT recordPcap false
+par wiredCase.DSTT numPcapRecorders 0
+par wiredCase.DSTT numLoInterfaces 1
+par wiredCase.DSTT numWlanInterfaces 0
+par wiredCase.DSTT numEthInterfaces 0
+par wiredCase.DSTT numPppInterfaces 0
+par wiredCase.DSTT numTunInterfaces 0
+par wiredCase.DSTT numVirtInterfaces 0
+par wiredCase.DSTT fcsMode "\"declared\""
+attr enum declared,computed
+par wiredCase.DSTT hasIpv4 true
+par wiredCase.DSTT hasIpv6 false
+par wiredCase.DSTT hasGn false
+par wiredCase.DSTT forwarding true
+par wiredCase.DSTT multicastForwarding false
+par wiredCase.DSTT hasUdp true
+par wiredCase.DSTT hasTcp false
+par wiredCase.DSTT hasSctp false
+par wiredCase.DSTT numApps 0
+par wiredCase.DSTT hasEigrp false
+par wiredCase.DSTT hasOspf false
+par wiredCase.DSTT hasRip false
+par wiredCase.DSTT hasBgp false
+par wiredCase.DSTT hasPim false
+par wiredCase.DSTT hasDhcp false
+par wiredCase.DSTT hasTimeSynchronization true
+par wiredCase.NSTT.ethg$i[0].channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.eth[0].phys$o.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.clock.oscillator typename "\"inet.clock.oscillator.ConstantDriftOscillator\""
+par wiredCase.NSTT.clock.oscillator displayStringTextFormat "\"%c (%n + %d)\""
+par wiredCase.NSTT.clock.oscillator nominalTickLength 0s
+attr unit s
+par wiredCase.NSTT.clock.oscillator tickOffset 0s
+attr unit s
+par wiredCase.NSTT.clock.oscillator driftRate 0ppm
+attr unit ppm
+par wiredCase.NSTT.clock typename "\"inet.clock.model.SettableClock\""
+par wiredCase.NSTT.clock displayStringTextFormat "\"diff: %d\""
+par wiredCase.NSTT.clock referenceClock "\"NSTT.clock\""
+par wiredCase.NSTT.clock emitClockTimeInterval 0s
+attr unit s
+par wiredCase.NSTT.clock initialClockTime 0s
+attr unit s
+par wiredCase.NSTT.clock roundingMode "\"up\""
+attr enum down,up,closer,none
+par wiredCase.NSTT.clock defaultOverdueClockEventHandlingMode "\"execute\""
+attr enum execute,skip,error
+par wiredCase.NSTT.interfaceTable typename "\"inet.networklayer.common.InterfaceTable\""
+par wiredCase.NSTT.interfaceTable displayAddresses false
+par wiredCase.NSTT.cb typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.cb displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.cb forwardServiceRegistration true
+par wiredCase.NSTT.cb forwardProtocolRegistration true
+par wiredCase.NSTT.bl typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.bl displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.bl forwardServiceRegistration true
+par wiredCase.NSTT.bl forwardProtocolRegistration true
+par wiredCase.NSTT.ethernet typename "\"inet.linklayer.ethernet.basic.EthernetEncapsulation\""
+par wiredCase.NSTT.ethernet registerProtocol true
+par wiredCase.NSTT.ethernet interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ethernet fcsMode "\"declared\""
+attr enum declared,computed
+par wiredCase.NSTT.ethernet stopOperationExtraTime -1s
+attr unit s
+par wiredCase.NSTT.ethernet stopOperationTimeout 2s
+attr unit s
+scalar wiredCase.NSTT.ethernet pauseSent:count 0
+attr recordingmode count
+attr title "pause sent, count"
+scalar wiredCase.NSTT.ethernet pauseSent:sum 0
+attr recordingmode sum
+attr title "pause sent, sum"
+scalar wiredCase.NSTT.ethernet decapPk:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source decapPk
+attr title "packets decapsulated, count"
+scalar wiredCase.NSTT.ethernet decapPk:sum(packetBytes) 82
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source decapPk
+attr title "packets decapsulated, sum(packetBytes)"
+scalar wiredCase.NSTT.ethernet encapPk:count 4
+attr interpolationmode none
+attr recordingmode count
+attr source encapPk
+attr title "packets encapsulated, count"
+scalar wiredCase.NSTT.ethernet encapPk:sum(packetBytes) 340
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source encapPk
+attr title "packets encapsulated, sum(packetBytes)"
+par wiredCase.NSTT.li typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.li displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.li forwardServiceRegistration true
+par wiredCase.NSTT.li forwardProtocolRegistration true
+par wiredCase.NSTT.lo[0].upperLayerIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.lo[0].lo.upperLayerOut.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.lo[0].lo typename "\"inet.linklayer.loopback.Loopback\""
+par wiredCase.NSTT.lo[0].lo interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.lo[0].lo mtu 4470B
+attr unit B
+scalar wiredCase.NSTT.lo[0].lo rcvdPkFromHl:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, count"
+scalar wiredCase.NSTT.lo[0].lo rcvdPkFromHl:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, sum(packetBytes)"
+scalar wiredCase.NSTT.lo[0].lo passedUpPk:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToUpper
+attr title "packets passed to higher layer, count"
+scalar wiredCase.NSTT.lo[0].lo passedUpPk:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, sum(packetBytes)"
+par wiredCase.NSTT.lo[0] typename "\"inet.linklayer.loopback.LoopbackInterface\""
+par wiredCase.NSTT.lo[0] displayStringTextFormat "\"%a (%i)\\n%m\""
+par wiredCase.NSTT.lo[0] recordPcap false
+par wiredCase.NSTT.lo[0] numPcapRecorders 0
+par wiredCase.NSTT.lo[0] interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+scalar wiredCase.NSTT.lo[0] packetDropInterfaceDown:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, count"
+scalar wiredCase.NSTT.lo[0] packetDropInterfaceDown:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, sum(packetBytes)"
+scalar wiredCase.NSTT.lo[0] packetDropNoCarrier:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, count"
+scalar wiredCase.NSTT.lo[0] packetDropNoCarrier:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, sum(packetBytes)"
+par wiredCase.NSTT.eth[0].mac.phys$o.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.eth[0].phys$i.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.eth[0].upperLayerIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.eth[0].mac.upperLayerOut.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.eth[0].queue typename "\"inet.linklayer.ethernet.common.EthernetQueue\""
+par wiredCase.NSTT.eth[0].queue displayStringTextFormat "\"contains %p pk (%l) pushed %u\\npulled %o removed %r dropped %d\""
+par wiredCase.NSTT.eth[0].queue packetCapacity 1000
+par wiredCase.NSTT.eth[0].queue dataCapacity -1b
+attr unit b
+par wiredCase.NSTT.eth[0].queue dropperClass "\"inet::queueing::PacketAtCollectionEndDropper\""
+par wiredCase.NSTT.eth[0].queue comparatorClass "\"inet::EthernetFrameTypeComparator\""
+par wiredCase.NSTT.eth[0].queue bufferModule "\"\""
+scalar wiredCase.NSTT.eth[0].queue queueLength:last 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode last
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length, last"
+attr unit pk
+scalar wiredCase.NSTT.eth[0].queue queueLength:max 1
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode max
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length, max"
+attr unit pk
+scalar wiredCase.NSTT.eth[0].queue queueLength:timeavg 1.535997294863e-07
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode timeavg
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length, timeavg"
+attr unit pk
+scalar wiredCase.NSTT.eth[0].queue queueBitLength:last 0
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode last
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length, last"
+attr unit b
+scalar wiredCase.NSTT.eth[0].queue queueBitLength:max 976
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode max
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length, max"
+attr unit b
+scalar wiredCase.NSTT.eth[0].queue queueBitLength:timeavg 0.00013639655978383
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode timeavg
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length, timeavg"
+attr unit b
+statistic wiredCase.NSTT.eth[0].queue queueingTime:histogram
+field count 4
+field mean 4.8e-09
+field stddev 5.5425625842204e-09
+field min 0
+field max 9.6e-09
+field sum 1.92e-08
+field sqrsum 1.8432e-16
+attr interpolationmode none
+attr recordingmode histogram
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+bin	-inf	0
+bin	0	2
+bin	2e-10	0
+bin	4e-10	0
+bin	6e-10	0
+bin	8e-10	0
+bin	1e-09	0
+bin	1.2e-09	0
+bin	1.4e-09	0
+bin	1.6e-09	0
+bin	1.8e-09	0
+bin	2e-09	0
+bin	2.2e-09	0
+bin	2.4e-09	0
+bin	2.6e-09	0
+bin	2.8e-09	0
+bin	3e-09	0
+bin	3.2e-09	0
+bin	3.4e-09	0
+bin	3.6e-09	0
+bin	3.8e-09	0
+bin	4e-09	0
+bin	4.2e-09	0
+bin	4.4e-09	0
+bin	4.6e-09	0
+bin	4.8e-09	0
+bin	5e-09	0
+bin	5.2e-09	0
+bin	5.4e-09	0
+bin	5.6e-09	0
+bin	5.8e-09	0
+bin	6e-09	0
+bin	6.2e-09	0
+bin	6.4e-09	0
+bin	6.6e-09	0
+bin	6.8e-09	0
+bin	7e-09	0
+bin	7.2e-09	0
+bin	7.4e-09	0
+bin	7.6e-09	0
+bin	7.8e-09	0
+bin	8e-09	0
+bin	8.2e-09	0
+bin	8.4e-09	0
+bin	8.6e-09	0
+bin	8.8e-09	0
+bin	9e-09	0
+bin	9.2e-09	0
+bin	9.4e-09	2
+bin	9.6e-09	0
+bin	9.8e-09	0
+bin	1e-08	0
+bin	1.02e-08	0
+bin	1.04e-08	0
+bin	1.06e-08	0
+bin	1.08e-08	0
+bin	1.1e-08	0
+bin	1.12e-08	0
+bin	1.14e-08	0
+bin	1.16e-08	0
+bin	1.18e-08	0
+bin	1.2e-08	0
+scalar wiredCase.NSTT.eth[0].queue outgoingPackets:count 4
+attr recordingmode count
+attr source packetPulled
+attr title "outgoing packets, count"
+attr unit pk
+scalar wiredCase.NSTT.eth[0].queue outgoingPacketLengths:sum 3296
+attr interpolationmode none
+attr recordingmode sum
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths, sum"
+attr unit b
+statistic wiredCase.NSTT.eth[0].queue outgoingPacketLengths:histogram
+field count 4
+field mean 824
+field stddev 108.1233863078
+field min 720
+field max 976
+field sum 3296
+field sqrsum 2750976
+attr interpolationmode none
+attr recordingmode histogram
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+bin	-inf	0
+bin	655	0
+bin	660	0
+bin	665	0
+bin	670	0
+bin	675	0
+bin	680	0
+bin	685	0
+bin	690	0
+bin	695	0
+bin	700	0
+bin	705	0
+bin	710	0
+bin	715	0
+bin	720	1
+bin	725	0
+bin	730	0
+bin	735	0
+bin	740	0
+bin	745	0
+bin	750	0
+bin	755	0
+bin	760	0
+bin	765	0
+bin	770	0
+bin	775	0
+bin	780	0
+bin	785	0
+bin	790	0
+bin	795	0
+bin	800	2
+bin	805	0
+bin	810	0
+bin	815	0
+bin	820	0
+bin	825	0
+bin	830	0
+bin	835	0
+bin	840	0
+bin	845	0
+bin	850	0
+bin	855	0
+bin	860	0
+bin	865	0
+bin	870	0
+bin	875	0
+bin	880	0
+bin	885	0
+bin	890	0
+bin	895	0
+bin	900	0
+bin	905	0
+bin	910	0
+bin	915	0
+bin	920	0
+bin	925	0
+bin	930	0
+bin	935	0
+bin	940	0
+bin	945	0
+bin	950	0
+bin	955	0
+bin	960	0
+bin	965	0
+bin	970	0
+bin	975	1
+bin	980	0
+bin	985	0
+bin	990	0
+bin	995	0
+bin	1000	0
+bin	1005	0
+bin	1010	0
+bin	1015	0
+bin	1020	0
+bin	1025	0
+bin	1030	0
+bin	1035	0
+bin	1040	0
+statistic wiredCase.NSTT.eth[0].queue flowQueueingTime:histogram
+field count 0
+field mean -nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
+attr interpolationmode none
+attr recordingmode histogram
+attr source queueingTime(demuxFlow(packetPulled))
+attr title "flow queueing times"
+attr unit s
+bin	-inf	0
+bin	0	0
+bin	1	0
+scalar wiredCase.NSTT.eth[0].queue incomingPackets:count 4
+attr recordingmode count
+attr source packetPushStarted
+attr title "incoming packets, count"
+attr unit pk
+scalar wiredCase.NSTT.eth[0].queue incomingPacketLengths:sum 3296
+attr interpolationmode none
+attr recordingmode sum
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths, sum"
+attr unit b
+statistic wiredCase.NSTT.eth[0].queue incomingPacketLengths:histogram
+field count 4
+field mean 824
+field stddev 108.1233863078
+field min 720
+field max 976
+field sum 3296
+field sqrsum 2750976
+attr interpolationmode none
+attr recordingmode histogram
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+bin	-inf	0
+bin	655	0
+bin	660	0
+bin	665	0
+bin	670	0
+bin	675	0
+bin	680	0
+bin	685	0
+bin	690	0
+bin	695	0
+bin	700	0
+bin	705	0
+bin	710	0
+bin	715	0
+bin	720	1
+bin	725	0
+bin	730	0
+bin	735	0
+bin	740	0
+bin	745	0
+bin	750	0
+bin	755	0
+bin	760	0
+bin	765	0
+bin	770	0
+bin	775	0
+bin	780	0
+bin	785	0
+bin	790	0
+bin	795	0
+bin	800	2
+bin	805	0
+bin	810	0
+bin	815	0
+bin	820	0
+bin	825	0
+bin	830	0
+bin	835	0
+bin	840	0
+bin	845	0
+bin	850	0
+bin	855	0
+bin	860	0
+bin	865	0
+bin	870	0
+bin	875	0
+bin	880	0
+bin	885	0
+bin	890	0
+bin	895	0
+bin	900	0
+bin	905	0
+bin	910	0
+bin	915	0
+bin	920	0
+bin	925	0
+bin	930	0
+bin	935	0
+bin	940	0
+bin	945	0
+bin	950	0
+bin	955	0
+bin	960	0
+bin	965	0
+bin	970	0
+bin	975	1
+bin	980	0
+bin	985	0
+bin	990	0
+bin	995	0
+bin	1000	0
+bin	1005	0
+bin	1010	0
+bin	1015	0
+bin	1020	0
+bin	1025	0
+bin	1030	0
+bin	1035	0
+bin	1040	0
+scalar wiredCase.NSTT.eth[0].queue droppedPacketsQueueOverflow:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsQueueOverflow(packetDropped)
+attr title "dropped packets: queue overflow, count"
+attr unit pk
+scalar wiredCase.NSTT.eth[0].queue droppedPacketLengthsQueueOverflow:sum 0
+attr interpolationmode none
+attr recordingmode sum
+attr source packetLength(packetDropReasonIsQueueOverflow(packetDropped))
+attr title "dropped packet lengths: queue overflow, sum"
+attr unit b
+par wiredCase.NSTT.eth[0].mac typename "\"inet.linklayer.ethernet.basic.EthernetMac\""
+par wiredCase.NSTT.eth[0].mac interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.eth[0].mac displayStringTextFormat "\"rate: %b\\nsent: %s, rcvd: %r\\nqueue: %q, drop: %d\""
+par wiredCase.NSTT.eth[0].mac sendRawBytes false
+par wiredCase.NSTT.eth[0].mac promiscuous false
+par wiredCase.NSTT.eth[0].mac duplexMode true
+par wiredCase.NSTT.eth[0].mac mtu 1500B
+attr unit B
+par wiredCase.NSTT.eth[0].mac fcsMode "\"declared\""
+attr enum declared,computed
+par wiredCase.NSTT.eth[0].mac stopOperationExtraTime -1s
+attr unit s
+par wiredCase.NSTT.eth[0].mac stopOperationTimeout 2s
+attr unit s
+scalar wiredCase.NSTT.eth[0].mac "simulated time" 0.125000220145
+scalar wiredCase.NSTT.eth[0].mac full-duplex 1
+scalar wiredCase.NSTT.eth[0].mac "frames/sec sent" 31.999943642979
+scalar wiredCase.NSTT.eth[0].mac "frames/sec rcvd" 7.9999859107448
+scalar wiredCase.NSTT.eth[0].mac "bits/sec sent" 26367.953561815
+scalar wiredCase.NSTT.eth[0].mac "bits/sec rcvd" 6399.9887285959
+scalar wiredCase.NSTT.eth[0].mac "rx channel idle (%)" 99.999930880122
+scalar wiredCase.NSTT.eth[0].mac "rx channel utilization (%)" 6.9119878268835e-05
+scalar wiredCase.NSTT.eth[0].mac rxPausePkUnits:count 0
+attr interpolationmode none
+attr recordingmode count
+attr title "pause units received, count"
+scalar wiredCase.NSTT.eth[0].mac rxPausePkUnits:sum 0
+attr interpolationmode none
+attr recordingmode sum
+attr title "pause units received, sum"
+scalar wiredCase.NSTT.eth[0].mac txPausePkUnits:count 0
+attr interpolationmode none
+attr recordingmode count
+attr title "pause units sent, count"
+scalar wiredCase.NSTT.eth[0].mac txPausePkUnits:sum 0
+attr interpolationmode none
+attr recordingmode sum
+attr title "pause units sent, sum"
+scalar wiredCase.NSTT.eth[0].mac rxPkOk:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source rxPkOk
+attr title "packets received OK, count"
+scalar wiredCase.NSTT.eth[0].mac rxPkOk:sum(packetBytes) 100
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, sum(packetBytes)"
+scalar wiredCase.NSTT.eth[0].mac txPk:count 4
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToLower
+attr title "packets transmitted, count"
+scalar wiredCase.NSTT.eth[0].mac txPk:sum(packetBytes) 412
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, sum(packetBytes)"
+scalar wiredCase.NSTT.eth[0].mac packetReceivedFromUpper:count 4
+attr interpolationmode none
+attr recordingmode count
+attr source packetReceivedFromUpper
+attr title "packet bytes from higher layer, count"
+scalar wiredCase.NSTT.eth[0].mac packetReceivedFromUpper:sum(packetBytes) 412
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packet bytes from higher layer, sum(packetBytes)"
+scalar wiredCase.NSTT.eth[0].mac passedUpPk:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToUpper
+attr title "packets passed to higher layer, count"
+scalar wiredCase.NSTT.eth[0].mac passedUpPk:sum(packetBytes) 100
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, sum(packetBytes)"
+scalar wiredCase.NSTT.eth[0].mac packetDropIncorrectlyReceived:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, count"
+scalar wiredCase.NSTT.eth[0].mac packetDropIncorrectlyReceived:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drop: incorrectly received, sum(packetBytes)"
+scalar wiredCase.NSTT.eth[0].mac packetDropInterfaceDown:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, count"
+scalar wiredCase.NSTT.eth[0].mac packetDropInterfaceDown:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drop: interface down, sum(packetBytes)"
+scalar wiredCase.NSTT.eth[0].mac packetDropNotAddressedToUs:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNotAddressedToUs(packetDropped)
+attr title "packet drop: not addressed to us, count"
+scalar wiredCase.NSTT.eth[0].mac packetDropNotAddressedToUs:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNotAddressedToUs(packetDropped)
+attr title "packet drop: not addressed to us, sum(packetBytes)"
+par wiredCase.NSTT.eth[0] typename "\"inet.linklayer.ethernet.EthernetInterface\""
+par wiredCase.NSTT.eth[0] displayStringTextFormat "\"%a (%i)\\n%m\""
+par wiredCase.NSTT.eth[0] recordPcap false
+par wiredCase.NSTT.eth[0] numPcapRecorders 0
+par wiredCase.NSTT.eth[0] interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.eth[0] protocol "\"ethernetmac\""
+par wiredCase.NSTT.eth[0] address "\"0A-AA-00-00-00-02\""
+attr mutable ""
+par wiredCase.NSTT.eth[0] duplexMode true
+par wiredCase.NSTT.eth[0] csmacdSupport false
+par wiredCase.NSTT.eth[0] bitrate 1e+10bps
+attr unit bps
+par wiredCase.NSTT.eth[0] fcsMode "\"declared\""
+attr enum declared,computed
+scalar wiredCase.NSTT.eth[0] packetDropInterfaceDown:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, count"
+scalar wiredCase.NSTT.eth[0] packetDropInterfaceDown:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsInterfaceDown(packetDropped)
+attr title "packet drops: interface down, sum(packetBytes)"
+scalar wiredCase.NSTT.eth[0] packetDropNoCarrier:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, count"
+scalar wiredCase.NSTT.eth[0] packetDropNoCarrier:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoCarrier(packetDropped)
+attr title "packet drops: no carrier, sum(packetBytes)"
+par wiredCase.NSTT.ipv4.transportIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.ipv4.up.out[0].channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.ipv4.lp.out[2].channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.ipv4.ifIn.channel typename "\"ned.IdealChannel\""
+par wiredCase.NSTT.ipv4.configurator typename "\"inet.networklayer.configurator.ipv4.Ipv4NodeConfigurator\""
+par wiredCase.NSTT.ipv4.configurator interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ipv4.configurator routingTableModule "\"wiredCase.NSTT.ipv4.routingTable\""
+par wiredCase.NSTT.ipv4.configurator networkConfiguratorModule "\"configurator\""
+par wiredCase.NSTT.ipv4.configurator configureRoutingTable true
+par wiredCase.NSTT.ipv4.routingTable typename "\"inet.networklayer.ipv4.Ipv4RoutingTable\""
+par wiredCase.NSTT.ipv4.routingTable interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ipv4.routingTable routerId "\"auto\""
+par wiredCase.NSTT.ipv4.routingTable netmaskRoutes "\"*\""
+par wiredCase.NSTT.ipv4.routingTable forwarding true
+par wiredCase.NSTT.ipv4.routingTable multicastForwarding false
+par wiredCase.NSTT.ipv4.routingTable useAdminDist false
+par wiredCase.NSTT.ipv4.routingTable routingFile "\"\""
+par wiredCase.NSTT.ipv4.natTable typename "\"inet.networklayer.ipv4.Ipv4NatTable\""
+par wiredCase.NSTT.ipv4.natTable networkProtocolModule "\"^.ip\""
+par wiredCase.NSTT.ipv4.natTable config "<config/> at content:1"
+par wiredCase.NSTT.ipv4.up typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.ipv4.up displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.ipv4.up forwardServiceRegistration true
+par wiredCase.NSTT.ipv4.up forwardProtocolRegistration true
+par wiredCase.NSTT.ipv4.igmp typename "\"inet.networklayer.ipv4.Igmpv2\""
+par wiredCase.NSTT.ipv4.igmp interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ipv4.igmp routingTableModule "\"wiredCase.NSTT.ipv4.routingTable\""
+par wiredCase.NSTT.ipv4.igmp crcMode "\"declared\""
+attr enum declared,computed
+par wiredCase.NSTT.ipv4.igmp enabled true
+par wiredCase.NSTT.ipv4.igmp robustnessVariable 2
+par wiredCase.NSTT.ipv4.igmp queryInterval 125s
+attr unit s
+par wiredCase.NSTT.ipv4.igmp queryResponseInterval 10s
+attr unit s
+par wiredCase.NSTT.ipv4.igmp groupMembershipInterval 260s
+attr unit s
+par wiredCase.NSTT.ipv4.igmp otherQuerierPresentInterval 255s
+attr unit s
+par wiredCase.NSTT.ipv4.igmp startupQueryInterval 31.25s
+attr unit s
+par wiredCase.NSTT.ipv4.igmp startupQueryCount 2
+par wiredCase.NSTT.ipv4.igmp lastMemberQueryInterval 1s
+attr unit s
+par wiredCase.NSTT.ipv4.igmp lastMemberQueryCount 2
+par wiredCase.NSTT.ipv4.igmp unsolicitedReportInterval 10s
+attr unit s
+par wiredCase.NSTT.ipv4.icmp typename "\"inet.networklayer.ipv4.Icmp\""
+par wiredCase.NSTT.ipv4.icmp interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ipv4.icmp routingTableModule "\"wiredCase.NSTT.ipv4.routingTable\""
+par wiredCase.NSTT.ipv4.icmp crcMode "\"declared\""
+attr enum declared,computed
+attr mutable ""
+par wiredCase.NSTT.ipv4.icmp quoteLength 8B
+attr mutable ""
+attr unit B
+par wiredCase.NSTT.ipv4.mp typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.ipv4.mp displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.ipv4.mp forwardServiceRegistration true
+par wiredCase.NSTT.ipv4.mp forwardProtocolRegistration true
+par wiredCase.NSTT.ipv4.ip typename "\"inet.networklayer.ipv4.Ipv4\""
+par wiredCase.NSTT.ipv4.ip interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ipv4.ip routingTableModule "\"wiredCase.NSTT.ipv4.routingTable\""
+par wiredCase.NSTT.ipv4.ip arpModule "\"wiredCase.NSTT.ipv4.arp\""
+par wiredCase.NSTT.ipv4.ip icmpModule "\"wiredCase.NSTT.ipv4.icmp\""
+par wiredCase.NSTT.ipv4.ip crcMode "\"declared\""
+attr enum declared,computed
+par wiredCase.NSTT.ipv4.ip timeToLive 32
+par wiredCase.NSTT.ipv4.ip multicastTimeToLive 32
+par wiredCase.NSTT.ipv4.ip fragmentTimeout 60s
+attr unit s
+par wiredCase.NSTT.ipv4.ip limitedBroadcast false
+par wiredCase.NSTT.ipv4.ip directBroadcastInterfaces "\"\""
+par wiredCase.NSTT.ipv4.ip enableLocalOutMulticastRouting false
+par wiredCase.NSTT.ipv4.ip enableTimestampOption false
+par wiredCase.NSTT.ipv4.ip maxLifetime -1s
+attr unit s
+scalar wiredCase.NSTT.ipv4.ip packetDropAddressResolutionFailed:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, count"
+scalar wiredCase.NSTT.ipv4.ip packetDropAddressResolutionFailed:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, sum(packetBytes)"
+scalar wiredCase.NSTT.ipv4.ip packetDropHopLimitReached:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, count"
+scalar wiredCase.NSTT.ipv4.ip packetDropHopLimitReached:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsHopLimitReached(packetDropped)
+attr title "packet drop: hop limit reached, sum(packetBytes)"
+scalar wiredCase.NSTT.ipv4.ip packetDropForwardingDisabled:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, count"
+scalar wiredCase.NSTT.ipv4.ip packetDropForwardingDisabled:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsForwardingDisabled(packetDropped)
+attr title "packet drop: forwarding disabled, sum(packetBytes)"
+scalar wiredCase.NSTT.ipv4.ip packetDropLifetimeExpired:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsLifetimeExpired(packetDropped)
+attr title "packet drop: lifetime expired, count"
+scalar wiredCase.NSTT.ipv4.ip packetDropLifetimeExpired:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsLifetimeExpired(packetDropped)
+attr title "packet drop: lifetime expired, sum(packetBytes)"
+scalar wiredCase.NSTT.ipv4.ip packetDropNoInterfaceFound:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, count"
+scalar wiredCase.NSTT.ipv4.ip packetDropNoInterfaceFound:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoInterfaceFound(packetDropped)
+attr title "packet drop: no interface found, sum(packetBytes)"
+scalar wiredCase.NSTT.ipv4.ip packetDropNoRouteFound:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, count"
+scalar wiredCase.NSTT.ipv4.ip packetDropNoRouteFound:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsNoRouteFound(packetDropped)
+attr title "packet drop: no route found, sum(packetBytes)"
+scalar wiredCase.NSTT.ipv4.ip packetDropUndefined:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, count"
+scalar wiredCase.NSTT.ipv4.ip packetDropUndefined:sum(packetBytes) 0
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetDropReasonIsUndefined(packetDropped)
+attr title "packet drop: undefined, sum(packetBytes)"
+par wiredCase.NSTT.ipv4.arp typename "\"inet.networklayer.arp.ipv4.GlobalArp\""
+par wiredCase.NSTT.ipv4.arp interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ipv4.arp addressType "\"ipv4\""
+attr enum ipv4,ipv6,mac,moduleid,modulepath
+par wiredCase.NSTT.ipv4.lp typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.ipv4.lp displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.ipv4.lp forwardServiceRegistration true
+par wiredCase.NSTT.ipv4.lp forwardProtocolRegistration true
+par wiredCase.NSTT.ipv4 typename "\"inet.networklayer.ipv4.Ipv4NetworkLayer\""
+par wiredCase.NSTT.ipv4 forwarding true
+par wiredCase.NSTT.ipv4 multicastForwarding false
+par wiredCase.NSTT.ipv4 hasIpsec false
+par wiredCase.NSTT.ipv4 interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.ipv4 displayStringTextFormat "\"%i\""
+par wiredCase.NSTT.nl typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.nl displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.nl forwardServiceRegistration true
+par wiredCase.NSTT.nl forwardProtocolRegistration true
+par wiredCase.NSTT.udp typename "\"inet.transportlayer.udp.Udp\""
+par wiredCase.NSTT.udp interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.udp icmpModule "\"^.ipv4.icmp\""
+par wiredCase.NSTT.udp icmpv6Module "\"^.ipv6.icmpv6\""
+par wiredCase.NSTT.udp crcMode "\"declared\""
+attr enum disabled,declared,computed
+par wiredCase.NSTT.udp defaultMulticastLoop true
+scalar wiredCase.NSTT.udp packetReceived:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source packetReceived
+attr title "packets received, count"
+scalar wiredCase.NSTT.udp packetReceived:sum(packetBytes) 62
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetReceived
+attr title "packets received, sum(packetBytes)"
+scalar wiredCase.NSTT.udp packetSent:count 4
+attr interpolationmode none
+attr recordingmode count
+attr source packetSent
+attr title "packets sent, count"
+scalar wiredCase.NSTT.udp packetSent:sum(packetBytes) 260
+attr interpolationmode none
+attr recordingmode sum(packetBytes)
+attr source packetSent
+attr title "packets sent, sum(packetBytes)"
+scalar wiredCase.NSTT.udp passedUpPk:count 1
+attr interpolationmode none
+attr recordingmode count
+attr source packetSentToUpper
+attr title "packets passed up, count"
+scalar wiredCase.NSTT.udp droppedPkWrongPort:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+scalar wiredCase.NSTT.udp droppedPkBadChecksum:count 0
+attr interpolationmode none
+attr recordingmode count
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+par wiredCase.NSTT.tn typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.tn displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.tn forwardServiceRegistration true
+par wiredCase.NSTT.tn forwardProtocolRegistration true
+par wiredCase.NSTT.at typename "\"inet.common.MessageDispatcher\""
+par wiredCase.NSTT.at displayStringTextFormat "\"processed %p pk (%l)\""
+par wiredCase.NSTT.at forwardServiceRegistration true
+par wiredCase.NSTT.at forwardProtocolRegistration true
+par wiredCase.NSTT.gptp typename "\"src.gPTP.Gptp5g\""
+par wiredCase.NSTT.gptp clockModule "\"wiredCase.NSTT.clock\""
+par wiredCase.NSTT.gptp interfaceTableModule "\"wiredCase.NSTT.interfaceTable\""
+par wiredCase.NSTT.gptp gptpNodeType "\"MASTER_NODE\""
+par wiredCase.NSTT.gptp domainNumber 0
+par wiredCase.NSTT.gptp slavePort "\"\""
+par wiredCase.NSTT.gptp masterPorts "[\"eth0\"]"
+par wiredCase.NSTT.gptp correctionField 0s
+attr unit s
+par wiredCase.NSTT.gptp syncInterval 0.125s
+attr unit s
+par wiredCase.NSTT.gptp pdelayInterval 1s
+attr unit s
+par wiredCase.NSTT.gptp syncInitialOffset 0.125s
+attr unit s
+par wiredCase.NSTT.gptp pdelayInitialOffset 0s
+attr unit s
+par wiredCase.NSTT.gptp pDelayReqProcessingTime 8e-06s
+attr unit s
+par wiredCase.NSTT.gptp followUpInterval 7e-06s
+attr unit s
+par wiredCase.NSTT.gptp TT true
+par wiredCase.NSTT.gptp ipNIC "\"eth0\""
+par wiredCase.NSTT.gptp dAddress "\"DSTT\""
+par wiredCase.NSTT.gptp destPort 9000
+par wiredCase.NSTT.gptp localPort 9000
+par wiredCase.NSTT typename "\"src.TT\""
+par wiredCase.NSTT hasStatus false
+par wiredCase.NSTT osgModel "\"\""
+par wiredCase.NSTT osgModelColor "\"\""
+par wiredCase.NSTT canvasImage "\"\""
+par wiredCase.NSTT canvasImageColor "\"\""
+par wiredCase.NSTT recordPcap false
+par wiredCase.NSTT numPcapRecorders 0
+par wiredCase.NSTT numLoInterfaces 1
+par wiredCase.NSTT numWlanInterfaces 0
+par wiredCase.NSTT numEthInterfaces 0
+par wiredCase.NSTT numPppInterfaces 0
+par wiredCase.NSTT numTunInterfaces 0
+par wiredCase.NSTT numVirtInterfaces 0
+par wiredCase.NSTT fcsMode "\"declared\""
+attr enum declared,computed
+par wiredCase.NSTT hasIpv4 true
+par wiredCase.NSTT hasIpv6 false
+par wiredCase.NSTT hasGn false
+par wiredCase.NSTT forwarding true
+par wiredCase.NSTT multicastForwarding false
+par wiredCase.NSTT hasUdp true
+par wiredCase.NSTT hasTcp false
+par wiredCase.NSTT hasSctp false
+par wiredCase.NSTT numApps 0
+par wiredCase.NSTT hasEigrp false
+par wiredCase.NSTT hasOspf false
+par wiredCase.NSTT hasRip false
+par wiredCase.NSTT hasBgp false
+par wiredCase.NSTT hasPim false
+par wiredCase.NSTT hasDhcp false
+par wiredCase.NSTT hasTimeSynchronization true
+par wiredCase typename "\"simulation.wiredCase\""
+par wiredCase recordPcap false
+par wiredCase numPcapRecorders 0
+par wiredCase hasGlobalArp true
+

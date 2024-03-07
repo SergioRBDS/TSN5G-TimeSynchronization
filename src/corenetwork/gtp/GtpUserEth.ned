@@ -13,12 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package src.stack;
+package src.corenetwork.gtp;
 
-import simu5g.stack.NRNicUe;
+import simu5g.corenetwork.gtp.GtpUser;
 
-module NRNicUe2 extends NRNicUe{
-	parameters:
-	    NRMacType = default("NRMacUe2");
+simple GtpUserEth extends GtpUser{ // gtp q usa ethernet
+    @class(GtpUserEth);
+    string arpModule = default(absPath(".^.ipv4.arp"));
+    ipOutInterface = default("ethIf");
 }
-

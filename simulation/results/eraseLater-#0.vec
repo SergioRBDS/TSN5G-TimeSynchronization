@@ -1,0 +1,412 @@
+version 3
+run eraseLater-0-20240305-17:21:16-43357
+attr configname eraseLater
+attr datetime 20240305-17:21:16
+attr datetimef 20240305-172116
+attr experiment eraseLater
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsd ""
+attr iterationvarsf ""
+attr measurement ""
+attr network wiredCase
+attr processid 43357
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+config image-path ../../inet/images:../../Simu5G/images
+config network wiredCase
+config *.iN*.hasTimeSynchronization false
+config **.hasTimeSynchronization true
+config **.referenceClock "\"NSTT.clock\""
+config *.switch*.gptp.masterPorts "[\"eth1\"]"
+config *.switch*.gptp.slavePort "\"eth0\""
+config *.iN*.gptp.masterPorts "[\"eth1\"]"
+config *.iN*.gptp.slavePort "\"eth0\""
+config *.NSTT.gptp.typename Gptp5g
+config *.NSTT.gptp.gptpNodeType "\"MASTER_NODE\""
+config *.NSTT.gptp.masterPorts "[\"eth0\"]"
+config *.NSTT.gptp.slavePort "\"\""
+config *.NSTT.gptp.dAddress "\"DSTT\""
+config *.NSTT.gptp.ipNIC "\"eth0\""
+config *.DSTT.gptp.typename Gptp5g
+config *.DSTT.gptp.gptpNodeType "\"SLAVE_NODE\""
+config *.DSTT.gptp.slavePort "\"eth0\""
+config *.DSTT.gptp.dAddress "\"NSTT\""
+config *.DSTT.gptp.ipNIC "\"eth0\""
+config *.visualizer.typename IntegratedMultiCanvasVisualizer
+config *.visualizer.numInfoVisualizers 4
+config *.visualizer.infoVisualizer[0].modules "\"*.DSTT.clock\""
+config *.visualizer.infoVisualizer[0].placementHint "\"top\""
+config *.DSTT.clock.displayStringTextFormat "\"diff: %d\""
+config *.visualizer.infoVisualizer[1].modules "\"*.NSTT.clock\""
+config *.visualizer.infoVisualizer[1].placementHint "\"left\""
+config *.NSTT.clock.displayStringTextFormat "\"diff: %d\""
+config *.visualizer.infoVisualizer[2].modules "\"*.switch*.clock\""
+config *.visualizer.infoVisualizer[2].placementHint "\"bottom\""
+config *.switch*.clock.displayStringTextFormat "\"diff: %d\""
+config *.visualizer.infoVisualizer[3].modules "\"*.endHost.clock\""
+config *.visualizer.infoVisualizer[3].placementHint "\"bottom\""
+config *.endHost.clock.displayStringTextFormat "\"time: %T\""
+config network UseCase
+config **.eth[*].bitrate 10Gbps
+config **.eth*.bitrate 10Gbps
+config **.mobility.typename ""
+config *.ue.macCellId 0
+config *.ue.masterId 0
+config *.ue.nrMacCellId 1
+config *.ue.nrMasterId 1
+config *.ue.intHostAddress "\"TsnDS DSTT\""
+
+vector 0 wiredCase.DSTT.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 1 wiredCase.DSTT.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 2 wiredCase.DSTT.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 3 wiredCase.DSTT.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 4 wiredCase.DSTT.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 5 wiredCase.NSTT.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 6 wiredCase.NSTT.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 7 wiredCase.NSTT.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 8 wiredCase.NSTT.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 9 wiredCase.NSTT.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 10 wiredCase.DSTT.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 11 wiredCase.NSTT.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 12 wiredCase.DSTT.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 13 wiredCase.DSTT.ethernet encapPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source encapPk
+attr title "packets encapsulated, packetBytes"
+vector 14 wiredCase.DSTT.eth[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 15 wiredCase.DSTT.eth[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 16 wiredCase.DSTT.eth[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 17 wiredCase.DSTT.eth[0].mac packetReceivedFromUpper:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packet bytes from higher layer, packetBytes"
+0	0	0	0
+0	0	0	0
+0	0	0	0
+0	0	0	0
+0	0	0	0
+0	9	0	0
+1	0	0	0
+1	0	0	0
+1	0	0	0
+1	0	0	0
+1	0	0	0
+1	9	0	0
+2	0	0	0
+3	0	0	0
+4	0	0	0
+5	0	0	0
+5	0	0	0
+5	0	0	0
+5	0	0	0
+5	0	0	0
+6	0	0	0
+6	0	0	0
+6	0	0	0
+6	0	0	0
+6	0	0	0
+7	0	0	0
+8	0	0	0
+9	0	0	0
+10	0	0	0
+11	0	0	0
+12	5	0	62
+13	8	0	82
+14	9	0	800
+15	9	0	0
+16	9	0	800
+17	9	0	100
+vector 18 wiredCase.DSTT.eth[0].mac txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 19 wiredCase.NSTT.eth[0].mac rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 20 wiredCase.NSTT.eth[0].mac passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 21 wiredCase.NSTT.ethernet decapPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source decapPk
+attr title "packets decapsulated, packetBytes"
+vector 22 wiredCase.NSTT.udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 23 wiredCase.NSTT.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 24 wiredCase.NSTT.ethernet encapPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source encapPk
+attr title "packets encapsulated, packetBytes"
+vector 25 wiredCase.NSTT.eth[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 26 wiredCase.NSTT.eth[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 27 wiredCase.NSTT.eth[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 28 wiredCase.NSTT.eth[0].mac packetReceivedFromUpper:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packet bytes from higher layer, packetBytes"
+5	21	0.0000081364	0
+6	21	0.0000081364	0
+7	15	0.0000001364	1
+18	10	0.0000000864	100
+19	12	0.0000001364	100
+20	12	0.0000001364	100
+21	13	0.0000001364	82
+22	15	0.0000001364	62
+23	18	0.0000081364	62
+24	20	0.0000081364	82
+25	21	0.0000081364	800
+26	21	0.0000081364	0
+27	21	0.0000081364	800
+28	21	0.0000081364	100
+vector 29 wiredCase.NSTT.eth[0].mac txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 30 wiredCase.DSTT.eth[0].mac rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 31 wiredCase.DSTT.eth[0].mac passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 32 wiredCase.DSTT.ethernet decapPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source decapPk
+attr title "packets decapsulated, packetBytes"
+vector 33 wiredCase.DSTT.udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 34 wiredCase.DSTT.gptp peerDelay:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 35 wiredCase.NSTT.eth[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 36 wiredCase.NSTT.eth[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+2	31	0.0000082728	1
+2	38	0.0000083688	2
+5	26	0.0000082228	1
+5	27	0.0000082324	0
+5	44	0.125	0
+6	26	0.0000082228	800
+6	27	0.0000082324	0
+6	44	0.125	0
+23	23	0.0000082228	62
+23	41	0.125	52
+24	25	0.0000082228	82
+24	43	0.125	72
+25	26	0.0000082228	800
+25	44	0.125	720
+26	27	0.0000082324	9.6e-09
+26	44	0.125	0
+27	27	0.0000082324	800
+27	44	0.125	720
+28	27	0.0000082324	100
+28	44	0.125	90
+29	22	0.0000082228	100
+29	33	0.0000083188	100
+30	28	0.0000082728	100
+30	35	0.0000083688	100
+31	28	0.0000082728	100
+31	35	0.0000083688	100
+32	29	0.0000082728	82
+32	36	0.0000083688	82
+33	31	0.0000082728	62
+33	38	0.0000083688	62
+34	39	0.0000083688	5e-08
+35	44	0.100008258437	16000
+36	44	0.100008258437	16000
+2	54	0.1250001284	3
+5	49	0.1250000784	1
+5	50	0.125000088	0
+6	49	0.1250000784	976
+6	50	0.125000088	0
+23	46	0.1250000784	84
+24	48	0.1250000784	104
+25	49	0.1250000784	976
+26	50	0.125000088	9.6e-09
+27	50	0.125000088	976
+28	50	0.125000088	122
+29	45	0.1250000784	90
+29	56	0.125000192	122
+30	51	0.1250001284	90
+31	51	0.1250001284	90
+32	52	0.1250001284	72
+33	54	0.1250001284	52
+vector 37 wiredCase.DSTT.eth[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 38 wiredCase.DSTT.eth[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 39 wiredCase.DSTT.eth[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 40 wiredCase.DSTT.eth[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+vector 41 wiredCase.NSTT.eth[0].queue flowOutgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPulled)))
+attr title "flow specific outgoing data rate"
+attr unit bps
+vector 42 wiredCase.NSTT.eth[0].queue flowIncomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(flowPacketLength(demuxFlow(packetPushStarted)))
+attr title "flow specific incoming data rate"
+attr unit bps
+10	57	0.125000220145	0.125000220145
+11	57	0.125000220145	0.125000220145
+35	57	0.125000220145	67861.819724904
+36	57	0.125000220145	67861.819724904
+37	57	0.100008258437	8000
+37	57	0.125000220145	0
+38	57	0.100008258437	0
+38	57	0.125000220145	0
+39	57	0.100008258437	8000
+39	57	0.125000220145	0
+40	57	0.100008258437	0
+40	57	0.125000220145	0
+41	57	0.100008258437	0
+41	57	0.125000220145	0
+42	57	0.100008258437	0
+42	57	0.125000220145	0
+

@@ -21,8 +21,10 @@ import inet.node.ethernet.Eth10G;
 import inet.node.tsn.TsnDevice;
 import inet.node.tsn.TsnSwitch;
 
+import inet.networks.base.TsnNetworkBase;
 //import inet.linklayer.configurator.MacForwardingTableConfigurator;
 
+import ned.IdealChannel;
 import simu5g.nodes.NR.NRUe;
 import simu5g.nodes.NR.gNodeB;
 import simu5g.nodes.Upf;
@@ -33,42 +35,27 @@ import src.gNBEth;
 import src.UpfEth;
 import src.TT;
 
-network UseCase extends FiveGNetworkBase
+network wiredCase extends TsnNetworkBase
 {
     parameters:
+        int numIntDevices = default(0);
         **.ipv4.arp.typename = "GlobalArp";
         @display("bgb=1569.2401,739.2138");
     submodules:
-        upf: UpfEth {
-            @display("p=1112.8975,426.67624");
+        DSTT: TT {
+            @display("p=509.25873,220.21999");
         }
-        gNB: gNBEth {
-            @display("p=985.0912,426.67624");
+        NSTT: TT {
+            @display("p=1384.2399,220.21999");
         }
-        ue: NRUeEth {
-            @display("p=827.7912,426.67624");
-        }
-        DSTT: TT;
-        NSTT: TT;
-        TsnDS: TsnDevice {
-            @display("p=471.89996,599.70624");
-        }
-        switch5GC: TsnSwitch {
-            @display("p=1344.9149,521.0562");
-        }
-        switchTSN: TsnSwitch {
-            @display("p=607.5712,538.75244");
-        }
-        TsnNS: TsnDevice {
-            @display("p=1510.08,611.5037");
+        intDevice[numIntDevices]: TsnSwitch {
         }
     connections:
-        TsnNS.ethg++ <--> Eth10G <--> switch5GC.ethg++;
-        NSTT.ethg++ <--> Eth10G <--> upf.filterGate;
-        switch5GC.ethg++ <--> Eth10G <--> NSTT.ethg++;
-        upf.ethg++ <--> Eth10G <--> gNB.ethg;
-        ue.ethg++ <--> Eth10G <--> DSTT.ethg++;
-        DSTT.ethg++ <--> Eth10G <--> switchTSN.ethg++;
-        switchTSN.ethg++ <--> Eth10G <--> TsnDS.ethg++;
+        DSTT.ethg++ <--> Eth10G <--> NSTT.ethg++ if numIntDevices == 0;
 
+        DSTT.ethg++ <--> Eth10G <--> intDevice[0].ethg++ if numIntDevices > 0;
+        NSTT.ethg++ <--> Eth10G <--> intDevice[numIntDevices-1].ethg++ if numIntDevices > 0;
+        for i=0..numIntDevices-2 {
+            intDevice[i].ethg++ <--> Eth10G <--> intDevice[i+1].ethg++;
+        }
 }

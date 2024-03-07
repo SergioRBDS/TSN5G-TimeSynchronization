@@ -21,7 +21,7 @@ using namespace inet;
 Define_Module(Gptp5g);
 
 void Gptp5g::initialize(int stage){
-    Gptp::initialize(stage);
+
     if (stage == INITSTAGE_LOCAL){
         tt = par("TT");
         localPort = par("localPort");
@@ -38,6 +38,7 @@ void Gptp5g::initialize(int stage){
             scheduleClockEventAfter(clock->getClockTime(),selfMsgBindSocket);
         }
     }
+    Gptp::initialize(stage);
 }
 
 void Gptp5g::handleSelfMessage(cMessage *msg){
@@ -51,13 +52,13 @@ void Gptp5g::handleSelfMessage(cMessage *msg){
 }
 
 void Gptp5g::sendPacketToNIC(Packet *packet, int portId){
+    //EV << "Modulo: " << moduloPai << "sendPacketToNIC Gptp5g: " << ipPortId << " " << portId << endl;
     auto networkInterface = interfaceTable2->getInterfaceById(portId);
     EV_INFO << "Sending " << packet << " to output interface = " << networkInterface->getInterfaceName() << ".\n";
     packet->addTag<InterfaceReq>()->setInterfaceId(portId);
     packet->addTag<PacketProtocolTag>()->setProtocol(&Protocol::gptp);
     packet->addTag<DispatchProtocolInd>()->setProtocol(&Protocol::gptp);
     auto protocol = networkInterface->getProtocol();
-    EV << "!" << ipPortId << " " << portId << endl;
     if (protocol != nullptr)
         packet->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(protocol);
     else
@@ -74,7 +75,6 @@ void Gptp5g::sendPacketToNIC(Packet *packet, int portId){
 
 void Gptp5g::receiveSignal(cComponent *source, simsignal_t simSignal, cObject *obj, cObject *details)
 {
-    EV << "recebeu signal" << endl;
     Enter_Method("%s", cComponent::getSignalName(simSignal));
 
     if (simSignal != receptionEndedSignal && simSignal != transmissionEndedSignal)
@@ -83,25 +83,22 @@ void Gptp5g::receiveSignal(cComponent *source, simsignal_t simSignal, cObject *o
     auto ethernetSignal = check_and_cast<cPacket *>(obj);
     //auto packet = check_and_cast_nullable<Packet *>(ethernetSignal->getEncapsulatedPacket());
     auto packet = check_and_cast<Packet *>(ethernetSignal->getEncapsulatedPacket());
-    EV << "recebeu signal" << endl;
     if (!packet)
-        EV << "hmmmmm" << endl;
-    //    return;
+        return;
 
     auto gptp = extractGptpHeader(packet);
     if (!gptp){
-        EV << "n eh gptp basico" << endl;
         if(tt){
-            EV << "eh para o 5g" << endl;
             auto gptpIp = extractGptpHeaderIp(packet);
             if (gptpIp->getDomainNumber() != domainNumber2)
                 return;
-            EV << "td certo por aqui" << endl;
-
-            if (simSignal == receptionEndedSignal)
+            if (simSignal == receptionEndedSignal){
                 packet->addTagIfAbsent<GptpIngressTimeInd>()->setArrivalClockTime(clock->getClockTime());
-            else if (simSignal == transmissionEndedSignal)
+            EV << "Modulo: " << moduloPai << " Sinal Recebido em: " << clock->getClockTime() << endl;
+            }else if (simSignal == transmissionEndedSignal){
+                EV << "Modulo: " << moduloPai << " Sinal Enviado em: " << clock->getClockTime() << endl;
                 handleDelayOrSendFollowUp(gptpIp, source);
+            }
         }
         else
             return;
@@ -110,10 +107,14 @@ void Gptp5g::receiveSignal(cComponent *source, simsignal_t simSignal, cObject *o
         if (gptp->getDomainNumber() != domainNumber2)
             return;
 
-        if (simSignal == receptionEndedSignal)
+        if (simSignal == receptionEndedSignal){
+            EV << "Modulo: " << moduloPai << " Sinal Recebido em: " << clock->getClockTime() << endl;
             packet->addTagIfAbsent<GptpIngressTimeInd>()->setArrivalClockTime(clock->getClockTime());
-        else if (simSignal == transmissionEndedSignal)
+        }
+        else if (simSignal == transmissionEndedSignal){
+            EV << "Modulo: " << moduloPai << " Sinal Enviado em: " << clock->getClockTime() << endl;
             handleDelayOrSendFollowUp(gptp, source);
+        }
     }
 }
 
@@ -134,11 +135,6 @@ const GptpBase *Gptp5g::extractGptpHeaderIp(Packet *packet)
             return nullptr;
         }
         offset = ethPhyHeader->getChunkLength() + ethMacHeader->getChunkLength();
-    }else if(0==1){
-
-        //if(pppHeader->getProtocol() != 33){
-        //    offset = PPP_HEADER_LENGTH;
-        //}
     }
     const auto& ipv4Header = packet->peekDataAt<Ipv4Header>(offset);
     const auto& udpHeader = packet->peekDataAt<UdpHeader>(offset+ipv4Header->getChunkLength());

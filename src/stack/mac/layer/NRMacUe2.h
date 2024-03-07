@@ -10,6 +10,7 @@
 
 #include "stack/mac/layer/NRMacUe.h"
 
+// basicamente adiciona os dispositivos descritos em intHostAddress no no NRUeEth
 class NRMacUe2 : public NRMacUe{
     protected:
         virtual void initialize(int stage) override;

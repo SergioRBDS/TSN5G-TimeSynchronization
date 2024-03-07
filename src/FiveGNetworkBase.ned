@@ -23,7 +23,7 @@ import inet.networks.base.TsnNetworkBase;
 
 //import src.binder.Binder5GTSN;
 
-network FiveGNetworkBase extends TsnNetworkBase
+network FiveGNetworkBase extends TsnNetworkBase // modulo para n ter q especificar em cada UseCase e ser mais facil de modificar
 {
     parameters:
         macForwardingTableConfigurator.typename = default("");

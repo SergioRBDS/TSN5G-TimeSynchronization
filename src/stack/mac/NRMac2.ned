@@ -17,7 +17,7 @@ package src.stack.mac;
 
 import simu5g.stack.mac.NRMacUe;
 
-simple NRMacUe2  extends NRMacUe {
+simple NRMacUe2  extends NRMacUe { // novo mac cuja classe adiciona o endereço de dispositivos conectados ao UE
      parameters:
          @class("NRMacUe2");
 
