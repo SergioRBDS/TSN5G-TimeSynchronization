@@ -1,0 +1,117 @@
+%description:
+
+This test contains a recursive binary tree of packet sources. The sources generate
+packets with random packet size. The top level server selects the biggest packet
+from the whole tree first and goes down in size until all packets are consumed by
+the packet sink.
+
+%file: test.ned
+
+import inet.queueing.queue.PacketQueue;
+import inet.queueing.contract.IActivePacketSource;
+import inet.queueing.scheduler.PacketScheduler;
+import inet.queueing.server.InstantServer;
+import inet.queueing.sink.PassivePacketSink;
+
+module BiggerPacketSource like IActivePacketSource
+{
+    parameters:
+        int level;
+        source1.level = this.level - 1;
+        source2.level = this.level - 1;
+        @display("bgb=545,307");
+    gates:
+        output out;
+    submodules:
+        source1: <default(level == 0 ? "ActivePacketSource" : "BiggerPacketSource")> like IActivePacketSource {
+            @display("p=457,240");
+        }
+        source2: <default(level == 0 ? "ActivePacketSource" : "BiggerPacketSource")> like IActivePacketSource {
+            @display("p=481,76");
+        }
+        queue1: PacketQueue {
+            @display("p=314,219");
+        }
+        queue2: PacketQueue {
+            @display("p=314,87");
+        }
+        scheduler: PacketScheduler {
+            @display("p=199,132");
+        }
+        server: InstantServer {
+            @display("p=84,141");
+        }
+    connections:
+        source1.out --> queue1.in;
+        source2.out --> queue2.in;
+        queue1.out --> scheduler.in++;
+        queue2.out --> scheduler.in++;
+        scheduler.out --> server.in;
+        server.out --> out;
+}
+
+network BiggerPacketNetwork
+{
+    submodules:
+        biggerPacketSource: BiggerPacketSource;
+        sink: PassivePacketSink;
+    connections:
+        biggerPacketSource.out --> sink.in;
+}
+
+
+%inifile: omnetpp.ini
+
+[General]
+network = BiggerPacketNetwork
+sim-time-limit = 1s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.biggerPacketSource.level = 4
+**.serveSchedulingPriority = 0
+**.packetLength = intuniform(100B, 1000B)
+**.productionInterval = 10s
+**.packetNameFormat = "%p-%c"
+**.schedulerClass = "inet::queueing::PacketLengthScheduler"
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s sink: Consuming.*949 B.*
+At 0s sink: Consuming.*945 B.*
+At 0s sink: Consuming.*935 B.*
+At 0s sink: Consuming.*904 B.*
+At 0s sink: Consuming.*877 B.*
+At 0s sink: Consuming.*863 B.*
+At 0s sink: Consuming.*854 B.*
+At 0s sink: Consuming.*823 B.*
+At 0s sink: Consuming.*807 B.*
+At 0s sink: Consuming.*805 B.*
+At 0s sink: Consuming.*784 B.*
+At 0s sink: Consuming.*777 B.*
+At 0s sink: Consuming.*729 B.*
+At 0s sink: Consuming.*700 B.*
+At 0s sink: Consuming.*700 B.*
+At 0s sink: Consuming.*699 B.*
+At 0s sink: Consuming.*659 B.*
+At 0s sink: Consuming.*651 B.*
+At 0s sink: Consuming.*637 B.*
+At 0s sink: Consuming.*586 B.*
+At 0s sink: Consuming.*572 B.*
+At 0s sink: Consuming.*496 B.*
+At 0s sink: Consuming.*459 B.*
+At 0s sink: Consuming.*414 B.*
+At 0s sink: Consuming.*377 B.*
+At 0s sink: Consuming.*292 B.*
+At 0s sink: Consuming.*274 B.*
+At 0s sink: Consuming.*215 B.*
+At 0s sink: Consuming.*187 B.*
+At 0s sink: Consuming.*172 B.*
+At 0s sink: Consuming.*170 B.*
+At 0s sink: Consuming.*109 B.*
+
+<!> Simulation time limit reached -- at t=1s
+

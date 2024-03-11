@@ -1,0 +1,104 @@
+%description:
+
+TODO
+
+%file: test.ned
+
+import inet.queueing.sink.ActivePacketSink;
+import inet.queueing.queue.PacketQueue;
+import inet.queueing.source.QueueFiller;
+
+network TestQueueFiller
+{
+    submodules:
+        filler: QueueFiller {
+            @display("p=100,100");
+        }
+        queue: PacketQueue {
+            @display("p=200,100");
+        }
+        consumer: ActivePacketSink {
+            @display("p=300,100");
+        }
+    connections allowunconnected:
+    	filler.out --> queue.in;
+    	queue.out --> consumer.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestQueueFiller
+sim-time-limit = 10s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.filler.provider.packetLength = 1B
+*.filler.tokenGenerator.queueModule = "queue"
+*.consumer.collectionInterval = 1s
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s provider: Providing packet, .*?provider-0.*?
+At 0s server: Processing packet, .*?provider-0.*?
+At 0s queue: Pushing packet, .*?provider-0.*?
+At 0s queue: Pulling packet, .*?provider-0.*?
+At 0s consumer: Collecting packet, .*?provider-0.*?
+At 0s provider: Providing packet, .*?provider-1.*?
+At 0s server: Processing packet, .*?provider-1.*?
+At 0s queue: Pushing packet, .*?provider-1.*?
+At 1s queue: Pulling packet, .*?provider-1.*?
+At 1s provider: Providing packet, .*?provider-2.*?
+At 1s server: Processing packet, .*?provider-2.*?
+At 1s queue: Pushing packet, .*?provider-2.*?
+At 1s consumer: Collecting packet, .*?provider-1.*?
+At 2s queue: Pulling packet, .*?provider-2.*?
+At 2s provider: Providing packet, .*?provider-3.*?
+At 2s server: Processing packet, .*?provider-3.*?
+At 2s queue: Pushing packet, .*?provider-3.*?
+At 2s consumer: Collecting packet, .*?provider-2.*?
+At 3s queue: Pulling packet, .*?provider-3.*?
+At 3s provider: Providing packet, .*?provider-4.*?
+At 3s server: Processing packet, .*?provider-4.*?
+At 3s queue: Pushing packet, .*?provider-4.*?
+At 3s consumer: Collecting packet, .*?provider-3.*?
+At 4s queue: Pulling packet, .*?provider-4.*?
+At 4s provider: Providing packet, .*?provider-5.*?
+At 4s server: Processing packet, .*?provider-5.*?
+At 4s queue: Pushing packet, .*?provider-5.*?
+At 4s consumer: Collecting packet, .*?provider-4.*?
+At 5s queue: Pulling packet, .*?provider-5.*?
+At 5s provider: Providing packet, .*?provider-6.*?
+At 5s server: Processing packet, .*?provider-6.*?
+At 5s queue: Pushing packet, .*?provider-6.*?
+At 5s consumer: Collecting packet, .*?provider-5.*?
+At 6s queue: Pulling packet, .*?provider-6.*?
+At 6s provider: Providing packet, .*?provider-7.*?
+At 6s server: Processing packet, .*?provider-7.*?
+At 6s queue: Pushing packet, .*?provider-7.*?
+At 6s consumer: Collecting packet, .*?provider-6.*?
+At 7s queue: Pulling packet, .*?provider-7.*?
+At 7s provider: Providing packet, .*?provider-8.*?
+At 7s server: Processing packet, .*?provider-8.*?
+At 7s queue: Pushing packet, .*?provider-8.*?
+At 7s consumer: Collecting packet, .*?provider-7.*?
+At 8s queue: Pulling packet, .*?provider-8.*?
+At 8s provider: Providing packet, .*?provider-9.*?
+At 8s server: Processing packet, .*?provider-9.*?
+At 8s queue: Pushing packet, .*?provider-9.*?
+At 8s consumer: Collecting packet, .*?provider-8.*?
+At 9s queue: Pulling packet, .*?provider-9.*?
+At 9s provider: Providing packet, .*?provider-10.*?
+At 9s server: Processing packet, .*?provider-10.*?
+At 9s queue: Pushing packet, .*?provider-10.*?
+At 9s consumer: Collecting packet, .*?provider-9.*?
+At 10s queue: Pulling packet, .*?provider-10.*?
+At 10s provider: Providing packet, .*?provider-11.*?
+At 10s server: Processing packet, .*?provider-11.*?
+At 10s queue: Pushing packet, .*?provider-11.*?
+At 10s consumer: Collecting packet, .*?provider-10.*?
+
+<!> Simulation time limit reached -- at t=10s

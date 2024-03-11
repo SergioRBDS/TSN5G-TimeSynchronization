@@ -1,0 +1,64 @@
+%description:
+
+In this test, packets are produced periodically by an active packet source
+(ActivePacketSource). The packets pass through a packet gate if it's open,
+otherwise packets are not generated. The packets are consumed by a passive
+packet sink (PassivePacketSink).
+
+%file: test.ned
+
+import inet.queueing.gate.PacketGate;
+import inet.queueing.sink.PassivePacketSink;
+import inet.queueing.source.ActivePacketSource;
+
+network TestProducerConsumer
+{
+    submodules:
+        producer: ActivePacketSource {
+            @display("p=100,100");
+        }
+        gate: PacketGate {
+            @display("p=200,100");
+        }
+        consumer: PassivePacketSink {
+            @display("p=300,100");
+        }
+    connections:
+        producer.out --> gate.in;
+        gate.out --> consumer.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestProducerConsumer
+sim-time-limit = 10s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.producer.packetLength = 1B
+*.producer.productionInterval = 1s
+*.gate.openTime = 3s
+*.gate.closeTime = 7s
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 3s gate: Opening gate.
+At 3s producer: Producing packet, .*?producer-0.*?
+At 3s gate: Passing through packet, .*?producer-0.*?
+At 3s consumer: Consuming packet, .*?producer-0.*?
+At 4s producer: Producing packet, .*?producer-1.*?
+At 4s gate: Passing through packet, .*?producer-1.*?
+At 4s consumer: Consuming packet, .*?producer-1.*?
+At 5s producer: Producing packet, .*?producer-2.*?
+At 5s gate: Passing through packet, .*?producer-2.*?
+At 5s consumer: Consuming packet, .*?producer-2.*?
+At 6s producer: Producing packet, .*?producer-3.*?
+At 6s gate: Passing through packet, .*?producer-3.*?
+At 6s consumer: Consuming packet, .*?producer-3.*?
+At 7s gate: Closing gate.
+
+<!> Simulation time limit reached -- at t=10s

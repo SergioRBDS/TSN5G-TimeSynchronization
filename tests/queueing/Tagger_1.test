@@ -1,0 +1,92 @@
+%description:
+
+In this test, packets are produced periodically by an active packet source
+(ActivePacketSource). The packets pass through a packet tagger which attaches
+a HopLimitReq tag. The packets are consumed by a passive packet sink (PassivePacketSink).
+
+%file: test.ned
+
+import inet.queueing.marker.PacketTagger;
+import inet.queueing.sink.PassivePacketSink;
+import inet.queueing.source.ActivePacketSource;
+
+network TestProducerConsumer
+{
+    submodules:
+        producer: ActivePacketSource {
+            @display("p=100,100");
+        }
+        tagger: PacketTagger {
+            @display("p=200,100");
+        }
+        consumer: PassivePacketSink {
+            @display("p=300,100");
+        }
+    connections:
+        producer.out --> tagger.in;
+        tagger.out --> consumer.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestProducerConsumer
+sim-time-limit = 10s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.producer.packetLength = 1B
+*.producer.productionInterval = 1s
+*.tagger.hopLimit = 1
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s producer: Producing packet, .*?producer-0.*?
+At 0s tagger: Marking packet, .*?producer-0.*?
+At 0s tagger: Attaching HopLimitReq, .*?producer-0.*?
+At 0s consumer: Consuming packet, .*?producer-0.*?
+At 1s producer: Producing packet, .*?producer-1.*?
+At 1s tagger: Marking packet, .*?producer-1.*?
+At 1s tagger: Attaching HopLimitReq, .*?producer-1.*?
+At 1s consumer: Consuming packet, .*?producer-1.*?
+At 2s producer: Producing packet, .*?producer-2.*?
+At 2s tagger: Marking packet, .*?producer-2.*?
+At 2s tagger: Attaching HopLimitReq, .*?producer-2.*?
+At 2s consumer: Consuming packet, .*?producer-2.*?
+At 3s producer: Producing packet, .*?producer-3.*?
+At 3s tagger: Marking packet, .*?producer-3.*?
+At 3s tagger: Attaching HopLimitReq, .*?producer-3.*?
+At 3s consumer: Consuming packet, .*?producer-3.*?
+At 4s producer: Producing packet, .*?producer-4.*?
+At 4s tagger: Marking packet, .*?producer-4.*?
+At 4s tagger: Attaching HopLimitReq, .*?producer-4.*?
+At 4s consumer: Consuming packet, .*?producer-4.*?
+At 5s producer: Producing packet, .*?producer-5.*?
+At 5s tagger: Marking packet, .*?producer-5.*?
+At 5s tagger: Attaching HopLimitReq, .*?producer-5.*?
+At 5s consumer: Consuming packet, .*?producer-5.*?
+At 6s producer: Producing packet, .*?producer-6.*?
+At 6s tagger: Marking packet, .*?producer-6.*?
+At 6s tagger: Attaching HopLimitReq, .*?producer-6.*?
+At 6s consumer: Consuming packet, .*?producer-6.*?
+At 7s producer: Producing packet, .*?producer-7.*?
+At 7s tagger: Marking packet, .*?producer-7.*?
+At 7s tagger: Attaching HopLimitReq, .*?producer-7.*?
+At 7s consumer: Consuming packet, .*?producer-7.*?
+At 8s producer: Producing packet, .*?producer-8.*?
+At 8s tagger: Marking packet, .*?producer-8.*?
+At 8s tagger: Attaching HopLimitReq, .*?producer-8.*?
+At 8s consumer: Consuming packet, .*?producer-8.*?
+At 9s producer: Producing packet, .*?producer-9.*?
+At 9s tagger: Marking packet, .*?producer-9.*?
+At 9s tagger: Attaching HopLimitReq, .*?producer-9.*?
+At 9s consumer: Consuming packet, .*?producer-9.*?
+At 10s producer: Producing packet, .*?producer-10.*?
+At 10s tagger: Marking packet, .*?producer-10.*?
+At 10s tagger: Attaching HopLimitReq, .*?producer-10.*?
+At 10s consumer: Consuming packet, .*?producer-10.*?
+
+<!> Simulation time limit reached -- at t=10s

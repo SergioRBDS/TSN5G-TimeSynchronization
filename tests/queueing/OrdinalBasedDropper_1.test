@@ -1,0 +1,83 @@
+%description:
+
+In this test, packets are produced periodically by an active packet source
+(ActivePacketSource). The packets are consumed by a passive packet sink (PassivePacketSink).
+Packets are passed through from the source to the sink by a dropper (OrdinalBasedDropper).
+Every second packet is dropped based on its ordinal number.
+
+%file: test.ned
+
+import inet.queueing.filter.OrdinalBasedDropper;
+import inet.queueing.sink.PassivePacketSink;
+import inet.queueing.source.ActivePacketSource;
+
+network TestOrdinalBasedDropper
+{
+    submodules:
+        producer: ActivePacketSource {
+            @display("p=100,100");
+        }
+        dropper: OrdinalBasedDropper {
+            @display("p=200,100");
+        }
+        consumer: PassivePacketSink {
+            @display("p=300,100");
+        }
+    connections:
+        producer.out --> dropper.in;
+        dropper.out --> consumer.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestOrdinalBasedDropper
+sim-time-limit = 10s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.producer.packetLength = 1B
+*.producer.productionInterval = 1s
+*.dropper.dropsVector = "0; 2; 4; 6; 8; 10"
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s producer: Producing packet, .*?producer-0.*?
+At 0s dropper: Filtering out packet, .*?producer-0.*?
+At 0s dropper: Dropping packet, .*?0.*?producer-0.*?
+At 1s producer: Producing packet, .*?producer-1.*?
+At 1s dropper: Passing through packet, .*?producer-1.*?
+At 1s consumer: Consuming packet, .*?producer-1.*?
+At 2s producer: Producing packet, .*?producer-2.*?
+At 2s dropper: Filtering out packet, .*?producer-2.*?
+At 2s dropper: Dropping packet, .*?2.*?producer-2.*?
+At 3s producer: Producing packet, .*?producer-3.*?
+At 3s dropper: Passing through packet, .*?producer-3.*?
+At 3s consumer: Consuming packet, .*?producer-3.*?
+At 4s producer: Producing packet, .*?producer-4.*?
+At 4s dropper: Filtering out packet, .*?producer-4.*?
+At 4s dropper: Dropping packet, .*?4.*?producer-4.*?
+At 5s producer: Producing packet, .*?producer-5.*?
+At 5s dropper: Passing through packet, .*?producer-5.*?
+At 5s consumer: Consuming packet, .*?producer-5.*?
+At 6s producer: Producing packet, .*?producer-6.*?
+At 6s dropper: Filtering out packet, .*?producer-6.*?
+At 6s dropper: Dropping packet, .*?6.*?producer-6.*?
+At 7s producer: Producing packet, .*?producer-7.*?
+At 7s dropper: Passing through packet, .*?producer-7.*?
+At 7s consumer: Consuming packet, .*?producer-7.*?
+At 8s producer: Producing packet, .*?producer-8.*?
+At 8s dropper: Filtering out packet, .*?producer-8.*?
+At 8s dropper: Dropping packet, .*?8.*?producer-8.*?
+At 9s producer: Producing packet, .*?producer-9.*?
+At 9s dropper: Passing through packet, .*?producer-9.*?
+At 9s consumer: Consuming packet, .*?producer-9.*?
+At 10s producer: Producing packet, .*?producer-10.*?
+At 10s dropper: Filtering out packet, .*?producer-10.*?
+At 10s dropper: Dropping packet, .*?10.*?producer-10.*?
+At 10s dropper: End of dropsVector reached.
+
+<!> Simulation time limit reached -- at t=10s

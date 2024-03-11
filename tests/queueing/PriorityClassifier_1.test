@@ -1,0 +1,136 @@
+%description:
+
+In this test, packets are produced periodically by an active packet source
+(ActivePacketSource). The packets are consumed by two active packet sinks
+(ActivePacketSinks). The sinks are connected to FIFO queues (PacketQueue) with
+limited capacity where packets are stored temporarily. The single source is
+connected to the two queues using a classifier (PriorityClassifier). The
+classifier forwards packets from the producer to the queues in a prioritized
+way.
+
+%file: test.ned
+
+import inet.queueing.sink.ActivePacketSink;
+import inet.queueing.queue.PacketQueue;
+import inet.queueing.classifier.PriorityClassifier;
+import inet.queueing.source.ActivePacketSource;
+
+network TestPriorityClassifier
+{
+    submodules:
+        producer: ActivePacketSource {
+            @display("p=100,100");
+        }
+        classifier: PriorityClassifier {
+            @display("p=200,100");
+        }
+        queue1: PacketQueue {
+            @display("p=300,100");
+        }
+        queue2: PacketQueue {
+            @display("p=300,200");
+        }
+        collector1: ActivePacketSink {
+            @display("p=400,100");
+        }
+        collector2: ActivePacketSink {
+            @display("p=400,200");
+        }
+    connections allowunconnected:
+        producer.out --> classifier.in;
+        classifier.out++ --> queue1.in;
+        classifier.out++ --> queue2.in;
+        queue1.out --> collector1.in;
+        queue2.out --> collector2.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestPriorityClassifier
+sim-time-limit = 10s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.queue*.packetCapacity = 1
+*.producer.packetLength = 1B
+*.producer.productionInterval = uniform(0s, 1s)
+*.collector*.collectionInterval = uniform(0s, 2s)
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s producer: Producing packet, .*?producer-0.*?
+At 0s classifier: Classifying packet, .*?producer-0.*?
+At 0s queue1: Pushing packet, .*?producer-0.*?
+At 0s queue1: Pulling packet, .*?producer-0.*?
+At 0s collector1: Collecting packet, .*?producer-0.*?
+At 0.548813502304s producer: Producing packet, .*?producer-1.*?
+At 0.548813502304s classifier: Classifying packet, .*?producer-1.*?
+At 0.548813502304s queue1: Pushing packet, .*?producer-1.*?
+At 1.185689232778s queue1: Pulling packet, .*?producer-1.*?
+At 1.185689232778s collector1: Collecting packet, .*?producer-1.*?
+At 1.264002867276s producer: Producing packet, .*?producer-2.*?
+At 1.264002867276s classifier: Classifying packet, .*?producer-2.*?
+At 1.264002867276s queue1: Pushing packet, .*?producer-2.*?
+At 1.866766237654s producer: Producing packet, .*?producer-3.*?
+At 1.866766237654s classifier: Classifying packet, .*?producer-3.*?
+At 1.866766237654s queue2: Pushing packet, .*?producer-3.*?
+At 1.866766237654s queue2: Pulling packet, .*?producer-3.*?
+At 1.866766237654s collector2: Collecting packet, .*?producer-3.*?
+At 2.724711857503s producer: Producing packet, .*?producer-4.*?
+At 2.724711857503s classifier: Classifying packet, .*?producer-4.*?
+At 2.724711857503s queue2: Pushing packet, .*?producer-4.*?
+At 2.874220720958s queue1: Pulling packet, .*?producer-2.*?
+At 2.874220720958s collector1: Collecting packet, .*?producer-2.*?
+At 2.95653259242s queue2: Pulling packet, .*?producer-4.*?
+At 2.95653259242s collector2: Collecting packet, .*?producer-4.*?
+At 3.57196359476s producer: Producing packet, .*?producer-5.*?
+At 3.57196359476s classifier: Classifying packet, .*?producer-5.*?
+At 3.57196359476s queue1: Pushing packet, .*?producer-5.*?
+At 3.721530314535s queue1: Pulling packet, .*?producer-5.*?
+At 3.721530314535s collector1: Collecting packet, .*?producer-5.*?
+At 4.217857709852s producer: Producing packet, .*?producer-6.*?
+At 4.217857709852s classifier: Classifying packet, .*?producer-6.*?
+At 4.217857709852s queue1: Pushing packet, .*?producer-6.*?
+At 4.490293730982s queue1: Pulling packet, .*?producer-6.*?
+At 4.490293730982s collector1: Collecting packet, .*?producer-6.*?
+At 4.655444919829s producer: Producing packet, .*?producer-7.*?
+At 4.655444919829s classifier: Classifying packet, .*?producer-7.*?
+At 4.655444919829s queue1: Pushing packet, .*?producer-7.*?
+At 5.085362941493s queue1: Pulling packet, .*?producer-7.*?
+At 5.085362941493s collector1: Collecting packet, .*?producer-7.*?
+At 5.547217921586s producer: Producing packet, .*?producer-8.*?
+At 5.547217921586s classifier: Classifying packet, .*?producer-8.*?
+At 5.547217921586s queue1: Pushing packet, .*?producer-8.*?
+At 5.547217921586s queue1: Pulling packet, .*?producer-8.*?
+At 5.547217921586s collector1: Collecting packet, .*?producer-8.*?
+At 6.510880685644s producer: Producing packet, .*?producer-9.*?
+At 6.510880685644s classifier: Classifying packet, .*?producer-9.*?
+At 6.510880685644s queue1: Pushing packet, .*?producer-9.*?
+At 6.510880685644s queue1: Pulling packet, .*?producer-9.*?
+At 6.510880685644s collector1: Collecting packet, .*?producer-9.*?
+At 6.894322206964s producer: Producing packet, .*?producer-10.*?
+At 6.894322206964s classifier: Classifying packet, .*?producer-10.*?
+At 6.894322206964s queue1: Pushing packet, .*?producer-10.*?
+At 7.466210908955s queue1: Pulling packet, .*?producer-10.*?
+At 7.466210908955s collector1: Collecting packet, .*?producer-10.*?
+At 7.686047240393s producer: Producing packet, .*?producer-11.*?
+At 7.686047240393s classifier: Classifying packet, .*?producer-11.*?
+At 7.686047240393s queue1: Pushing packet, .*?producer-11.*?
+At 8.214942161925s producer: Producing packet, .*?producer-12.*?
+At 8.214942161925s classifier: Classifying packet, .*?producer-12.*?
+At 8.214942161925s queue2: Pushing packet, .*?producer-12.*?
+At 8.214942161925s queue2: Pulling packet, .*?producer-12.*?
+At 8.214942161925s collector2: Collecting packet, .*?producer-12.*?
+At 8.694919333327s producer: Producing packet, .*?producer-13.*?
+At 8.694919333327s classifier: Classifying packet, .*?producer-13.*?
+At 8.694919333327s queue2: Pushing packet, .*?producer-13.*?
+At 9.090548361884s queue1: Pulling packet, .*?producer-11.*?
+At 9.090548361884s collector1: Collecting packet, .*?producer-11.*?
+At 9.351031289436s queue2: Pulling packet, .*?producer-13.*?
+At 9.351031289436s collector2: Collecting packet, .*?producer-13.*?
+
+<!> Simulation time limit reached -- at t=10s

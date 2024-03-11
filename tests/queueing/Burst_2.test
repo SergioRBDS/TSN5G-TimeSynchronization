@@ -1,0 +1,88 @@
+%description:
+
+In this test, packets are periodically (randomly) collected by two active sinks
+(ActivePacketSinks). One sink collects packets with a slower rate while the other
+sink uses a faster rate. The two packet sinks are combined using a markov
+chain with random transition matrix and random wait intervals. The packets are
+provided by a single passive source (PassivePacketSource).
+
+%file: test.ned
+
+import inet.queueing.sink.ActivePacketSink;
+import inet.queueing.classifier.MarkovClassifier;
+import inet.queueing.source.PassivePacketSource;
+
+network TestBurst
+{
+    submodules:
+        provider: PassivePacketSource {
+            @display("p=100,100");
+        }
+        classifier: MarkovClassifier {
+            @display("p=200,100");
+        }
+        collector1: ActivePacketSink {
+            @display("p=300,100");
+        }
+        collector2: ActivePacketSink {
+            @display("p=300,200");
+        }
+    connections allowunconnected:
+        provider.out --> classifier.in;
+        classifier.out++ --> collector1.in;
+        classifier.out++ --> collector2.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestBurst
+sim-time-limit = 100s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.provider.packetLength = 1B
+*.collector1.collectionInterval = uniform(0s, 20s)
+*.collector2.collectionInterval = uniform(0s, 2s)
+*.classifier.transitionProbabilities = "0 1 1 0"
+*.classifier.waitIntervals = "40 4"
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s provider: Providing packet, .*?provider-0.*?
+At 0s collector1: Collecting packet, .*?provider-0.*?
+At 10.976270046085s provider: Providing packet, .*?provider-1.*?
+At 10.976270046085s collector1: Collecting packet, .*?provider-1.*?
+At 22.833162373863s provider: Providing packet, .*?provider-2.*?
+At 22.833162373863s collector1: Collecting packet, .*?provider-2.*?
+At 37.136949673295s provider: Providing packet, .*?provider-3.*?
+At 37.136949673295s collector1: Collecting packet, .*?provider-3.*?
+At 40s provider: Providing packet, .*?provider-4.*?
+At 40s collector2: Collecting packet, .*?provider-4.*?
+At 41.715891239699s provider: Providing packet, .*?provider-5.*?
+At 41.715891239699s collector2: Collecting packet, .*?provider-5.*?
+At 42.805657594465s provider: Providing packet, .*?provider-6.*?
+At 42.805657594465s collector2: Collecting packet, .*?provider-6.*?
+At 54.022264555097s provider: Providing packet, .*?provider-7.*?
+At 54.022264555097s collector1: Collecting packet, .*?provider-7.*?
+At 66.493538483046s provider: Providing packet, .*?provider-8.*?
+At 66.493538483046s collector1: Collecting packet, .*?provider-8.*?
+At 79.411420784891s provider: Providing packet, .*?provider-9.*?
+At 79.411420784891s collector1: Collecting packet, .*?provider-9.*?
+At 84s provider: Providing packet, .*?provider-10.*?
+At 84s collector2: Collecting packet, .*?provider-10.*?
+At 84.595069210511s provider: Providing packet, .*?provider-11.*?
+At 84.595069210511s collector2: Collecting packet, .*?provider-11.*?
+At 86.378615214024s provider: Providing packet, .*?provider-12.*?
+At 86.378615214024s collector2: Collecting packet, .*?provider-12.*?
+At 86.492041165475s provider: Providing packet, .*?provider-13.*?
+At 86.492041165475s collector2: Collecting packet, .*?provider-13.*?
+At 88s provider: Providing packet, .*?provider-14.*?
+At 88s collector1: Collecting packet, .*?provider-14.*?
+At 95.66883042641s provider: Providing packet, .*?provider-15.*?
+At 95.66883042641s collector1: Collecting packet, .*?provider-15.*?
+
+<!> Simulation time limit reached -- at t=100s

@@ -1,0 +1,79 @@
+%description:
+
+In this test, packets are produced periodically by an active packet source
+(ActivePacketSource). The produced packets are delayed (PacketDelayer) for a random
+amount of time. Finally, the packets are sent into a passive packet sink (PassivePacketSink).
+
+%file: test.ned
+
+import inet.queueing.sink.PassivePacketSink;
+import inet.queueing.common.PacketDelayer;
+import inet.queueing.source.ActivePacketSource;
+
+network TestDelayer
+{
+    submodules:
+        producer: ActivePacketSource {
+            @display("p=100,100");
+        }
+        delayer: PacketDelayer {
+            @display("p=200,100");
+        }
+        consumer: PassivePacketSink {
+            @display("p=300,100");
+        }
+    connections allowunconnected:
+        producer.out --> delayer.in;
+        delayer.out --> consumer.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestDelayer
+sim-time-limit = 10s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.producer.packetLength = 1B
+*.producer.productionInterval = 1s
+*.delayer.delay = uniform(0s, 2s)
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s producer: Producing packet, .*?producer-0.*?
+At 0s delayer: Delaying packet, .*?producer-0.*?
+At 1s producer: Producing packet, .*?producer-1.*?
+At 1s delayer: Delaying packet, .*?producer-1.*?
+At 1.097627004609s consumer: Consuming packet, .*?producer-0.*?
+At 2s producer: Producing packet, .*?producer-2.*?
+At 2s delayer: Delaying packet, .*?producer-2.*?
+At 2.185689232778s consumer: Consuming packet, .*?producer-1.*?
+At 3s producer: Producing packet, .*?producer-3.*?
+At 3s delayer: Delaying packet, .*?producer-3.*?
+At 3.430378729943s consumer: Consuming packet, .*?producer-2.*?
+At 4s producer: Producing packet, .*?producer-4.*?
+At 4s delayer: Delaying packet, .*?producer-4.*?
+At 4.68853148818s consumer: Consuming packet, .*?producer-3.*?
+At 5s producer: Producing packet, .*?producer-5.*?
+At 5s delayer: Delaying packet, .*?producer-5.*?
+At 5.205526740756s consumer: Consuming packet, .*?producer-4.*?
+At 6s producer: Producing packet, .*?producer-6.*?
+At 6s delayer: Delaying packet, .*?producer-6.*?
+At 6.715891239699s consumer: Consuming packet, .*?producer-5.*?
+At 7s producer: Producing packet, .*?producer-7.*?
+At 7s delayer: Delaying packet, .*?producer-7.*?
+At 7.089766354766s consumer: Consuming packet, .*?producer-6.*?
+At 8s producer: Producing packet, .*?producer-8.*?
+At 8s delayer: Delaying packet, .*?producer-8.*?
+At 8.694503474515s consumer: Consuming packet, .*?producer-7.*?
+At 8.847309593577s consumer: Consuming packet, .*?producer-8.*?
+At 9s producer: Producing packet, .*?producer-9.*?
+At 9s delayer: Delaying packet, .*?producer-9.*?
+At 10s producer: Producing packet, .*?producer-10.*?
+At 10s delayer: Delaying packet, .*?producer-10.*?
+
+<!> Simulation time limit reached -- at t=10s

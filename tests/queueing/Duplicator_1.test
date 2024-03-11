@@ -1,0 +1,100 @@
+%description:
+
+In this test, packets are produced periodically by an active packet source
+(ActivePacketSource). The produced packets are randomly either duplicated or not
+(PacketDuplicator). Finally, the packets are all sent into a passive packet
+sink (PassivePacketSink).
+
+%file: test.ned
+
+import inet.queueing.sink.PassivePacketSink;
+import inet.queueing.common.PacketDuplicator;
+import inet.queueing.source.ActivePacketSource;
+
+network TestDuplicator
+{
+    submodules:
+        producer: ActivePacketSource {
+            @display("p=100,100");
+        }
+        duplicator: PacketDuplicator {
+            @display("p=200,100");
+        }
+        consumer: PassivePacketSink {
+            @display("p=300,100");
+        }
+    connections allowunconnected:
+        producer.out --> duplicator.in;
+        duplicator.out --> consumer.in;
+}
+
+%inifile: omnetpp.ini
+
+[General]
+network = TestDuplicator
+sim-time-limit = 10s
+cmdenv-event-banners = false
+cmdenv-log-prefix = "At %ts %N: "
+*.producer.packetLength = 1B
+*.producer.productionInterval = 1s
+*.duplicator.numDuplicates = intuniform(0, 1)
+
+%# remove formatting
+%subst: /\x1B\[[0-9;]*m//
+
+%subst: /\nRunning simulation\.\.\.\n//
+
+%contains-regex: stdout
+At 0s producer: Producing packet, .*?producer-0.*?
+At 0s duplicator: Forwarding original packet, .*?producer-0.*?
+At 0s consumer: Consuming packet, .*?producer-0.*?
+At 1s producer: Producing packet, .*?producer-1.*?
+At 1s duplicator: Forwarding duplicate packet, .*?producer-1.*?
+At 1s consumer: Consuming packet, .*?producer-1.*?
+At 1s duplicator: Forwarding original packet, .*?producer-1.*?
+At 1s consumer: Consuming packet, .*?producer-1.*?
+At 2s producer: Producing packet, .*?producer-2.*?
+At 2s duplicator: Forwarding duplicate packet, .*?producer-2.*?
+At 2s consumer: Consuming packet, .*?producer-2.*?
+At 2s duplicator: Forwarding original packet, .*?producer-2.*?
+At 2s consumer: Consuming packet, .*?producer-2.*?
+At 3s producer: Producing packet, .*?producer-3.*?
+At 3s duplicator: Forwarding original packet, .*?producer-3.*?
+At 3s consumer: Consuming packet, .*?producer-3.*?
+At 4s producer: Producing packet, .*?producer-4.*?
+At 4s duplicator: Forwarding duplicate packet, .*?producer-4.*?
+At 4s consumer: Consuming packet, .*?producer-4.*?
+At 4s duplicator: Forwarding original packet, .*?producer-4.*?
+At 4s consumer: Consuming packet, .*?producer-4.*?
+At 5s producer: Producing packet, .*?producer-5.*?
+At 5s duplicator: Forwarding duplicate packet, .*?producer-5.*?
+At 5s consumer: Consuming packet, .*?producer-5.*?
+At 5s duplicator: Forwarding original packet, .*?producer-5.*?
+At 5s consumer: Consuming packet, .*?producer-5.*?
+At 6s producer: Producing packet, .*?producer-6.*?
+At 6s duplicator: Forwarding duplicate packet, .*?producer-6.*?
+At 6s consumer: Consuming packet, .*?producer-6.*?
+At 6s duplicator: Forwarding original packet, .*?producer-6.*?
+At 6s consumer: Consuming packet, .*?producer-6.*?
+At 7s producer: Producing packet, .*?producer-7.*?
+At 7s duplicator: Forwarding duplicate packet, .*?producer-7.*?
+At 7s consumer: Consuming packet, .*?producer-7.*?
+At 7s duplicator: Forwarding original packet, .*?producer-7.*?
+At 7s consumer: Consuming packet, .*?producer-7.*?
+At 8s producer: Producing packet, .*?producer-8.*?
+At 8s duplicator: Forwarding duplicate packet, .*?producer-8.*?
+At 8s consumer: Consuming packet, .*?producer-8.*?
+At 8s duplicator: Forwarding original packet, .*?producer-8.*?
+At 8s consumer: Consuming packet, .*?producer-8.*?
+At 9s producer: Producing packet, .*?producer-9.*?
+At 9s duplicator: Forwarding duplicate packet, .*?producer-9.*?
+At 9s consumer: Consuming packet, .*?producer-9.*?
+At 9s duplicator: Forwarding original packet, .*?producer-9.*?
+At 9s consumer: Consuming packet, .*?producer-9.*?
+At 10s producer: Producing packet, .*?producer-10.*?
+At 10s duplicator: Forwarding duplicate packet, .*?producer-10.*?
+At 10s consumer: Consuming packet, .*?producer-10.*?
+At 10s duplicator: Forwarding original packet, .*?producer-10.*?
+At 10s consumer: Consuming packet, .*?producer-10.*?
+
+<!> Simulation time limit reached -- at t=10s
