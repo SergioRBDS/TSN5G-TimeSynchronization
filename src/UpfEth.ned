@@ -50,7 +50,7 @@ module UpfEth extends NetworkLayerNodeBase // não extende UPF pq troquei o GTP 
     gates:
         // this gate is used for the UPF connected to the external data network
         // it must be left unconnected for intermediate UPFs 
-        inout filterGate @loose @labels(EthFrame-conn);
+        inout filterGate @loose @labels(EtherFrame-conn);
     submodules:
         // modulos necessarios para ocnexão ethernet com nós externos ao 5G, e separados dos outro para q percorram o caminho certo
         ethIf: <default("LayeredEthernetInterface")> like IEthernetInterface {

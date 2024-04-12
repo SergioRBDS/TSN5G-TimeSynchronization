@@ -21,20 +21,20 @@ import simu5g.common.carrierAggregation.CarrierAggregation;
 import simu5g.world.radio.LteChannelControl;
 import inet.networks.base.TsnNetworkBase;
 
-//import src.binder.Binder5GTSN;
+import src.common.binder.BinderTSN5G;
 
 network FiveGNetworkBase extends TsnNetworkBase // modulo para n ter q especificar em cada UseCase e ser mais facil de modificar
 {
     parameters:
         macForwardingTableConfigurator.typename = default("");
-	submodules:
-		channelControl: LteChannelControl {
-            @display("p=50,25;is=s");
+    submodules:
+        channelControl: LteChannelControl {
+            @display("p=100,800;is=s");
         }
-        binder: Binder {
-            @display("p=50,175;is=s");
+        binder: BinderTSN5G {
+            @display("p=100,900;is=s");
         }
         carrierAggregation: CarrierAggregation {
-            @display("p=50.993748,258.7;is=s");
+            @display("p=100,1000;is=s");
         }
 }

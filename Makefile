@@ -33,10 +33,17 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cpp, .msg and .sm files
-OBJS = $O/src/corenetwork/gtp/GtpUserEth.o $O/src/gPTP/Gptp5g.o $O/src/stack/mac/layer/NRMacUe2.o
+OBJS = \
+    $O/src/common/binder/BinderTSN5G.o \
+    $O/src/corenetwork/gtp/GtpUserEth.o \
+    $O/src/gPTP/Gptp5g.o \
+    $O/src/gPTP/GptpTSN.o \
+    $O/src/stack/mac/layer/NRMacUe2.o \
+    $O/src/TranslatorType_m.o
 
 # Message files
-MSGFILES =
+MSGFILES = \
+    src/TranslatorType.msg
 
 # SM files
 SMFILES =

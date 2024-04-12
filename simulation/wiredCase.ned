@@ -15,7 +15,7 @@
 
 package simulation;
 
-import inet.node.ethernet.Eth10G;
+import inet.node.ethernet.Eth1G;
 //import inet.node.inet.StandardHost;
 //import inet.node.ethernet.EthernetSwitch;
 import inet.node.tsn.TsnDevice;
@@ -42,20 +42,20 @@ network wiredCase extends TsnNetworkBase
         **.ipv4.arp.typename = "GlobalArp";
         @display("bgb=1569.2401,739.2138");
     submodules:
-        DSTT: TT {
+        DSTT: TsnDevice {
             @display("p=509.25873,220.21999");
         }
-        NSTT: TT {
+        NSTT: TsnDevice {
             @display("p=1384.2399,220.21999");
         }
         intDevice[numIntDevices]: TsnSwitch {
         }
     connections:
-        DSTT.ethg++ <--> Eth10G <--> NSTT.ethg++ if numIntDevices == 0;
+        DSTT.ethg++ <--> Eth1G <--> NSTT.ethg++ if numIntDevices == 0;
 
-        DSTT.ethg++ <--> Eth10G <--> intDevice[0].ethg++ if numIntDevices > 0;
-        NSTT.ethg++ <--> Eth10G <--> intDevice[numIntDevices-1].ethg++ if numIntDevices > 0;
+        DSTT.ethg++ <--> Eth1G <--> intDevice[0].ethg++ if numIntDevices > 0;
+        NSTT.ethg++ <--> Eth1G <--> intDevice[numIntDevices-1].ethg++ if numIntDevices > 0;
         for i=0..numIntDevices-2 {
-            intDevice[i].ethg++ <--> Eth10G <--> intDevice[i+1].ethg++;
+            intDevice[i].ethg++ <--> Eth1G <--> intDevice[i+1].ethg++;
         }
 }

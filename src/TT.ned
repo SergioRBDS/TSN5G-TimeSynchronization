@@ -16,6 +16,7 @@
 package src;
 
 import inet.node.inet.Router;
+import inet.node.tsn.TsnSwitch;
 import inet.applications.contract.IApp;
 
 module TT extends Router{
@@ -24,10 +25,10 @@ module TT extends Router{
         clock.typename = default(hasTimeSynchronization ? "SettableClock" : ""); // enable explicit local clock model
         hasUdp = default(true);
     submodules:
-        gptp: <default("Gptp")> like IApp if hasTimeSynchronization {
-            gptpNodeType = default("SLAVE_NODE");
-            slavePort = default("eth0");
-            masterPorts = default([]);
+        gptp: <default("Gptp5g")> like IApp if hasTimeSynchronization {
+            gptpNodeType = default("BRIDGE_NODE");
+            fiveGPort = default("eth0");
+            TSNPort = default("eth1");
             @display("p=700,75");
         }
     connections:

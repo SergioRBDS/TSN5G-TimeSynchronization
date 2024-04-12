@@ -15,18 +15,41 @@
 
 package src.gPTP;
 
-import inet.linklayer.ieee8021as.Gptp;
+//import inet.linklayer.ieee8021as.Gptp;
+import inet.linklayer.ieee8021as.IGptp;
 
-simple Gptp5g extends Gptp // gPTP q passa por camada IP
-{
+simple Gptp5g like IGptp{ // gPTP q passa por camada IP
     parameters:
-        bool TT = default(true);
-        string ipNIC;
-        string dAddress;
-        // portas são necessarias na comunicação IP
+        string clockModule = default(""); // relative path of a module that implements IClock; optional
+        string interfaceTableModule; // relative path of the interface table module
+        string gptpNodeType = default("BRIDGE_NODE");
+        string translatorType = default("DS_TT");
+        string TSNPort = default("eth1"); // port for receiving time (empty for MASTER_NODE)
+        string fiveGPort = default("eth0");
+        object slaveDomains = default([]); 
+        object masterDomains = default([]);
+        double correctionField @unit(s) = default(0s); // time correction for link delay measurements
+        
+        
+		// portas são necessarias na comunicação IP
         int destPort = default(9000);
         int localPort = default(9000);
-        // modificado para esperar o bind (necessario?)
-        pdelayInitialOffset = default(0ps);
+                
         @class(Gptp5g);
+        
+        @display("i=block/timer");
+        @signal[localTime](type=simtime_t);  // as clocktime_t
+        @signal[timeDifference](type=simtime_t);
+        @signal[rateRatio](type=double);
+        @signal[peerDelay](type=simtime_t);
+        @statistic[localTime](record=vector; interpolationmode=linear);
+        @statistic[timeDifference](record=vector; interpolationmode=linear);
+        @statistic[rateRatio](record=vector; interpolationmode=sample-hold);
+        @statistic[peerDelay](record=vector; interpolationmode=sample-hold);
+        @statistic[localTime](record=vector; interpolationmode=linear);
+        @selfMessageKinds(inet::GptpSelfMsgKind);
+
+    gates:
+        input socketIn;
+        output socketOut;
 }

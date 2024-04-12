@@ -15,11 +15,13 @@
 
 package simulation;
 
+import inet.node.ethernet.Eth1G;
 import inet.node.ethernet.Eth10G;
 //import inet.node.inet.StandardHost;
 //import inet.node.ethernet.EthernetSwitch;
 import inet.node.tsn.TsnDevice;
 import inet.node.tsn.TsnSwitch;
+import inet.node.inet.Router;
 
 //import inet.linklayer.configurator.MacForwardingTableConfigurator;
 
@@ -37,7 +39,7 @@ network UseCase extends FiveGNetworkBase
 {
     parameters:
         **.ipv4.arp.typename = "GlobalArp";
-        @display("bgb=1569.2401,739.2138");
+        @display("bgb=1569.0674,1097.1675");
     submodules:
         upf: UpfEth {
             @display("p=1112.8975,426.67624");
@@ -48,27 +50,101 @@ network UseCase extends FiveGNetworkBase
         ue: NRUeEth {
             @display("p=827.7912,426.67624");
         }
-        DSTT: TT;
-        NSTT: TT;
-        TsnDS: TsnDevice {
-            @display("p=471.89996,599.70624");
+        DSTT: TT {
+            @display("p=742.074,424.986");
+        }
+        NSTT: TT {
+            gptp.translatorType = "NS_TT";
+            @display("p=1197.888,424.986");
+        }
+        Actuator: TsnDevice {
+            @display("p=471.89996,487.62997");
         }
         switch5GC: TsnSwitch {
-            @display("p=1344.9149,521.0562");
+            @display("p=1368.5099,424.71");
         }
         switchTSN: TsnSwitch {
-            @display("p=607.5712,538.75244");
+            @display("p=607.5712,424.71");
         }
-        TsnNS: TsnDevice {
-            @display("p=1510.08,611.5037");
+        PLC: TsnDevice {
+            @display("p=1510.08,426.67624");
+        }
+        Sensor: TsnDevice {
+            @display("p=471.89996,359.82373");
         }
     connections:
-        TsnNS.ethg++ <--> Eth10G <--> switch5GC.ethg++;
-        NSTT.ethg++ <--> Eth10G <--> upf.filterGate;
-        switch5GC.ethg++ <--> Eth10G <--> NSTT.ethg++;
-        upf.ethg++ <--> Eth10G <--> gNB.ethg;
-        ue.ethg++ <--> Eth10G <--> DSTT.ethg++;
-        DSTT.ethg++ <--> Eth10G <--> switchTSN.ethg++;
-        switchTSN.ethg++ <--> Eth10G <--> TsnDS.ethg++;
+        PLC.ethg++ <--> Eth1G <--> switch5GC.ethg++;
+        NSTT.ethg++ <--> Eth1G <--> upf.filterGate;
+        switch5GC.ethg++ <--> Eth1G <--> NSTT.ethg++;
+        upf.ethg++ <--> Eth1G <--> gNB.ethg;
+        ue.ethg++ <--> Eth1G <--> DSTT.ethg++;
+        DSTT.ethg++ <--> Eth1G <--> switchTSN.ethg++;
+        switchTSN.ethg++ <--> Eth1G <--> Sensor.ethg++;
+        switchTSN.ethg++ <--> Eth1G <--> Actuator.ethg++;
 
+}
+
+
+network UseCase2 extends FiveGNetworkBase
+{
+    parameters:
+        **.ipv4.arp.typename = "GlobalArp";
+        @display("bgb=1569.0674,1097.1675");
+    submodules:
+        upf: UpfEth {
+            @display("p=1112.8975,426.67624");
+        }
+        gNB: gNBEth {
+            @display("p=985.0912,426.67624");
+        }
+        ue: NRUeEth {
+            @display("p=827.7912,426.67624");
+        }
+        DSTT: TT {
+            @display("p=742.074,424.986");
+        }
+        NSTT: TT {
+            gptp.translatorType = "NS_TT";
+            @display("p=1197.888,424.986");
+        }
+        Actuator: TsnDevice {
+            @display("p=471.89996,487.62997");
+        }
+        switch5GC: TsnSwitch {
+            @display("p=1368.5099,424.71");
+        }
+        switchTSN: TsnSwitch {
+            @display("p=607.5712,424.71");
+        }
+        PLC: TsnDevice {
+            @display("p=1510.08,426.67624");
+        }
+        Sensor: TsnDevice {
+            @display("p=471.89996,359.82373");
+        }
+        ue2: NRUeEth {
+            @display("p=827.7912,626.67624");
+        }
+        DSTT2: TT {
+            @display("p=742.074,624.986");
+        }
+        switchTSN2: TsnSwitch {
+            @display("p=607.5712,624.71");
+        }
+		Actuator2: TsnDevice {
+            @display("p=471.89996,687.62997");
+        }
+        connections:
+        PLC.ethg++ <--> Eth1G <--> switch5GC.ethg++;
+        NSTT.ethg++ <--> Eth1G <--> upf.filterGate;
+        switch5GC.ethg++ <--> Eth1G <--> NSTT.ethg++;
+        upf.ethg++ <--> Eth1G <--> gNB.ethg;
+        ue.ethg++ <--> Eth1G <--> DSTT.ethg++;
+        DSTT.ethg++ <--> Eth1G <--> switchTSN.ethg++;
+        switchTSN.ethg++ <--> Eth1G <--> Sensor.ethg++;
+        switchTSN.ethg++ <--> Eth1G <--> Actuator.ethg++;
+
+        ue2.ethg++ <--> Eth1G <--> DSTT2.ethg++;
+        DSTT2.ethg++ <--> Eth1G <--> switchTSN2.ethg++;
+        switchTSN2.ethg++ <--> Eth1G <--> Actuator2.ethg++;
 }

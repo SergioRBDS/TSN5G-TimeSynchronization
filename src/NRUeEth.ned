@@ -17,6 +17,7 @@ package src;
 
 import simu5g.nodes.NR.NRUe;
 
+
 module NRUeEth extends NRUe{ // eh um NRUe com ethernet e com o nic com outro NRMac para adicionar os dispositivos descritos em intHostAddress
     parameters:
         string intHostAddress = default("");
@@ -26,7 +27,7 @@ module NRUeEth extends NRUe{ // eh um NRUe com ethernet e com o nic com outro NR
         eth[*].typename = "EthernetInterface";
         *.forwarding = true;
     gates:
-        inout ethg[numEthInterfaces]  @labels(EtherFrame-conn) @allowUnconnected;
+        inout ethg[]  @labels(EtherFrame-conn) @allowUnconnected;
     connections allowunconnected:
         for i=0..sizeof(ethg)-1{
 	        ethg[i] <--> { @display("m=s"); } <--> eth[i].phys;
