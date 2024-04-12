@@ -1,10 +1,3 @@
-//
-// @authors: Enkhtuvshin Janchivnyambuu
-//           Henning Puttnies
-//           Peter Danielis
-//           University of Rostock, Germany
-//
-
 #include "Gptp.h"
 
 #include "GptpPacket_m.h"
@@ -26,6 +19,7 @@ Define_Module(Gptp);
 
 simsignal_t Gptp::localTimeSignal = cComponent::registerSignal("localTime");
 simsignal_t Gptp::timeDifferenceSignal = cComponent::registerSignal("timeDifference");
+simsignal_t Gptp::correctionFieldSignal = cComponent::registerSignal("correctionField");
 simsignal_t Gptp::rateRatioSignal = cComponent::registerSignal("rateRatio");
 simsignal_t Gptp::peerDelaySignal = cComponent::registerSignal("peerDelay");
 
@@ -129,6 +123,10 @@ void Gptp::initialize(int stage)
         }
         WATCH(peerDelay);
     }
+    emit(rateRatioSignal, gmRateRatio);
+    emit(correctionFieldSignal, CLOCKTIME_AS_SIMTIME(CLOCKTIME_ZERO));
+    emit(localTimeSignal, CLOCKTIME_AS_SIMTIME(CLOCKTIME_ZERO));
+    emit(timeDifferenceSignal, CLOCKTIME_AS_SIMTIME(CLOCKTIME_ZERO));
 }
 
 void Gptp::handleSelfMessage(cMessage *msg)
@@ -257,25 +255,25 @@ void Gptp::sendSync()
     // The sendFollowUp(portId) called by receiveSignal(), when GptpSync sent
 }
 
-void Gptp::sendFollowUp(int portId, const GptpSync *sync, clocktime_t preciseOriginTimestamp)
+void Gptp::sendFollowUp(int portId, const GptpSync *sync, clocktime_t syncTxEndTimestamp)
 {
     auto packet = new Packet("GptpFollowUp");
     packet->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
     auto gptp = makeShared<GptpFollowUp>();
     gptp->setDomainNumber(domainNumber);
-    gptp->setPreciseOriginTimestamp(preciseOriginTimestamp);
+    gptp->setPreciseOriginTimestamp(originTimestamp);
     gptp->setSequenceId(sync->getSequenceId());
 
-    if (gptpNodeType == MASTER_NODE)
-        gptp->setCorrectionField(CLOCKTIME_ZERO);
+    if (gptpNodeType == MASTER_NODE) {
+        gptp->setCorrectionField(syncTxEndTimestamp - originTimestamp);
+    }
     else if (gptpNodeType == BRIDGE_NODE)
     {
         /**************** Correction field calculation *********************************************
          * It is calculated by adding peer delay, residence time and packet transmission time      *
          * correctionField(i)=correctionField(i-1)+peerDelay+(timeReceivedSync-timeSentSync)*(1-f) *
          *******************************************************************************************/
-        // gptp->setCorrectionField(correctionField + peerDelay + sentTimeSyncSync - receivedTimeSync);  // TODO revise it!!! see prev. comment, where is the (1-f),  ???
-        gptp->setCorrectionField(CLOCKTIME_ZERO);  // TODO revise it!!! see prev. comment, where is the (1-f),  ???
+        gptp->setCorrectionField(syncTxEndTimestamp - originTimestamp);
     }
     gptp->getFollowUpInformationTLVForUpdate().setRateRatio(gmRateRatio);
     packet->insertAtFront(gptp);
@@ -289,7 +287,6 @@ void Gptp::sendPdelayResp(GptpReqAnswerEvent* req)
     packet->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
     auto gptp = makeShared<GptpPdelayResp>();
     gptp->setDomainNumber(domainNumber);
-    //??? gptp->setSentTime(clock->getClockTime());
     gptp->setRequestingPortIdentity(req->getSourcePortIdentity());
     gptp->setSequenceId(req->getSequenceId());
     gptp->setRequestReceiptTimestamp(req->getIngressTimestamp());
@@ -356,9 +353,9 @@ void Gptp::processFollowUp(Packet *packet, const GptpFollowUp* gptp)
         return;
     }
 
-
-    peerSentTimeSync = gptp->getPreciseOriginTimestamp();
+    originTimestamp = gptp->getPreciseOriginTimestamp();
     correctionField = gptp->getCorrectionField();
+    peerSentTimeSync = gptp->getPreciseOriginTimestamp() + gptp->getCorrectionField();
     receivedRateRatio = gptp->getFollowUpInformationTLV().getRateRatio();
 
     synchronize();
@@ -368,6 +365,8 @@ void Gptp::processFollowUp(Packet *packet, const GptpFollowUp* gptp)
     EV_INFO << "ORIGIN TIME SYNC         - " << originTimestamp << endl;
     EV_INFO << "CORRECTION FIELD         - " << correctionField << endl;
     EV_INFO << "PROPAGATION DELAY        - " << peerDelay << endl;
+    EV_INFO << "peerSentTimeSync         - " << peerSentTimeSync << endl;
+    EV_INFO << "receivedRateRatio        - " << receivedRateRatio << endl;
 
     rcvdGptpSync = false;
 }
@@ -375,16 +374,16 @@ void Gptp::processFollowUp(Packet *packet, const GptpFollowUp* gptp)
 void Gptp::synchronize()
 {
     simtime_t now = simTime();
-    clocktime_t origNow = clock->getClockTime();
-    clocktime_t residenceTime = origNow - syncIngressTimestamp;
+    clocktime_t oldLocalTimeAtTimeSync = clock->getClockTime();
+    clocktime_t residenceTime = oldLocalTimeAtTimeSync - syncIngressTimestamp;
 
-    emit(timeDifferenceSignal, CLOCKTIME_AS_SIMTIME(origNow) - now);
+    emit(timeDifferenceSignal, CLOCKTIME_AS_SIMTIME(oldLocalTimeAtTimeSync) - now);
 
     /************** Time synchronization *****************************************
      * Local time is adjusted using peer delay, correction field, residence time *
      * and packet transmission time based departure time of Sync message from GM *
      *****************************************************************************/
-    clocktime_t newTime = peerSentTimeSync + peerDelay + correctionField + residenceTime;
+    clocktime_t newTime = originTimestamp + correctionField + peerDelay + residenceTime;
 
     ASSERT(gptpNodeType != MASTER_NODE);
 
@@ -392,36 +391,41 @@ void Gptp::synchronize()
     if (oldPeerSentTimeSync == -1)
         gmRateRatio = 1;
     else
-        gmRateRatio = (peerSentTimeSync - oldPeerSentTimeSync) / (origNow - newLocalTimeAtTimeSync) ;
+        gmRateRatio = (peerSentTimeSync - oldPeerSentTimeSync) / (syncIngressTimestamp - receivedTimeSync);
 
     auto settableClock = check_and_cast<SettableClock *>(clock.get());
     ppm newOscillatorCompensation = unit(gmRateRatio * (1 + unit(settableClock->getOscillatorCompensation()).get()) - 1);
     settableClock->setClockTime(newTime, newOscillatorCompensation, true);
 
-    oldPeerSentTimeSync = peerSentTimeSync;
-    oldLocalTimeAtTimeSync = origNow;
     newLocalTimeAtTimeSync = clock->getClockTime();
+    timeDiffAtTimeSync = newLocalTimeAtTimeSync - oldLocalTimeAtTimeSync;
     receivedTimeSync = syncIngressTimestamp;
 
     // adjust local timestamps, too
-    pdelayRespEventIngressTimestamp += newLocalTimeAtTimeSync - oldLocalTimeAtTimeSync;
-    pdelayReqEventEgressTimestamp += newLocalTimeAtTimeSync - oldLocalTimeAtTimeSync;
+    adjustLocalTimestamp(pdelayRespEventIngressTimestamp);
+    adjustLocalTimestamp(pdelayReqEventEgressTimestamp);
+    adjustLocalTimestamp(receivedTimeSync);
 
     /************** Rate ratio calculation *************************************
      * It is calculated based on interval between two successive Sync messages *
      ***************************************************************************/
 
     EV_INFO << "############## SYNC #####################################"<< endl;
-    EV_INFO << "RECEIVED TIME AFTER SYNC   - " << newLocalTimeAtTimeSync << endl;
-    EV_INFO << "RECEIVED SIM TIME          - " << now << endl;
+    EV_INFO << "LOCAL TIME BEFORE SYNC     - " << oldLocalTimeAtTimeSync << endl;
+    EV_INFO << "LOCAL TIME AFTER SYNC      - " << newLocalTimeAtTimeSync << endl;
+    EV_INFO << "CURRENT SIMTIME            - " << now << endl;
     EV_INFO << "ORIGIN TIME SYNC           - " << peerSentTimeSync << endl;
+    EV_INFO << "PREV ORIGIN TIME SYNC      - " << oldPeerSentTimeSync << endl;
     EV_INFO << "RESIDENCE TIME             - " << residenceTime << endl;
     EV_INFO << "CORRECTION FIELD           - " << correctionField << endl;
     EV_INFO << "PROPAGATION DELAY          - " << peerDelay << endl;
     EV_INFO << "TIME DIFFERENCE TO SIMTIME - " << CLOCKTIME_AS_SIMTIME(newLocalTimeAtTimeSync) - now << endl;
-    EV_INFO << "RATE RATIO                 - " << gmRateRatio << endl;
+    EV_INFO << "GM RATE RATIO              - " << gmRateRatio << endl;
+
+    oldPeerSentTimeSync = peerSentTimeSync;
 
     emit(rateRatioSignal, gmRateRatio);
+    emit(correctionFieldSignal, CLOCKTIME_AS_SIMTIME(correctionField));
     emit(localTimeSignal, CLOCKTIME_AS_SIMTIME(newLocalTimeAtTimeSync));
     emit(timeDifferenceSignal, CLOCKTIME_AS_SIMTIME(newLocalTimeAtTimeSync) - now);
 }
@@ -549,5 +553,5 @@ void Gptp::handleDelayOrSendFollowUp(const GptpBase *gptp, cComponent *source)
         break;
     }
 }
-}
 
+} // namespace inet

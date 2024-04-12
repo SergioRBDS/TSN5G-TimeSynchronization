@@ -38,12 +38,17 @@ simple Gptp like IGptp
         @display("i=block/timer");
         @signal[localTime](type=simtime_t);  // as clocktime_t
         @signal[timeDifference](type=simtime_t);
+        @signal[correctionField](type=simtime_t);
         @signal[rateRatio](type=double);
         @signal[peerDelay](type=simtime_t);
-        @statistic[localTime](record=vector; interpolationmode=linear);
+        @statistic[localTime](record=vector; interpolationmode=linear; );
         @statistic[timeDifference](record=vector; interpolationmode=linear);
+        @statistic[correctionField](record=vector; interpolationmode=linear);
         @statistic[rateRatio](record=vector; interpolationmode=sample-hold);
         @statistic[peerDelay](record=vector; interpolationmode=sample-hold);
+        
+        
+        
         @selfMessageKinds(inet::GptpSelfMsgKind);
 
     gates:

@@ -45,8 +45,7 @@ module MultiDomainGptp like IGptp
             @display("p=300,350");
         }
     connections:
-        for i=0..numDomains-1
-        {
+        for i=0..numDomains-1 {
             domain[i].socketOut --> multiplexer.in++;
             classifier.out++ --> domain[i].socketIn;
         }
