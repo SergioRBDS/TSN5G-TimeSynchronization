@@ -20,6 +20,6 @@ ___
 
 First, make sure to have Omnet++ installed, the instructions are present in https://github.com/omnetpp/omnetpp.
 
-Then, download and import the INET, Simu5G, and our model in OMNeT++.
+Then, download and import the INET, Simu5G, and our model in OMNeT++. As INET is being continuously updated, if you need you can download for our branch inet
 
 ## Usage
