@@ -23,3 +23,9 @@ First, make sure to have Omnet++ installed, the instructions are present in http
 Then, download and import the INET, Simu5G, and our model in OMNeT++. As INET is being continuously updated, if you need you can download for our branch inet
 
 ## Usage
+
+After installkng all dependencies, the user can run the omnetpp.ini file and see how the synchronization works.
+
+the simulation parameters can also be changed in that file changing the 5G parameters of the Simu5G such as numerology (u) and carrier frequency. The synchronization parameters are the same of the gPTP from INET such as the time the synchronization starts, period for recalculate peer delay and the time to send sync messages.
+
+the use cases can be also modified at the usecase.ned file using devices TSN capable
