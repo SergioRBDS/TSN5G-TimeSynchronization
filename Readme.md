@@ -43,7 +43,7 @@ Follow the example to have some idea in how changed such parameters an how creat
   **.carrierFrequency = 2,4GHz
   *.switch*.gptp.masterPorts = ["eth0","eth2"] # the master ports and the slave port must be explicity defined
   *.switch*.gptp.slavePort = "eth1"
-
+```
 ```python
 # For a new network file
 package simulation;
@@ -113,4 +113,4 @@ network UseCase extends FiveGNetworkBase # the file must extend this network, wh
         switchTSN.ethg++ <--> Eth1G <--> Actuator.ethg++;
         switchTSN.ethg++ <--> Eth1G <--> Actuator2.ethg++;
 }
-
+```
