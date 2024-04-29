@@ -22,12 +22,14 @@ First, make sure to have Omnet++ installed, the instructions can be found at htt
 
 Download INET, Simu5G, and our model and separate them in a folder to be your workspace. As INET is being continuously updated, if you need you can download it for our branch inet.
 
-Open OMNeT++ and select the workspace folder as the workspace of OMNeT++. Import the models (go to files->import, select the folder with the models and select the models to import)
+Open OMNeT++, select the workspace folder as the workspace of OMNeT++ and import the models (go to files->import, select the folder with the models and select the models to import)
+
+Make sure the projects have the reference project properly, for that, click in the project with the right button, go to properties, the reference project. Simu5G must have INET and our model must have INET and SImu5G
 
 ## Usage
 
-After installing all dependencies, the user can run the omnetpp.ini file and see how the synchronization works.
+After installing all dependencies, the user can run the "omnetpp.ini" file and see how the synchronization works. In the same file, the simulation parameters can be changed such as numerology (u), carrier frequency and synchronization parameters
 
-the simulation parameters can also be changed in that file by changing the 5G parameters of the Simu5G such as numerology (u) and carrier frequency. The synchronization parameters are the same of the gPTP from INET such as the time the synchronization starts, period for recalculate peer delay and the time to send sync messages.
+The netwrork topology can also be changed in the "usecase.ned" itself or creating another ned file and changing the name in the "omnetpp.ini"
 
-the use cases can be also modified at the usecase.ned file using devices TSN capable
+Follow the example to have some idea in how changed such parameters an how create your own topology
