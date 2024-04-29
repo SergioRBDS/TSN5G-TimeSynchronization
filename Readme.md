@@ -18,21 +18,21 @@ ___
 
 ## Installation
 
-First, make sure to have Omnet++ installed, the instructions can be found at https://github.com/omnetpp/omnetpp.
+First, make sure to have Omnet++ installed. The instructions can be found at https://github.com/omnetpp/omnetpp.
 
-Download INET, Simu5G, and our model and separate them in a folder to be your workspace. As INET is being continuously updated, if you need you can download it for our branch inet.
+Download INET, Simu5G, and our model and separate them in a folder to be your workspace. As INET is continuously updated, you can download it for our branch "inet" if needed.
 
-Open OMNeT++, select the workspace folder as the workspace of OMNeT++ and import the models (go to files->import, select the folder with the models and select the models to import)
+Open OMNeT++, select the workspace folder as the workspace of OMNeT++, and import the models (go to files->import, select the folder with the models, and select the models to import)
 
-Make sure the projects have the reference project properly, for that, click in the project with the right button, go to properties, the reference project. Simu5G must have INET and our model must have INET and Simu5G
+Make sure the projects have the reference project properly, for that, click in the project with the right button, go to properties, the reference project. Simu5G must have INET, and our model must have INET and Simu5G.
 
 ## Usage
 
-After installing all dependencies, the user can run the "simulation/omnetpp.ini" file and see how the synchronization works. In the same file, the simulation parameters can be changed or added such as numerology (u), carrier frequency and synchronization parameters
+After installing all dependencies, the user can run the "simulation/omnetpp.ini" file and see how the synchronization works. In the same file, the simulation parameters can be changed or added such as numerology (u), carrier frequency and synchronization parameters.
 
-The netwrork topology can also be changed in the "simulation/UseCase.ned" itself or creating another ned file and changing the name in the "omnetpp.ini"
+The network topology can also be changed in the "simulation/UseCase.ned" itself or creating another ned file and changing the name in the "omnetpp.ini"
 
-Follow the example to have some idea in how changed such parameters an how create your own topology
+Follow the example to have some idea of how changed such parameters and how create your own topology.
 
 ## Examples
 
