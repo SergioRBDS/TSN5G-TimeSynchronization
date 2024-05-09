@@ -36,6 +36,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/src/common/binder/BinderTSN5G.o \
     $O/src/corenetwork/gtp/GtpUserEth.o \
+    $O/src/corenetwork/gtp/GtpUserGnb.o \
     $O/src/gPTP/Gptp5g.o \
     $O/src/gPTP/GptpTSN.o \
     $O/src/stack/mac/layer/NRMacUe2.o \
