@@ -8,8 +8,6 @@
 #include "Gptp5g.h"
 
 #include "inet/linklayer/ieee8021as/GptpPacket_m.h"
-
-
 #include "inet/common/IProtocolRegistrationListener.h"
 #include "inet/linklayer/common/InterfaceTag_m.h"
 #include "inet/networklayer/common/NetworkInterface.h"
@@ -46,6 +44,8 @@ const MacAddress Gptp5g::GPTP_MULTICAST_ADDRESS("01:80:C2:00:00:0E");
 Gptp5g::~Gptp5g()
 {
     cancelAndDeleteClockEvent(selfMsgBindSocket);
+    cancelAndDeleteClockEvent(selfMsgSync);
+    cancelAndDeleteClockEvent(requestMsg);
 }
 
 void Gptp5g::initialize(int stage){
@@ -53,9 +53,9 @@ void Gptp5g::initialize(int stage){
     ClockUserModuleBase::initialize(stage);
 
     if (stage == INITSTAGE_LOCAL){
-        gptpNodeType = static_cast<GptpNodeType>(cEnum::get("GptpNodeType", "inet")->resolve(par("gptpNodeType")));
         translatorType = static_cast<TranslatorType>(cEnum::get("TranslatorType")->resolve(par("translatorType")));
 
+        pDelayReqProcessingTime = par("pDelayReqProcessingTime");
 
         localPort = par("localPort");
         destPort = par("destPort");
@@ -72,32 +72,45 @@ void Gptp5g::initialize(int stage){
 
         interfaceTable.reference(this, "interfaceTableModule", true);
 
-        const char *TSNPort = par("TSNPort");
-        if (*TSNPort) {
-            auto nic = CHK(interfaceTable->findInterfaceByName(TSNPort));
-            TSNPortId = nic->getInterfaceId();
-            nic->subscribe(transmissionEndedSignal, this);
-            nic->subscribe(receptionEndedSignal, this);
-        }
-        else
-            throw cRuntimeError("Parameter error: Missing slave port for TSN Translator");
-
         const char *fiveGPort = par("fiveGPort");
         if (*fiveGPort) {
             auto nic = CHK(interfaceTable->findInterfaceByName(fiveGPort));
             fiveGPortId = nic->getInterfaceId();
-            if (fiveGPortId == TSNPortId)
-                throw cRuntimeError("Parameter error: the port '%s' specified both master and slave port", fiveGPort);
+        }
+
+        const char *str = par("slavePort");
+        if (*str) {
+            auto nic = CHK(interfaceTable->findInterfaceByName(str));
+            slavePortId = nic->getInterfaceId();
+            if(slavePortId != fiveGPortId){
+                TSNPortIds.insert(slavePortId);
+            }
+            nic->subscribe(transmissionEndedSignal, this);
+            nic->subscribe(receptionEndedSignal, this);
+        }
+        auto v = check_and_cast<cValueArray *>(par("masterPorts").objectValue())->asStringVector();
+        for (const auto& p : v) {
+            auto nic = CHK(interfaceTable->findInterfaceByName(p.c_str()));
+            int portId = nic->getInterfaceId();
+            if(portId != fiveGPortId){
+                TSNPortIds.insert(portId);
+            }
+            masterPortIds.insert(portId);
             nic->subscribe(transmissionEndedSignal, this);
             nic->subscribe(receptionEndedSignal, this);
         }
 
-        auto networkInterfaceTSNPort = interfaceTable->getInterfaceById(TSNPortId);
-        if (!networkInterfaceTSNPort->matchesMulticastMacAddress(GPTP_MULTICAST_ADDRESS))
-            networkInterfaceTSNPort->addMulticastMacAddress(GPTP_MULTICAST_ADDRESS);
-        auto networkInterface5GPort = interfaceTable->getInterfaceById(fiveGPortId);
-        if (!networkInterface5GPort->matchesMulticastMacAddress(GPTP_MULTICAST_ADDRESS))
-            networkInterface5GPort->addMulticastMacAddress(GPTP_MULTICAST_ADDRESS);
+
+        if (slavePortId != -1) {
+            auto networkInterface = interfaceTable->getInterfaceById(slavePortId);
+            if (!networkInterface->matchesMulticastMacAddress(GPTP_MULTICAST_ADDRESS))
+                networkInterface->addMulticastMacAddress(GPTP_MULTICAST_ADDRESS);
+        }
+        for (auto id: masterPortIds) {
+            auto networkInterface = interfaceTable->getInterfaceById(id);
+            if (!networkInterface->matchesMulticastMacAddress(GPTP_MULTICAST_ADDRESS))
+                networkInterface->addMulticastMacAddress(GPTP_MULTICAST_ADDRESS);
+        }
 
 
         registerProtocol(Protocol::gptp, gate("socketOut"), gate("socketIn"));
@@ -116,14 +129,38 @@ void Gptp5g::initialize(int stage){
             binder_->setTranslatorMasters(d, getParentModule()->getName());
         }
         cout << domainNumbers.size() << endl;
-        WATCH(peerDelay);
+        if(slavePortId != fiveGPortId)
+        {
+            requestMsg = new ClockEvent("requestToSendSync", GPTP_REQUEST_TO_SEND_SYNC);
 
+            // Schedule Pdelay_Req message is sent by slave port
+            // without depending on node type which is grandmaster or bridge
+            selfMsgDelayReq = new ClockEvent("selfMsgPdelay", GPTP_SELF_MSG_PDELAY_REQ);
+            pdelayInterval = par("pdelayInterval");
+            scheduleClockEventAfter(par("pdelayInitialOffset"), selfMsgDelayReq);
+        }
+        WATCH(peerDelay);
+        emit(rateRatioSignal, gmRateRatio);
+        emit(localTimeSignal, CLOCKTIME_AS_SIMTIME(CLOCKTIME_ZERO));
+        emit(timeDifferenceSignal, CLOCKTIME_AS_SIMTIME(CLOCKTIME_ZERO));
     }
+
 }
 
 void Gptp5g::handleSelfMessage(cMessage *msg)
 {
     switch(msg->getKind()) {
+        case GPTP_SELF_REQ_ANSWER_KIND:
+            // masterport:
+            sendPdelayResp(check_and_cast<GptpReqAnswerEvent*>(msg));
+            delete msg;
+            break;
+
+        case GPTP_SELF_MSG_PDELAY_REQ:
+        // slaveport:
+            sendPdelayReq(); //TODO on slaveports only
+            scheduleClockEventAfter(pdelayInterval, selfMsgDelayReq);
+            break;
         case 106:
             socket.setOutputGate(gate("socketOut"));
             socket.bind(L3Address(),localPort);
@@ -143,17 +180,6 @@ void Gptp5g::handleMessage(cMessage *msg)
         Packet *packet = check_and_cast<Packet *>(msg);
         auto gptp = packet->peekAtFront<GptpBase>();
         auto gptpMessageType = gptp->getMessageType();
-
-        /*
-        int incomingDomainNumber = gptp->getDomainNumber();
-        if(auto it = domainNumbers.find(incomingDomainNumber) == domainNumbers.end()){
-            EV_ERROR << "Message " << msg->getClassAndFullName() << " arrived with foreign domainNumber " << incomingDomainNumber << ", dropped\n";
-            PacketDropDetails details;
-            details.setReason(NOT_ADDRESSED_TO_US);
-            emit(packetDroppedSignal, packet, &details);
-            return;
-        }
-*/
 
         switch (gptpMessageType) {
             case GPTPTYPE_SYNC:
@@ -178,14 +204,69 @@ void Gptp5g::handleMessage(cMessage *msg)
 }
 
 
+void Gptp5g::sendPdelayReq()
+{
+    auto packet = new Packet("GptpPdelayReq");
+    packet->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
+    auto gptp = makeShared<GptpPdelayReq>();
+    gptp->setCorrectionField(CLOCKTIME_ZERO);
+    //save and send IDs
+    PortIdentity portId;
+    portId.clockIdentity = clockIdentity;
+    portId.portNumber = slavePortId;
+    gptp->setSourcePortIdentity(portId);
+    lastSentPdelayReqSequenceId = sequenceId++;
+    gptp->setSequenceId(lastSentPdelayReqSequenceId);
+    packet->insertAtFront(gptp);
+    pdelayReqEventEgressTimestamp = clock->getClockTime();
+    rcvdPdelayResp = false;
+    sendPacketToNIC(packet, slavePortId);
+}
+void Gptp5g::sendPdelayResp(GptpReqAnswerEvent* req)
+{
+    int portId = req->getPortId();
+    auto packet = new Packet("GptpPdelayResp");
+    packet->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
+    auto gptp = makeShared<GptpPdelayResp>();
+    gptp->setRequestingPortIdentity(req->getSourcePortIdentity());
+    gptp->setSequenceId(req->getSequenceId());
+    gptp->setRequestReceiptTimestamp(req->getIngressTimestamp());
+    packet->insertAtFront(gptp);
+    sendPacketToNIC(packet, portId);
+    // The sendPdelayRespFollowUp(portId) called by receiveSignal(), when GptpPdelayResp sent
+}
 
-void Gptp5g::sendPacketFromNSTT(Packet *packet, int incomingNicId, int domainNumber){
-    int portId;
-    if(incomingNicId == TSNPortId){
-        portId = fiveGPortId;
-    }else{
-        portId = TSNPortId;
-    }
+void Gptp5g::sendPdelayRespFollowUp(int portId, const GptpPdelayResp* resp)
+{
+    auto packet = new Packet("GptpPdelayRespFollowUp");
+    packet->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
+    auto gptp = makeShared<GptpPdelayRespFollowUp>();
+    auto now = clock->getClockTime();
+    gptp->setResponseOriginTimestamp(now);
+    gptp->setRequestingPortIdentity(resp->getRequestingPortIdentity());
+    gptp->setSequenceId(resp->getSequenceId());
+    packet->insertAtFront(gptp);
+    sendPacketToNIC(packet, portId);
+}
+
+void Gptp5g::sendPacketToNIC(Packet *packet, int portId)
+{
+    auto networkInterface = interfaceTable->getInterfaceById(portId);
+    EV_INFO << "Sending " << packet << " to output interface = " << networkInterface->getInterfaceName() << ".\n";
+    packet->addTag<InterfaceReq>()->setInterfaceId(portId);
+    packet->addTag<PacketProtocolTag>()->setProtocol(&Protocol::gptp);
+    packet->addTag<DispatchProtocolInd>()->setProtocol(&Protocol::gptp);
+    auto protocol = networkInterface->getProtocol();
+    if (protocol != nullptr)
+        packet->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(protocol);
+    else
+        packet->removeTagIfPresent<DispatchProtocolReq>();
+    send(packet, "socketOut");
+}
+
+
+void Gptp5g::sendPacketFromNSTT(Packet *packet, int portId, int domainNumber){
+
     auto networkInterface = interfaceTable->getInterfaceById(portId);
     EV_INFO << "Sending " << packet << " to output interface = " << networkInterface->getInterfaceName() << ".\n";
     packet->removeTagIfPresent<InterfaceReq>();
@@ -204,8 +285,10 @@ void Gptp5g::sendPacketFromNSTT(Packet *packet, int incomingNicId, int domainNum
     L3Address destAddr;
     for (const char* address : binder_->getTranslatorSlaves(domainNumber)){
         if(strcmp(address,"NSTT")==0){
-            packet->addTag<InterfaceReq>()->setInterfaceId(TSNPortId);
-            send(packet->dup(), "socketOut");
+            for(auto TSNPortId:TSNPortIds){
+                packet->addTag<InterfaceReq>()->setInterfaceId(TSNPortId);
+                send(packet->dup(), "socketOut");
+            }
         }else{
             packet->addTag<InterfaceReq>()->setInterfaceId(fiveGPortId);
             L3AddressResolver().tryResolve(address,destAddr);
@@ -216,53 +299,8 @@ void Gptp5g::sendPacketFromNSTT(Packet *packet, int incomingNicId, int domainNum
 
 }
 
-void Gptp5g::sendPacketReqFromNSTT(Packet *packet, int incomingNicId, int domainNumber){
-    int portId;
-    L3Address destAddr;
-    const char* address = binder_->getTranslatorMaster(domainNumber);
-    if(incomingNicId == TSNPortId){
-        portId = fiveGPortId;
-    }else{
-        if(strcmp(address,"NSTT")==0){
-            portId = TSNPortId;
-        }else{
-            portId = fiveGPortId;
-        }
-    }
-    auto networkInterface = interfaceTable->getInterfaceById(portId);
-    EV_INFO << "Sending " << packet << " to output interface = " << networkInterface->getInterfaceName() << ".\n";
-    packet->removeTagIfPresent<InterfaceReq>();
-    packet->removeTagIfPresent<PacketProtocolTag>();
-    packet->removeTagIfPresent<DispatchProtocolInd>();
-    packet->addTag<PacketProtocolTag>()->setProtocol(&Protocol::gptp);
-    packet->addTag<DispatchProtocolInd>()->setProtocol(&Protocol::gptp);
-    auto protocol = networkInterface->getProtocol();
-    if (protocol != nullptr)
-        packet->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(protocol);
-    else
-        packet->removeTagIfPresent<DispatchProtocolReq>();
+void Gptp5g::sendPacketFromDSTT(Packet *packet, int portId){
 
-
-
-    if(strcmp(address,"NSTT")==0){
-        packet->addTag<InterfaceReq>()->setInterfaceId(TSNPortId);
-        send(packet, "socketOut");
-    }else{
-        packet->addTag<InterfaceReq>()->setInterfaceId(fiveGPortId);
-        L3AddressResolver().tryResolve(address,destAddr);
-        emit(packetSentSignal,packet);
-        socket.sendTo(packet, destAddr, destPort);
-    }
-
-}
-
-void Gptp5g::sendPacketFromDSTT(Packet *packet, int incomingNicId){
-    int portId;
-    if(incomingNicId == TSNPortId){
-        portId = fiveGPortId;
-    }else{
-        portId = TSNPortId;
-    }
     auto networkInterface = interfaceTable->getInterfaceById(portId);
     EV_INFO << "Sending " << packet << " to output interface = " << networkInterface->getInterfaceName() << ".\n";
     packet->removeTagIfPresent<InterfaceReq>();
@@ -281,7 +319,7 @@ void Gptp5g::sendPacketFromDSTT(Packet *packet, int incomingNicId){
         L3AddressResolver().tryResolve("NSTT",destAddr);
         emit(packetSentSignal,packet);
         socket.sendTo(packet, destAddr, destPort);
-    }else if(portId == TSNPortId){
+    }else{
         send(packet, "socketOut");
     }
 }
@@ -289,97 +327,63 @@ void Gptp5g::sendPacketFromDSTT(Packet *packet, int incomingNicId){
 
 void Gptp5g::forwardPdelayReq(Packet *packet, const GptpPdelayReq* gptp)
 {
-    auto incomingNicId = packet->getTag<InterfaceInd>()->getInterfaceId();
-    int incomingDomainNumber = gptp->getDomainNumber();
-    auto copyPacket = new Packet("GptpPdelayReq");
-    copyPacket->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
-    auto copyGptp = makeShared<GptpPdelayReq>();
-    copyGptp->setDomainNumber(incomingDomainNumber);
-    copyGptp->setSourcePortIdentity(gptp->getSourcePortIdentity());
-    copyGptp->setSequenceId(gptp->getSequenceId());
-    copyGptp->setCorrectionField(CLOCKTIME_ZERO);
-    copyPacket->insertAtFront(copyGptp);
-    delete packet;
-    if (translatorType == DS_TT){
-        sendPacketFromDSTT(copyPacket, incomingNicId);
-    }
-    else if (translatorType == NS_TT){
-        sendPacketReqFromNSTT(copyPacket, incomingNicId, incomingDomainNumber);
-    }
+    auto resp = new GptpReqAnswerEvent("selfMsgPdelayResp", GPTP_SELF_REQ_ANSWER_KIND);
+    resp->setPortId(packet->getTag<InterfaceInd>()->getInterfaceId());
+    resp->setIngressTimestamp(packet->getTag<GptpIngressTimeInd>()->getArrivalClockTime());
+    resp->setSourcePortIdentity(gptp->getSourcePortIdentity());
+    resp->setSequenceId(gptp->getSequenceId());
+
+    scheduleClockEventAfter(pDelayReqProcessingTime, resp);
 }
 
 
 void Gptp5g::forwardPdelayResp(Packet *packet, const GptpPdelayResp* gptp)
 {
-    auto incomingNicId = packet->getTag<InterfaceInd>()->getInterfaceId();
-    int incomingDomainNumber = gptp->getDomainNumber();
-    auto copyPacket = new Packet("GptpPdelayResp");
-    copyPacket->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
-    auto copyGptp = makeShared<GptpPdelayResp>();
-    copyGptp->setDomainNumber(incomingDomainNumber);
-    copyGptp->setSequenceId(gptp->getSequenceId());
-    copyGptp->setRequestingPortIdentity(gptp->getRequestingPortIdentity());
-    delete packet;
-    if (incomingNicId == TSNPortId){
-        copyGptp->setRequestReceiptTimestamp(gptp->getRequestReceiptTimestamp()-reqMsgEgressTimestamp);// manda o tempo de egresso do req modificando o timestap (gptp do inet n usa correctionField no resp)
+    // verify IDs
+    if (gptp->getRequestingPortIdentity().clockIdentity != clockIdentity || gptp->getRequestingPortIdentity().portNumber != slavePortId) {
+        EV_WARN << "GptpPdelayResp arrived with invalid PortIdentity, dropped";
+        return;
     }
-    else{
-        if (translatorType == DS_TT){
-            copyGptp->setRequestReceiptTimestamp(gptp->getRequestReceiptTimestamp()+reqMsgIngressTimestamp);// manda o tempo de ingresso do req modificando o timestap (gptp do inet n usa correctionField no resp)
-        }
-        else if (translatorType == NS_TT){
-            if(domainNumbers.find(incomingDomainNumber) != domainNumbers.end()){
-                copyGptp->setRequestReceiptTimestamp(gptp->getRequestReceiptTimestamp()+reqMsgIngressTimestamp);// manda o tempo de ingresso do req modificando o timestap (gptp do inet n usa correctionField no resp)
-            }else{
-                copyGptp->setRequestReceiptTimestamp(gptp->getRequestReceiptTimestamp());// manda o tempo de ingresso do req modificando o timestap (gptp do inet n usa correctionField no resp)
-            }
-        }
+    if (gptp->getSequenceId() != lastSentPdelayReqSequenceId) {
+        EV_WARN << "GptpPdelayResp arrived with invalid sequence ID, dropped";
+        return;
+    }
 
-    }
-    copyPacket->insertAtFront(copyGptp);
-    if (translatorType == DS_TT){
-        sendPacketFromDSTT(copyPacket, incomingNicId);
-    }
-    else if (translatorType == NS_TT){
-        sendPacketFromNSTT(copyPacket, incomingNicId, incomingDomainNumber);
-    }
+    rcvdPdelayResp = true;
+    pdelayRespEventIngressTimestamp = packet->getTag<GptpIngressTimeInd>()->getArrivalClockTime();
+    peerRequestReceiptTimestamp = gptp->getRequestReceiptTimestamp();
+    peerResponseOriginTimestamp = CLOCKTIME_ZERO;
 }
 
 void Gptp5g::forwardPdelayRespFollowUp(Packet *packet, const GptpPdelayRespFollowUp* gptp)
 {
-    auto incomingNicId = packet->getTag<InterfaceInd>()->getInterfaceId();
-    int incomingDomainNumber = gptp->getDomainNumber();
-    auto copyPacket = new Packet("GptpPdelayRespFollowUp");
-    copyPacket->addTag<MacAddressReq>()->setDestAddress(GPTP_MULTICAST_ADDRESS);
-    auto copyGptp = makeShared<GptpPdelayRespFollowUp>();
-    copyGptp->setDomainNumber(incomingDomainNumber);
-    copyGptp->setRequestingPortIdentity(gptp->getRequestingPortIdentity());
-    copyGptp->setSequenceId(gptp->getSequenceId());
-    delete packet;
-    if (incomingNicId == TSNPortId){
-        rcvdPdelayRespForTSN = false;
-        copyGptp->setResponseOriginTimestamp(gptp->getResponseOriginTimestamp()-respMsgIngressTimestamp);
+    if (!rcvdPdelayResp) {
+        EV_WARN << "GptpPdelayRespFollowUp arrived without GptpPdelayResp, dropped";
+        return;
     }
-    else{
-        if (translatorType == DS_TT){
-            copyGptp->setResponseOriginTimestamp(gptp->getResponseOriginTimestamp()+respMsgEgressTimestamp);
-        }
-        else if (translatorType == NS_TT){
-            if(domainNumbers.find(incomingDomainNumber) != domainNumbers.end()){
-                copyGptp->setResponseOriginTimestamp(gptp->getResponseOriginTimestamp()+respMsgEgressTimestamp);
-            }
-            else{
-                copyGptp->setResponseOriginTimestamp(gptp->getResponseOriginTimestamp());
-            }
-        }
+    // verify IDs
+    if (gptp->getRequestingPortIdentity().clockIdentity != clockIdentity || gptp->getRequestingPortIdentity().portNumber != slavePortId) {
+        EV_WARN << "GptpPdelayRespFollowUp arrived with invalid PortIdentity, dropped";
+        return;
     }
-    copyPacket->insertAtFront(copyGptp);
-    if (translatorType == DS_TT){
-        sendPacketFromDSTT(copyPacket, incomingNicId);
+    if (gptp->getSequenceId() != lastSentPdelayReqSequenceId) {
+        EV_WARN << "GptpPdelayRespFollowUp arrived with invalid sequence ID, dropped";
+        return;
     }
-    else if (translatorType == NS_TT){
-        sendPacketFromNSTT(copyPacket, incomingNicId, incomingDomainNumber);
-    }
+
+    peerResponseOriginTimestamp = gptp->getResponseOriginTimestamp();
+
+    // computePropTime():
+    peerDelay = (gmRateRatio * (pdelayRespEventIngressTimestamp - pdelayReqEventEgressTimestamp) - (peerResponseOriginTimestamp - peerRequestReceiptTimestamp)) / 2.0;
+
+    EV_INFO << "RATE RATIO                       - " << gmRateRatio << endl;
+    EV_INFO << "pdelayReqEventEgressTimestamp    - " << pdelayReqEventEgressTimestamp << endl;
+    EV_INFO << "peerResponseOriginTimestamp      - " << peerResponseOriginTimestamp << endl;
+    EV_INFO << "pdelayRespEventIngressTimestamp  - " << pdelayRespEventIngressTimestamp << endl;
+    EV_INFO << "peerRequestReceiptTimestamp      - " << peerRequestReceiptTimestamp << endl;
+    EV_INFO << "PEER DELAY                       - " << peerDelay << endl;
+
+    emit(peerDelaySignal, CLOCKTIME_AS_SIMTIME(peerDelay));
 
 }
 
@@ -398,11 +402,16 @@ void Gptp5g::forwardSync(Packet *packet, const GptpSync* gptp)
     copyPacket->insertAtFront(copyGptp);
     delete packet;
     if (translatorType == DS_TT){
-        sendPacketFromDSTT(copyPacket, incomingNicId);
+        for(auto portId: masterPortIds){
+            sendPacketFromDSTT(copyPacket->dup(), portId);
+        }
     }
     else if (translatorType == NS_TT){
-        sendPacketFromNSTT(copyPacket, incomingNicId, incomingDomainNumber);
-    }
+
+        for(auto portId: masterPortIds){
+            sendPacketFromNSTT(copyPacket->dup(), portId, incomingDomainNumber);
+        }
+    }delete copyPacket;
 }
 
 void Gptp5g::forwardFollowUp(Packet *packet, const GptpFollowUp* gptp)
@@ -416,10 +425,10 @@ void Gptp5g::forwardFollowUp(Packet *packet, const GptpFollowUp* gptp)
     copyGptp->setSequenceId(gptp->getSequenceId());
     copyGptp->getFollowUpInformationTLVForUpdate().setRateRatio(gmRateRatio);
     delete packet;
-    if (incomingNicId == TSNPortId){
+    if (incomingNicId != fiveGPortId){
         rcvdGptpSyncForTSN = false;
         copyGptp->setPreciseOriginTimestamp(gptp->getPreciseOriginTimestamp()+gptp->getCorrectionField());
-        copyGptp->setCorrectionField(syncMsgIngressTimestamp);
+        copyGptp->setCorrectionField(syncMsgIngressTimestamp-peerDelay);
     }
     else{
         copyGptp->setPreciseOriginTimestamp(gptp->getPreciseOriginTimestamp());
@@ -437,10 +446,15 @@ void Gptp5g::forwardFollowUp(Packet *packet, const GptpFollowUp* gptp)
     }
     copyPacket->insertAtFront(copyGptp);
     if (translatorType == DS_TT){
-        sendPacketFromDSTT(copyPacket, incomingNicId);
+        for(auto portId: masterPortIds){
+            sendPacketFromDSTT(copyPacket->dup(), portId);
+        }
     }
     else if (translatorType == NS_TT){
-        sendPacketFromNSTT(copyPacket, incomingNicId, incomingDomainNumber);
+        for(auto portId: masterPortIds){
+            sendPacketFromNSTT(copyPacket, portId, incomingDomainNumber);
+        }
+
     }
 }
 
@@ -490,6 +504,7 @@ void Gptp5g::receiveSignal(cComponent *source, simsignal_t simSignal, cObject *o
     if(auto it = domainNumbers.find(gptp->getDomainNumber()) == domainNumbers.end())
         return;
     if (simSignal == receptionEndedSignal){
+        packet->addTagIfAbsent<GptpIngressTimeInd>()->setArrivalClockTime(clock->getClockTime());
         switch (gptp->getMessageType()) {
             case GPTPTYPE_PDELAY_REQ:
                 reqMsgIngressTimestamp = clock->getClockTime();
@@ -513,12 +528,15 @@ void Gptp5g::receiveSignal(cComponent *source, simsignal_t simSignal, cObject *o
 
 void Gptp5g::handleDelayOrSendFollowUp(const GptpBase *gptp, cComponent *source)
 {
-
+    int portId = getContainingNicModule(check_and_cast<cModule*>(source))->getInterfaceId();
     switch (gptp->getMessageType()) {
     case GPTPTYPE_PDELAY_REQ:
         reqMsgEgressTimestamp = clock->getClockTime();
+        pdelayReqEventEgressTimestamp = clock->getClockTime();
         break;
     case GPTPTYPE_PDELAY_RESP: {
+        auto gptpResp = check_and_cast<const GptpPdelayResp*>(gptp);
+        sendPdelayRespFollowUp(portId, gptpResp);
         respMsgEgressTimestamp = clock->getClockTime();
         break;
     }

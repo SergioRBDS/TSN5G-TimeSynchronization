@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for TSN5G
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -O out -KINET_PROJ=../inet -KSIMU5G_PROJ=../Simu5G -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -I$$\(SIMU5G_PROJ\)/src -L$$\(INET_PROJ\)/src -L$$\(SIMU5G_PROJ\)/src -lINET$$\(D\) -lsimu5g$$\(D\)
+#  opp_makemake -f --deep -O out -KINET_PROJ=../inet -KSIMU5G_1_2_2_PROJ=../Simu5G-1.2.2 -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -I$$\(SIMU5G_1_2_2_PROJ\)/src -L$$\(INET_PROJ\)/src -L$$\(SIMU5G_1_2_2_PROJ\)/src -lINET$$\(D\) -lsimu5g$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -19,13 +19,13 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(QTENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I. -I$(INET_PROJ)/src -I$(SIMU5G_PROJ)/src
+INCLUDE_PATH = -I. -I$(INET_PROJ)/src -I$(SIMU5G_1_2_2_PROJ)/src
 
 # Additional object and library files to link with
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)$(INET_PROJ)/src $(LDFLAG_LIBPATH)$(SIMU5G_PROJ)/src  -lINET$(D) -lsimu5g$(D)
+LIBS = $(LDFLAG_LIBPATH)$(INET_PROJ)/src $(LDFLAG_LIBPATH)$(SIMU5G_1_2_2_PROJ)/src  -lINET$(D) -lsimu5g$(D)
 
 # Output directory
 PROJECT_OUTPUT_DIR = out
@@ -51,7 +51,7 @@ SMFILES =
 
 # Other makefile variables (-K)
 INET_PROJ=../inet
-SIMU5G_PROJ=../Simu5G
+SIMU5G_1_2_2_PROJ=../Simu5G-1.2.2
 
 #------------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ include $(CONFIGFILE)
 # Simulation kernel and user interface libraries
 OMNETPP_LIBS = $(OPPMAIN_LIB) $(USERIF_LIBS) $(KERNEL_LIBS) $(SYS_LIBS)
 ifneq ($(PLATFORM),win32)
-LIBS += -Wl,-rpath,$(abspath $(INET_PROJ)/src) -Wl,-rpath,$(abspath $(SIMU5G_PROJ)/src)
+LIBS += -Wl,-rpath,$(abspath $(INET_PROJ)/src) -Wl,-rpath,$(abspath $(SIMU5G_1_2_2_PROJ)/src)
 endif
 
 COPTS = $(CFLAGS) $(IMPORT_DEFINES) -DINET_IMPORT $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)

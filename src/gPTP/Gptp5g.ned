@@ -29,11 +29,21 @@ simple Gptp5g like IGptp{ // gPTP q passa por camada IP
         object slaveDomains = default([]); 
         object masterDomains = default([]);
         double correctionField @unit(s) = default(0s); // time correction for link delay measurements
+        double syncInterval @unit(s) = default(0.125s); // time interval between SYNC messages
+        double pdelayInterval @unit(s) = default(1s); // frequency of link delay measurements
+        double syncInitialOffset @unit(s) = default(syncInterval); // time of first SYNC message
+        double pdelayInitialOffset @unit(s) = default(0s); // time of first link delay measurement
         
+        double pDelayReqProcessingTime @unit(s) = default(8us);  // processing time between arrived PDelayReq and send of PDelayResp
         
 		// portas são necessarias na comunicação IP
         int destPort = default(9000);
         int localPort = default(9000);
+        
+        string slavePort = default(""); // port for receiving time (empty for MASTER_NODE)
+        
+        object masterPorts = default([]); // ports for sending out time (empty for SLAVE_NODE)
+        
                 
         @class(Gptp5g);
         

@@ -1,7 +1,7 @@
 out/clang-release//src/common/binder/BinderTSN5G.o: \
   src/common/binder/BinderTSN5G.cpp src/common/binder/BinderTSN5G.h \
   /home/pregui/Documentos/omnetpp-6.0.2/include/omnetpp.h \
-  ../Simu5G/src/common/binder/Binder.h \
+  ../Simu5G-1.2.2/src/common/binder/Binder.h \
   ../inet/src/inet/networklayer/contract/ipv4/Ipv4Address.h \
   ../inet/src/inet/linklayer/common/MacAddress.h \
   ../inet/src/inet/common/INETDefs.h \
@@ -16,7 +16,7 @@ out/clang-release//src/common/binder/BinderTSN5G.o: \
   ../inet/src/inet/networklayer/contract/clns/ClnsAddress.h \
   ../inet/src/inet/networklayer/contract/ipv6/Ipv6Address.h \
   ../inet/src/inet/networklayer/common/InterfaceToken.h \
-  ../Simu5G/src/common/LteCommon.h \
+  ../Simu5G-1.2.2/src/common/LteCommon.h \
   ../inet/src/inet/common/geometry/common/Coord.h \
   ../inet/src/inet/common/INETMath.h \
   ../inet/src/inet/common/packet/Packet.h \
@@ -36,27 +36,29 @@ out/clang-release//src/common/binder/BinderTSN5G.o: \
   ../inet/src/inet/common/packet/chunk/SliceChunk.h \
   ../inet/src/inet/common/packet/tag/ITaggedObject.h \
   ../inet/src/inet/common/packet/tag/SharingTagSet.h \
-  ../inet/src/inet/common/Protocol.h ../Simu5G/src/common/features.h \
-  ../Simu5G/src/common/LteCommonEnum_m.h \
-  ../Simu5G/src/common/blerCurves/PhyPisaData.h \
-  ../Simu5G/src/common/blerCurves/BLERvsSINR_15CQI_TU.h \
-  ../Simu5G/src/nodes/ExtCell.h \
-  ../Simu5G/src/stack/mac/layer/LteMacBase.h \
-  ../Simu5G/src/common/LteControlInfo.h \
-  ../Simu5G/src/common/LteControlInfo_m.h \
+  ../inet/src/inet/common/Protocol.h \
+  ../Simu5G-1.2.2/src/common/features.h \
+  ../Simu5G-1.2.2/src/common/LteCommonEnum_m.h \
+  ../Simu5G-1.2.2/src/common/blerCurves/PhyPisaData.h \
+  ../Simu5G-1.2.2/src/common/blerCurves/BLERvsSINR_15CQI_TU.h \
+  ../Simu5G-1.2.2/src/nodes/ExtCell.h \
+  ../Simu5G-1.2.2/src/stack/mac/layer/LteMacBase.h \
+  ../Simu5G-1.2.2/src/common/LteControlInfo.h \
+  ../Simu5G-1.2.2/src/common/LteControlInfo_m.h \
   ../inet/src/inet/common/INETDefs_m.h \
-  ../Simu5G/src/common/LteCommon_m.h ../inet/src/inet/common/TagBase_m.h \
-  ../Simu5G/src/stack/backgroundTrafficGenerator/generators/TrafficGeneratorBase.h \
+  ../Simu5G-1.2.2/src/common/LteCommon_m.h \
+  ../inet/src/inet/common/TagBase_m.h \
+  ../Simu5G-1.2.2/src/stack/backgroundTrafficGenerator/generators/TrafficGeneratorBase.h \
   ../inet/src/inet/mobility/contract/IMobility.h \
   ../inet/src/inet/common/geometry/common/Quaternion.h \
   ../inet/src/inet/common/geometry/common/EulerAngles.h \
-  ../Simu5G/src/stack/backgroundTrafficGenerator/BackgroundTrafficManager.h
+  ../Simu5G-1.2.2/src/stack/backgroundTrafficGenerator/BackgroundTrafficManager.h
 
 src/common/binder/BinderTSN5G.h:
 
 /home/pregui/Documentos/omnetpp-6.0.2/include/omnetpp.h:
 
-../Simu5G/src/common/binder/Binder.h:
+../Simu5G-1.2.2/src/common/binder/Binder.h:
 
 ../inet/src/inet/networklayer/contract/ipv4/Ipv4Address.h:
 
@@ -90,7 +92,7 @@ src/common/binder/BinderTSN5G.h:
 
 ../inet/src/inet/networklayer/common/InterfaceToken.h:
 
-../Simu5G/src/common/LteCommon.h:
+../Simu5G-1.2.2/src/common/LteCommon.h:
 
 ../inet/src/inet/common/geometry/common/Coord.h:
 
@@ -136,29 +138,29 @@ src/common/binder/BinderTSN5G.h:
 
 ../inet/src/inet/common/Protocol.h:
 
-../Simu5G/src/common/features.h:
+../Simu5G-1.2.2/src/common/features.h:
 
-../Simu5G/src/common/LteCommonEnum_m.h:
+../Simu5G-1.2.2/src/common/LteCommonEnum_m.h:
 
-../Simu5G/src/common/blerCurves/PhyPisaData.h:
+../Simu5G-1.2.2/src/common/blerCurves/PhyPisaData.h:
 
-../Simu5G/src/common/blerCurves/BLERvsSINR_15CQI_TU.h:
+../Simu5G-1.2.2/src/common/blerCurves/BLERvsSINR_15CQI_TU.h:
 
-../Simu5G/src/nodes/ExtCell.h:
+../Simu5G-1.2.2/src/nodes/ExtCell.h:
 
-../Simu5G/src/stack/mac/layer/LteMacBase.h:
+../Simu5G-1.2.2/src/stack/mac/layer/LteMacBase.h:
 
-../Simu5G/src/common/LteControlInfo.h:
+../Simu5G-1.2.2/src/common/LteControlInfo.h:
 
-../Simu5G/src/common/LteControlInfo_m.h:
+../Simu5G-1.2.2/src/common/LteControlInfo_m.h:
 
 ../inet/src/inet/common/INETDefs_m.h:
 
-../Simu5G/src/common/LteCommon_m.h:
+../Simu5G-1.2.2/src/common/LteCommon_m.h:
 
 ../inet/src/inet/common/TagBase_m.h:
 
-../Simu5G/src/stack/backgroundTrafficGenerator/generators/TrafficGeneratorBase.h:
+../Simu5G-1.2.2/src/stack/backgroundTrafficGenerator/generators/TrafficGeneratorBase.h:
 
 ../inet/src/inet/mobility/contract/IMobility.h:
 
@@ -166,4 +168,4 @@ src/common/binder/BinderTSN5G.h:
 
 ../inet/src/inet/common/geometry/common/EulerAngles.h:
 
-../Simu5G/src/stack/backgroundTrafficGenerator/BackgroundTrafficManager.h:
+../Simu5G-1.2.2/src/stack/backgroundTrafficGenerator/BackgroundTrafficManager.h:

@@ -34,8 +34,8 @@ class BinderTSN5G;
 class Gptp5g : public ClockUserModuleBase, public cListener{
     //parameters:
     ModuleRefByPar<IInterfaceTable> interfaceTable;
+    BinderTSN5G *binder_;
 
-    GptpNodeType gptpNodeType;
     TranslatorType translatorType;
     set<int> domainNumbers;
     set<int> slaveDomains;
@@ -104,6 +104,12 @@ class Gptp5g : public ClockUserModuleBase, public cListener{
         void sendPacketFromDSTT(Packet *packet, int incomingNicId);
         void sendPacketFromNSTT(Packet *packet, int incomingNicId, int domainNumber);
         void sendPacketReqFromNSTT(Packet *packet, int incomingNicId, int domainNumber);
+        void sendPacketToNIC(Packet *packet, int portId);
+
+        void sendPdelayReq();
+        void sendPdelayResp(GptpReqAnswerEvent *req);
+        void sendPdelayRespFollowUp(int portId, const GptpPdelayResp* resp);
+
 
         void forwardSync(Packet *packet, const GptpSync* gptp);
         void forwardFollowUp(Packet *packet, const GptpFollowUp* gptp);
@@ -130,12 +136,22 @@ class Gptp5g : public ClockUserModuleBase, public cListener{
         int localPort;
 
         int fiveGPortId;
-        int TSNPortId;
+        set<int> TSNPortIds;
+
+        int slavePortId = -1; // interface ID of slave port
+        set<int> masterPortIds; // interface IDs of master ports
 
         ClockEvent* selfMsgBindSocket = nullptr;
 
         UdpSocket socket;
 
-        BinderTSN5G *binder_;
+
+        // self timers:
+        ClockEvent* selfMsgSync = nullptr;
+        ClockEvent* selfMsgDelayReq = nullptr;
+        ClockEvent* requestMsg = nullptr;
+
+        bool rcvdPdelayResp = false;
+
 };
 #endif /* SRC_GPTP_GPTP5G_H_ */
