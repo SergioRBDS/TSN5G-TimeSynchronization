@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<analysis version="2">
+    <inputs>
+        <input pattern="/TSN5G/simulation/results/DL-Synchronization-*.vec"/>
+        <input pattern="/TSN5G/simulation/results/DL-Synchronization-*.sca"/>
+    </inputs>
+    <charts/>
+</analysis>

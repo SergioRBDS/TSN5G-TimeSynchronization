@@ -1,0 +1,1760 @@
+version 3
+run DL-Synchronization-0-20240522-15:13:39-8974
+attr configname DL-Synchronization
+attr datetime 20240522-15:13:39
+attr datetimef 20240522-151339
+attr experiment DL-Synchronization
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsd ""
+attr iterationvarsf ""
+attr measurement ""
+attr network UseCase2
+attr processid 8974
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+config image-path ../../inet/images:../../Simu5G-1.2.2/images
+config *.switchTSN2.hasTimeSynchronization false
+config *.DSTT2.hasTimeSynchronization false
+config *.Actuator2.hasTimeSynchronization false
+config **.hasTimeSynchronization true
+config **.referenceClock "\"switch5GC.clock\""
+config *.switch5GC.clock.oscillator.driftRate 10ppm
+config **.oscillator.driftRate uniform(10ppm,100ppm)
+config *.switch5GC.gptp.gptpNodeType "\"MASTER_NODE\""
+config *.switch5GC.gptp.masterPorts "[\"eth0\",\"eth1\"]"
+config *.switch5GC.gptp.slavePort "\"\""
+config *.switch*.gptp.masterPorts "[\"eth1\",\"eth2\"]"
+config *.switch*.gptp.slavePort "\"eth0\""
+config *.NSTT.gptp.slavePort "\"eth1\""
+config *.NSTT.gptp.masterPorts "[\"eth0\"]"
+config *.NSTT.gptp.TSNPort "\"eth1\""
+config *.NSTT.gptp.fiveGPort "\"eth0\""
+config *.NSTT.gptp.masterDomains [0]
+config *.DSTT.gptp.slavePort "\"eth0\""
+config *.DSTT.gptp.masterPorts "[\"eth1\"]"
+config *.DSTT.gptp.TSNPort "\"eth1\""
+config *.DSTT.gptp.fiveGPort "\"eth0\""
+config *.DSTT.gptp.slaveDomains [0]
+config *.switch5GC.clock.displayStringTextFormat "\"time: %T\""
+config *.switchTSN.clock.displayStringTextFormat "\"diff: %d\""
+config network UseCase2
+config sim-time-limit 200s
+config **.eth*.bitrate 10Gbps
+config **.mobility.typename ""
+config *.ue.macCellId 0
+config *.ue.masterId 0
+config *.ue.nrMacCellId 1
+config *.ue.nrMasterId 1
+config *.ue.intHostAddress "\"Sensor Actuator DSTT\""
+config *.ue2.macCellId 0
+config *.ue2.masterId 0
+config *.ue2.nrMacCellId 1
+config *.ue2.nrMasterId 1
+config **.amcType "\"NRAmc\""
+config **.targetBler 0.001
+config **.blerShift 5
+config **.numerologyIndex 1
+config **.useTdd true
+config **.numBands 200
+config *.NSTT.**.translatorType "\"NS_TT\""
+config *.upf.clock.typename ""
+config *.*TT.clock.typename IdealClock
+config *.DSTT2.clock.typename IdealClock
+config **.clock.oscillator.typename ConstantDriftOscillator
+config *.*TT.gptp.typename Gptp5g
+config *.*TT.gptp.fiveGPort "\"eth0\""
+config *.visualizer.typename IntegratedMultiCanvasVisualizer
+config *.visualizer.numInfoVisualizers 1
+config *.visualizer.infoVisualizer[0].modules "\"**.clock\""
+config *.visualizer.infoVisualizer[0].placementHint "\"bottom\""
+config *.PLC.clock.displayStringTextFormat "\"diff: %d\""
+config *.Actuato*.clock.displayStringTextFormat "\"diff: %d\""
+config *.Sensor.clock.displayStringTextFormat "\"diff: %d\""
+
+vector 0 UseCase2.upf.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 1 UseCase2.upf.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 2 UseCase2.upf.eth[0].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 3 UseCase2.upf.ethIf.macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 4 UseCase2.upf.ethIf.macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 5 UseCase2.upf.ethIf.phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 6 UseCase2.upf.ethIf.phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 7 UseCase2.upf.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 8 UseCase2.upf.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 9 UseCase2.upf.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 10 UseCase2.gNB.pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 11 UseCase2.gNB.pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 12 UseCase2.gNB.pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 13 UseCase2.gNB.pppMEHostIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 14 UseCase2.gNB.pppMEHostIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 15 UseCase2.gNB.pppMEHostIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 16 UseCase2.gNB.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 17 UseCase2.gNB.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 18 UseCase2.gNB.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 19 UseCase2.gNB.eth.macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 20 UseCase2.gNB.eth.macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 21 UseCase2.gNB.eth.phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 22 UseCase2.gNB.eth.phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 23 UseCase2.ue.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 24 UseCase2.ue.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 25 UseCase2.ue.eth[0].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 26 UseCase2.ue.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 27 UseCase2.ue.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 28 UseCase2.ue.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 29 UseCase2.DSTT.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 30 UseCase2.DSTT.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 31 UseCase2.DSTT.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 32 UseCase2.DSTT.eth[0].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 33 UseCase2.DSTT.eth[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 34 UseCase2.DSTT.eth[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 35 UseCase2.DSTT.eth[1].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 36 UseCase2.DSTT.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 37 UseCase2.DSTT.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 38 UseCase2.DSTT.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 39 UseCase2.NSTT.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 40 UseCase2.NSTT.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 41 UseCase2.NSTT.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 42 UseCase2.NSTT.eth[0].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 43 UseCase2.NSTT.eth[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 44 UseCase2.NSTT.eth[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 45 UseCase2.NSTT.eth[1].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 46 UseCase2.NSTT.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 47 UseCase2.NSTT.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 48 UseCase2.NSTT.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 49 UseCase2.Actuator.eth[0].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 50 UseCase2.Actuator.eth[0].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 51 UseCase2.Actuator.eth[0].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 52 UseCase2.Actuator.eth[0].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 53 UseCase2.Actuator.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 54 UseCase2.Actuator.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 55 UseCase2.Actuator.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 56 UseCase2.Actuator.gptp rateRatio:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 57 UseCase2.Actuator.gptp correctionField:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 58 UseCase2.Actuator.gptp localTime:vector ETV
+attr "" ""
+attr interpolationmode linear
+attr recordingmode vector
+vector 59 UseCase2.Actuator.gptp timeDifference:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 60 UseCase2.switch5GC.gptp rateRatio:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 61 UseCase2.switch5GC.gptp correctionField:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 62 UseCase2.switch5GC.gptp localTime:vector ETV
+attr "" ""
+attr interpolationmode linear
+attr recordingmode vector
+vector 63 UseCase2.switch5GC.gptp timeDifference:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 64 UseCase2.switch5GC.eth[0].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 65 UseCase2.switch5GC.eth[0].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 66 UseCase2.switch5GC.eth[0].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 67 UseCase2.switch5GC.eth[0].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 68 UseCase2.switch5GC.eth[1].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 69 UseCase2.switch5GC.eth[1].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 70 UseCase2.switch5GC.eth[1].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 71 UseCase2.switch5GC.eth[1].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 72 UseCase2.switchTSN.gptp rateRatio:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 73 UseCase2.switchTSN.gptp correctionField:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 74 UseCase2.switchTSN.gptp localTime:vector ETV
+attr "" ""
+attr interpolationmode linear
+attr recordingmode vector
+vector 75 UseCase2.switchTSN.gptp timeDifference:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 76 UseCase2.switchTSN.eth[0].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 77 UseCase2.switchTSN.eth[0].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 78 UseCase2.switchTSN.eth[0].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 79 UseCase2.switchTSN.eth[0].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 80 UseCase2.switchTSN.eth[1].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 81 UseCase2.switchTSN.eth[1].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 82 UseCase2.switchTSN.eth[1].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 83 UseCase2.switchTSN.eth[1].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 84 UseCase2.switchTSN.eth[2].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 85 UseCase2.switchTSN.eth[2].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 86 UseCase2.switchTSN.eth[2].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 87 UseCase2.switchTSN.eth[2].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 88 UseCase2.PLC.eth[0].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 89 UseCase2.PLC.eth[0].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 90 UseCase2.PLC.eth[0].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 91 UseCase2.PLC.eth[0].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 92 UseCase2.PLC.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 93 UseCase2.PLC.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 94 UseCase2.PLC.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 95 UseCase2.PLC.gptp rateRatio:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 96 UseCase2.PLC.gptp correctionField:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 97 UseCase2.PLC.gptp localTime:vector ETV
+attr "" ""
+attr interpolationmode linear
+attr recordingmode vector
+vector 98 UseCase2.PLC.gptp timeDifference:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 99 UseCase2.Sensor.eth[0].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 100 UseCase2.Sensor.eth[0].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 101 UseCase2.Sensor.eth[0].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 102 UseCase2.Sensor.eth[0].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 103 UseCase2.Sensor.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 104 UseCase2.Sensor.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 105 UseCase2.Sensor.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 106 UseCase2.Sensor.gptp rateRatio:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 107 UseCase2.Sensor.gptp correctionField:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 108 UseCase2.Sensor.gptp localTime:vector ETV
+attr "" ""
+attr interpolationmode linear
+attr recordingmode vector
+vector 109 UseCase2.Sensor.gptp timeDifference:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 110 UseCase2.ue2.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 111 UseCase2.ue2.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 112 UseCase2.ue2.eth[0].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 113 UseCase2.ue2.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 114 UseCase2.ue2.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 115 UseCase2.ue2.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 116 UseCase2.DSTT2.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 117 UseCase2.DSTT2.eth[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 118 UseCase2.DSTT2.eth[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 119 UseCase2.DSTT2.eth[0].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 120 UseCase2.DSTT2.eth[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 121 UseCase2.DSTT2.eth[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 122 UseCase2.DSTT2.eth[1].mac transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 123 UseCase2.DSTT2.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 124 UseCase2.DSTT2.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 125 UseCase2.DSTT2.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 126 UseCase2.switchTSN2.eth[0].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 127 UseCase2.switchTSN2.eth[0].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 128 UseCase2.switchTSN2.eth[0].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 129 UseCase2.switchTSN2.eth[0].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 130 UseCase2.switchTSN2.eth[1].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 131 UseCase2.switchTSN2.eth[1].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 132 UseCase2.switchTSN2.eth[1].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 133 UseCase2.switchTSN2.eth[1].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 134 UseCase2.Actuator2.eth[0].macLayer.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 135 UseCase2.Actuator2.eth[0].macLayer.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 136 UseCase2.Actuator2.eth[0].phyLayer.interFrameGapInserter interpacketGap:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(interpacketGapStarted) - count(interpacketGapEnded)"
+attr title "interpacket gap state"
+attr type int
+vector 137 UseCase2.Actuator2.eth[0].phyLayer.transmitter transmitting:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "count(transmissionStarted) - count(transmissionEnded)"
+attr title "transmitting state"
+attr type int
+vector 138 UseCase2.Actuator2.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 139 UseCase2.Actuator2.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 140 UseCase2.Actuator2.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 141 UseCase2.ue.cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 142 UseCase2.ue.cellularNic.nrPhy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 143 UseCase2.ue2.cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 144 UseCase2.ue2.cellularNic.nrPhy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 145 UseCase2.DSTT.gptp rateRatio:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 146 UseCase2.DSTT.gptp localTime:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 147 UseCase2.DSTT.gptp timeDifference:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 148 UseCase2.NSTT.gptp rateRatio:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+vector 149 UseCase2.NSTT.gptp localTime:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 150 UseCase2.NSTT.gptp timeDifference:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+vector 151 UseCase2.Actuator.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 152 UseCase2.switch5GC.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 153 UseCase2.switchTSN.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 154 UseCase2.PLC.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+vector 155 UseCase2.Sensor.clock timeChanged:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr title "Clock time"
+0	0	0	0
+0	0	0	0
+0	0	0	0
+0	0	0	0
+0	0	0	0
+1	0	0	0
+1	0	0	0
+1	0	0	0
+1	0	0	0
+1	0	0	0
+2	0	0	0
+2	0	0	0
+3	0	0	0
+3	0	0	0
+3	0	0	0
+3	0	0	0
+3	0	0	0
+4	0	0	0
+4	0	0	0
+4	0	0	0
+4	0	0	0
+4	0	0	0
+5	0	0	0
+5	0	0	0
+6	0	0	0
+6	0	0	0
+7	0	0	0
+8	0	0	0
+9	0	0	0
+10	0	0	0
+10	0	0	0
+10	0	0	0
+10	0	0	0
+10	0	0	0
+11	0	0	0
+11	0	0	0
+11	0	0	0
+11	0	0	0
+11	0	0	0
+12	0	0	0
+13	0	0	0
+13	0	0	0
+13	0	0	0
+13	0	0	0
+13	0	0	0
+14	0	0	0
+14	0	0	0
+14	0	0	0
+14	0	0	0
+14	0	0	0
+15	0	0	0
+16	0	0	0
+17	0	0	0
+18	0	0	0
+19	0	0	0
+19	0	0	0
+19	0	0	0
+19	0	0	0
+19	0	0	0
+20	0	0	0
+20	0	0	0
+20	0	0	0
+20	0	0	0
+20	0	0	0
+21	0	0	0
+21	0	0	0
+22	0	0	0
+22	0	0	0
+23	0	0	0
+23	0	0	0
+23	0	0	0
+23	0	0	0
+23	0	0	0
+24	0	0	0
+24	0	0	0
+24	0	0	0
+24	0	0	0
+24	0	0	0
+25	0	0	0
+25	0	0	0
+26	0	0	0
+27	0	0	0
+28	0	0	0
+29	0	0	0
+29	0	0	0
+30	0	0	0
+30	0	0	0
+30	0	0	0
+30	0	0	0
+30	0	0	0
+31	0	0	0
+31	0	0	0
+31	0	0	0
+31	0	0	0
+31	0	0	0
+32	0	0	0
+32	0	0	0
+33	0	0	0
+33	0	0	0
+33	0	0	0
+33	0	0	0
+33	0	0	0
+34	0	0	0
+34	0	0	0
+34	0	0	0
+34	0	0	0
+34	0	0	0
+35	0	0	0
+35	0	0	0
+36	0	0	0
+37	0	0	0
+38	0	0	0
+39	0	0	0
+39	0	0	0
+40	0	0	0
+40	0	0	0
+40	0	0	0
+40	0	0	0
+40	0	0	0
+41	0	0	0
+41	0	0	0
+41	0	0	0
+41	0	0	0
+41	0	0	0
+42	0	0	0
+42	0	0	0
+43	0	0	0
+43	0	0	0
+43	0	0	0
+43	0	0	0
+43	0	0	0
+44	0	0	0
+44	0	0	0
+44	0	0	0
+44	0	0	0
+44	0	0	0
+45	0	0	0
+45	0	0	0
+46	0	0	0
+47	0	0	0
+48	0	0	0
+49	0	0	0
+49	0	0	0
+49	0	0	0
+49	0	0	0
+49	0	0	0
+50	0	0	0
+50	0	0	0
+50	0	0	0
+50	0	0	0
+50	0	0	0
+51	0	0	0
+51	0	0	0
+52	0	0	0
+52	0	0	0
+53	0	0	0
+54	0	0	0
+55	0	0	0
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+56	0	0	1
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+57	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+58	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+59	0	0	0
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+60	0	0	1
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+61	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+62	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+63	0	0	0
+64	0	0	0
+64	0	0	0
+64	0	0	0
+64	0	0	0
+64	0	0	0
+65	0	0	0
+65	0	0	0
+65	0	0	0
+65	0	0	0
+65	0	0	0
+66	0	0	0
+66	0	0	0
+67	0	0	0
+67	0	0	0
+68	0	0	0
+68	0	0	0
+68	0	0	0
+68	0	0	0
+68	0	0	0
+69	0	0	0
+69	0	0	0
+69	0	0	0
+69	0	0	0
+69	0	0	0
+70	0	0	0
+70	0	0	0
+71	0	0	0
+71	0	0	0
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+72	0	0	1
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+73	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+74	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+75	0	0	0
+76	0	0	0
+76	0	0	0
+76	0	0	0
+76	0	0	0
+76	0	0	0
+77	0	0	0
+77	0	0	0
+77	0	0	0
+77	0	0	0
+77	0	0	0
+78	0	0	0
+78	0	0	0
+79	0	0	0
+79	0	0	0
+80	0	0	0
+80	0	0	0
+80	0	0	0
+80	0	0	0
+80	0	0	0
+81	0	0	0
+81	0	0	0
+81	0	0	0
+81	0	0	0
+81	0	0	0
+82	0	0	0
+82	0	0	0
+83	0	0	0
+83	0	0	0
+84	0	0	0
+84	0	0	0
+84	0	0	0
+84	0	0	0
+84	0	0	0
+85	0	0	0
+85	0	0	0
+85	0	0	0
+85	0	0	0
+85	0	0	0
+86	0	0	0
+86	0	0	0
+87	0	0	0
+87	0	0	0
+88	0	0	0
+88	0	0	0
+88	0	0	0
+88	0	0	0
+88	0	0	0
+89	0	0	0
+89	0	0	0
+89	0	0	0
+89	0	0	0
+89	0	0	0
+90	0	0	0
+90	0	0	0
+91	0	0	0
+91	0	0	0
+92	0	0	0
+93	0	0	0
+94	0	0	0
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+95	0	0	1
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+96	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+97	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+98	0	0	0
+99	0	0	0
+99	0	0	0
+99	0	0	0
+99	0	0	0
+99	0	0	0
+100	0	0	0
+100	0	0	0
+100	0	0	0
+100	0	0	0
+100	0	0	0
+101	0	0	0
+101	0	0	0
+102	0	0	0
+102	0	0	0
+103	0	0	0
+104	0	0	0
+105	0	0	0
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+106	0	0	1
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+107	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+108	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+109	0	0	0
+110	0	0	0
+110	0	0	0
+110	0	0	0
+110	0	0	0
+110	0	0	0
+111	0	0	0
+111	0	0	0
+111	0	0	0
+111	0	0	0
+111	0	0	0
+112	0	0	0
+112	0	0	0
+113	0	0	0
+114	0	0	0
+115	0	0	0
+116	0	0	0
+116	0	0	0
+117	0	0	0
+117	0	0	0
+117	0	0	0
+117	0	0	0
+117	0	0	0
+118	0	0	0
+118	0	0	0
+118	0	0	0
+118	0	0	0
+118	0	0	0
+119	0	0	0
+119	0	0	0
+120	0	0	0
+120	0	0	0
+120	0	0	0
+120	0	0	0
+120	0	0	0
+121	0	0	0
+121	0	0	0
+121	0	0	0
+121	0	0	0
+121	0	0	0
+122	0	0	0
+122	0	0	0
+123	0	0	0
+124	0	0	0
+125	0	0	0
+126	0	0	0
+126	0	0	0
+126	0	0	0
+126	0	0	0
+126	0	0	0
+127	0	0	0
+127	0	0	0
+127	0	0	0
+127	0	0	0
+127	0	0	0
+128	0	0	0
+128	0	0	0
+129	0	0	0
+129	0	0	0
+130	0	0	0
+130	0	0	0
+130	0	0	0
+130	0	0	0
+130	0	0	0
+131	0	0	0
+131	0	0	0
+131	0	0	0
+131	0	0	0
+131	0	0	0
+132	0	0	0
+132	0	0	0
+133	0	0	0
+133	0	0	0
+134	0	0	0
+134	0	0	0
+134	0	0	0
+134	0	0	0
+134	0	0	0
+135	0	0	0
+135	0	0	0
+135	0	0	0
+135	0	0	0
+135	0	0	0
+136	0	0	0
+136	0	0	0
+137	0	0	0
+137	0	0	0
+138	0	0	0
+139	0	0	0
+140	0	0	0
+141	0	0	0
+142	0	0	1
+143	0	0	0
+144	0	0	1
+145	0	0	1
+146	0	0	0
+147	0	0	0
+148	0	0	1
+149	0	0	0
+150	0	0	0
+151	0	0	0
+152	0	0	0
+153	0	0	0
+154	0	0	0
+155	0	0	0
+
